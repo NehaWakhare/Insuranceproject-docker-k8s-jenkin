@@ -1,0 +1,163 @@
+.response-message {
+  margin-top: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.response-message.success {
+  color: green;
+}
+
+.response-message.error {
+  color: red;
+}
+
+
+.login-page-wrapper {
+  padding: 80px 20px 40px; /* space below navbar */
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  min-height: calc(100vh - 60px); /* adjust based on navbar height */
+  display: flex;
+  justify-content: center;
+}
+
+
+.registration-form {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.5s ease;
+}
+
+
+.registration-form h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #0069d9;
+  font-size: 24px;
+}
+
+
+.form-group {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.password-wrapper input {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 10px 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background: transparent;
+}
+
+.form-group input:focus,
+.password-wrapper input:focus {
+  border-bottom: 2px solid #0069d9;
+}
+
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+}
+
+
+.footer-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: #666;
+}
+
+.fake-link {
+  color: #0072ff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.fake-link:hover {
+  text-decoration: underline;
+}
+
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #0072ff;
+}
+
+
+.response-message {
+  margin-top: 12px;
+  font-weight: bold;
+  color: green;
+  text-align: center;
+}
+
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.response-message.success {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.response-message.error {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+

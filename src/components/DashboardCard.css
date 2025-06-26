@@ -1,0 +1,13 @@
+.dashboard-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card p {
+  font-size: 24px;
+  font-weight: bold;
+}
