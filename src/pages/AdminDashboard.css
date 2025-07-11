@@ -1,6 +1,6 @@
 .admin-dashboard {
   display: flex;
-  margin-top: 60px; /* Adjust to match your navbar's height */
+  margin-top: 60px; 
   background-color: #f4f7fa;
   font-family: 'Segoe UI', sans-serif;
   min-height: calc(100vh - 60px);
@@ -9,7 +9,7 @@
 .dashboard-content {
   flex-grow: 1;
   padding: 40px;
-  margin-left: 200px; /* width of sidebar */
+  margin-left: 200px; 
   background-color: #f4f7fa;
 }
 
@@ -18,7 +18,7 @@
   flex-wrap: wrap;
   gap: 20px;
   max-width: 1000px;
-  margin: 0 auto; /* centers the cards */
-  justify-content: center; /* centers items in flex */
+  margin: 0 auto; 
+  justify-content: center; 
 }
 

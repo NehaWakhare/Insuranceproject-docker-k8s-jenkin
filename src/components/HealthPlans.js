@@ -7,14 +7,14 @@ import individualImg from '../assets/individual.png';
 import familyImg from '../assets/family.png';
 import seniorImg from '../assets/senior.png';
 import criticalImg from '../assets/critical.png';
-import defaultImg from '../assets/default.png'; // ✅ newly added
+import defaultImg from '../assets/default.png'; 
 
 export default function HealthPlans() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8089/user/fetch-plan')  // ✅ correct backend endpoint
+    axios.get('http://localhost:8089/user/fetch-plan')  
       .then((res) => setPlans(res.data))
       .catch((err) => console.error("Error fetching health plans:", err));
   }, []);
@@ -35,7 +35,7 @@ export default function HealthPlans() {
     if (key.includes("senior")) return seniorImg;
     if (key.includes("critical")) return criticalImg;
     if (key.includes("individual")) return individualImg;
-    return defaultImg; // ✅ fallback for new/unknown plans
+    return defaultImg; 
   };
 
   return (

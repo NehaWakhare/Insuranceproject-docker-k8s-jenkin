@@ -5,13 +5,13 @@ import logo from '../assets/logo.png';
 export default function Navbar() {
   const navigate = useNavigate();
 
-  // ✅ Use sessionStorage instead of localStorage
+  
   const userRole = sessionStorage.getItem('userRole');
   
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
-    window.location.reload(); // ✅ Force rerender of Navbar
+    window.location.reload(); 
   };
 
   return (
