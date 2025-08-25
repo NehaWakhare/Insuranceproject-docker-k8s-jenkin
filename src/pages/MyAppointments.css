@@ -1,0 +1,39 @@
+.appointments-container {
+  padding:  6rem 2rem 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-table th,
+.appointments-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.appointments-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.appointment-msg {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.appointment-msg.error {
+  color: red;
+}

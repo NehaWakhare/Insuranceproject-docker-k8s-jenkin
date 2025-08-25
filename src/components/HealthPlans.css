@@ -1,13 +1,27 @@
 .insurance-categories {
-  padding: 60px 20px;
-  background-color: #f7f9fc;
+   padding: 1px;
+  background:#f0f8ff;
   text-align: center;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 0px;
 }
 
 .insurance-categories h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  color: #2d2e2e;
+  
+  font-size: 1.65rem;
+  font-weight: 650; 
+  margin-bottom: 1.5rem;
+  color: #1e3a8a;
+  font-family: 'Poppins', sans-serif; 
+  text-align: center;      
+  max-width: 1200px;       
+  margin: 0 auto 1.5rem auto; 
+   
 }
 
 .categories-grid {
@@ -19,17 +33,17 @@
 }
 
 .category-tile {
-  background-color: #ffffff;
+  background-color: #e6e8f4;
   border-radius: 20px;
   padding: 30px 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* .category-tile:hover {
+ .category-tile:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-} */
+} 
 
 .category-icon {
   font-size: 2.8rem;
@@ -68,9 +82,11 @@
 }
 
 
-.category-img {
-  width: 80px;
-  height: auto;
-  margin-bottom: 10px;
-}
 
+
+
+.category-img {
+  width: 200px; 
+  height: auto;
+  margin-bottom: 0px;
+}

@@ -1,26 +1,35 @@
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../assets/logo.png';
 
 export default function Navbar() {
+  const [showExploreDropdown, setShowExploreDropdown] = useState(false);
+  const [userRole, setUserRole] = useState(sessionStorage.getItem('userRole'));
+
   const navigate = useNavigate();
 
-  
-  const userRole = sessionStorage.getItem('userRole');
-  
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setUserRole(sessionStorage.getItem('userRole'));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const handleLogout = () => {
     sessionStorage.clear();
+    setUserRole(null); 
     navigate('/login');
-    window.location.reload(); 
   };
 
   return (
     <nav className="navbar">
       <div className="logo-section">
         <img src={logo} alt="Logo" className="logo" />
-        <div className="logo-text">
-          <h1>QST Health Insurance</h1>
-        </div>
       </div>
 
       <div className="nav-links">
@@ -28,9 +37,26 @@ export default function Navbar() {
 
         {userRole === 'USER' && (
           <>
-            <Link to="/my-policies" className="nav-link">My Policies</Link>
-             <Link to="/my-documents">My Documents</Link>
-            <Link to="/profile" className="nav-link">My Profile</Link>
+            <Link to="/dashboard/profile" className="nav-link">Dashboard</Link>
+
+            {/* Explore Dropdown */}
+            <div
+              className="dropdown"
+              onMouseEnter={() => setShowExploreDropdown(true)}
+              onMouseLeave={() => setShowExploreDropdown(false)}
+            >
+              <span className="nav-link">Explore</span>
+              {showExploreDropdown && (
+                <div className="dropdown-menu">
+                  <a href="/#hospitals" className="dropdown-item">Hospitals</a>
+                  <a href="/#teleconsult" className="dropdown-item">Teleconsultation</a>
+                  <a href="/#wellness" className="dropdown-item">Health & Wellness</a>
+                  <a href="/#policies" className="dropdown-item">Policies</a>
+                </div>
+              )}
+            </div>
+
+            <Link to="/claims" className="nav-link">Claims</Link>
             <span className="nav-link logout" onClick={handleLogout}>Logout</span>
           </>
         )}
@@ -42,10 +68,7 @@ export default function Navbar() {
           </>
         )}
 
-        {!userRole && (
-          <Link to="/login" className="nav-link">Login</Link>
-        )}
-
+        {!userRole && <Link to="/auth" className="nav-link">Login</Link>}
         <Link to="/support" className="nav-link contact">24*7 Contact</Link>
       </div>
     </nav>

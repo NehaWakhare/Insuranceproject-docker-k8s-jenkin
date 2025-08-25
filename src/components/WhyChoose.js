@@ -1,40 +1,42 @@
 import './WhyChoose.css';
-import { FaHospitalSymbol, FaPhoneAlt, FaMoneyCheckAlt, FaWallet } from 'react-icons/fa';
 
 export default function WhyChoose() {
   return (
     <section className="why-choose">
-      <h2>Key Benefits of Our Health Plans</h2>
-      <div className="benefits-list">
-        <div className="benefit-item">
-          <FaHospitalSymbol className="benefit-icon" />
-          <div>
-            <h3>Cashless Hospitalization</h3>
-            <p>Enjoy hassle-free treatment at our wide network of partner hospitals.</p>
-          </div>
+      <div className="why-choose-wrapper">
+        {/* Left Section: Heading */}
+        <div className="why-choose-left">
+          <h2>
+            What makes <span>QST</span> one of the <br />
+            best places <br /> to buy insurance?
+          </h2>
         </div>
 
-        <div className="benefit-item">
-          <FaPhoneAlt className="benefit-icon" />
-          <div>
-            <h3>24x7 Support</h3>
-            <p>Our team is always available to assist you in emergencies or queries.</p>
+        {/* Right Section: Cards */}
+        <div className="why-choose-right">
+          <div className="why-card one">
+            <h4>Wide Range of Insurance Options</h4>
+            <p>
+              We offer a diverse selection of insurance policies tailored to meet your specific needs.
+            </p>
           </div>
-        </div>
-
-        <div className="benefit-item">
-          <FaMoneyCheckAlt className="benefit-icon" />
-          <div>
-            <h3>Easy Claims Process</h3>
-            <p>Submit and track your claims with a quick and transparent process.</p>
+          <div className="why-card two">
+            <h4>User-Friendly Interface</h4>
+            <p>
+              Our platform is designed for ease of use, making it simple to compare and choose the best policies.
+            </p>
           </div>
-        </div>
-
-        <div className="benefit-item">
-          <FaWallet className="benefit-icon" />
-          <div>
-            <h3>Affordable Plans</h3>
-            <p>Get tailored plans that suit your needs and budget.</p>
+          <div className="why-card three">
+            <h4>Secure and Transparent</h4>
+            <p>
+              Your data is protected with advanced security measures, ensuring transparency at every step.
+            </p>
+          </div>
+          <div className="why-card four">
+            <h4>24/7 Customer Support</h4>
+            <p>
+              Our dedicated support team is available around the clock to assist you with any queries or concerns.
+            </p>
           </div>
         </div>
       </div>

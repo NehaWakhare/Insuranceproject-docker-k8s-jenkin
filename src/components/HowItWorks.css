@@ -1,0 +1,57 @@
+.hiw-flow-section {
+  background-color: #f4f9fd;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.hiw-flow-title {
+  color: #003b6f;
+  font-size: 1.65rem;
+  font-weight: 650;
+  margin-bottom: 40px;
+  
+}
+
+.hiw-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hiw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 200px;
+}
+
+.hiw-step h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #003b6f;
+}
+
+.hiw-step p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.hiw-arrow {
+  font-size: 32px;
+  color: #003b6f;
+  margin: 0 10px;
+}
+
+/* Responsive wrap for smaller screens */
+@media (max-width: 768px) {
+  .hiw-flow {
+    flex-direction: column;
+  }
+  .hiw-arrow {
+    display: none;
+  }
+}

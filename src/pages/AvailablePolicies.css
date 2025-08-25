@@ -1,104 +1,88 @@
-.available-policies-container {
-  padding: 30px;
+.policy-container {
+  display: flex;
   max-width: 1200px;
-  margin: auto;
-}
-
-.policy-list {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.policy-card {
-  display: flex;
-  background: #fff;
+  margin: 40px auto;
+  background-color: #f9f9f9;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.image-column {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .policy-img {
-  width: 280px;
-  height: auto;
-  object-fit: cover;
-  flex-shrink: 0;
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.details-column {
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px;
+  gap: 40px;
 }
 
 .policy-info {
-  padding: 24px;
-  text-align: left;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #003366;
 }
 
-.policy-info h3 {
-  margin: 0 0 10px;
-  color: #004080;
-}
-
-.description {
-  font-weight: 500;
+.policy-info h2 {
   margin-bottom: 10px;
-  color: #333;
+  color: #002244;
 }
 
-.more-info {
+.policy-info .description {
   font-size: 14px;
-  color: #555;
-  margin-bottom: 16px;
+  color: #444;
+  margin-bottom: 10px;
 }
 
-.policy-info p {
-  margin: 4px 0;
-  font-size: 15px;
+.nominee-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.buy-btn {
-  margin-top: 12px;
-  background-color: #0078d4;
+.nominee-form h3 {
+  margin-bottom: 8px;
+  color: #003366;
+}
+
+.nominee-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background-color: #0077cc;
   color: white;
-  padding: 6px 16px;
-  font-size: 14px;
+  padding: 10px 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  width: auto;
-  max-width: 120px;
-}
-
-.buy-btn:hover {
-  background-color: #005fa3;
-}
-
-.buy-form {
-  margin-top: 40px;
-  border-top: 2px dashed #ccc;
-  padding-top: 30px;
-}
-
-.buy-form input {
-  display: block;
-  margin: 12px 0;
-  padding: 10px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.buy-form button {
+  font-weight: 500;
   margin-top: 10px;
-  padding: 8px 20px;
-  font-size: 14px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: auto;
-  max-width: 120px;
 }
 
-.buy-form button:hover {
-  background-color: #218838;
+.submit-btn:hover {
+  background-color: #005fa3;
 }

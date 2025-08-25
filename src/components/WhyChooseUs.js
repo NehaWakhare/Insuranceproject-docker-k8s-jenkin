@@ -26,7 +26,7 @@ export default function WhyChooseUs() {
 
         <div className="reason-card highlight-orange">
            <FaRobot className="reason-icon" />
-          <h3>AI-Powered Recommendations</h3>
+          <h3>AI-Advisor</h3>
           <p>Our smart tools suggest the best plans tailored to your health profile and lifestyle.</p>
         </div>
       </div>

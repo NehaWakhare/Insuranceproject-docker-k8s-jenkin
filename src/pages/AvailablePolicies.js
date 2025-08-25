@@ -76,39 +76,41 @@ export default function AvailablePolicies() {
 
   if (!userId || !policy) return null;
 
-  return (
-    <div className="available-policies-container">
-      <h2>Policy Details</h2>
-      <div className="policy-card">
-        <img
-          src={getPlanImage(policy.planName)}
-          alt={policy.planName}
-          className="policy-img"
-        />
-        <div className="policy-info">
-          <h3>{policy.planName}</h3>
-          <p><strong>Coverage:</strong> ₹{policy.coverageAmount}</p>
-          <p><strong>Premium:</strong> ₹{policy.premium}/year</p>
-          <p><strong>Duration:</strong> {policy.durationInYears} year(s)</p>
-        </div>
+ return (
+  <div className="policy-container">
+    {/* Image Column */}
+    <div className="image-column">
+      <img src={getPlanImage(policy.policyName)} alt={policy.policyName} className="policy-img" />
+    </div>
+
+    {/* Content Row: Policy Info + Nominee Form */}
+    <div className="details-column">
+      <div className="policy-info">
+        <h2>{policy.policyName}</h2>
+        <p className="description">{policy.description}</p>
+        <p>Coverage: {policy.coverage}</p>
+        <p>Premium: ₹{policy.premium}</p>
+        <p>Duration: {policy.duration} years</p>
       </div>
 
-      <div className="buy-form">
-        <h4>Enter Nominee Details</h4>
+      <div className="nominee-form">
+        <h3>Nominee Details</h3>
         <input
           type="text"
           placeholder="Nominee Name"
           value={nominee}
-          onChange={e => setNominee(e.target.value)}
+          onChange={(e) => setNominee(e.target.value)}
         />
         <input
           type="text"
           placeholder="Nominee Relation"
           value={relation}
-          onChange={e => setRelation(e.target.value)}
+          onChange={(e) => setRelation(e.target.value)}
         />
-        <button onClick={handleSubmit}>Confirm Purchase</button>
+        <button className="submit-btn" onClick={handleSubmit}>Buy Policy</button>
       </div>
     </div>
-  );
+  </div>
+);
+
 }

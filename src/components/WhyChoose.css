@@ -1,52 +1,93 @@
 .why-choose {
-  background-color: #ffffff;
-  padding: 50px 20px;
-  max-width: 1000px;
-  margin: auto;
+  padding: 80px 10vw;
+  background-color: #f4faff;
+  font-family: 'Poppins', sans-serif;
+  color: #003366;
 }
 
-.why-choose h2 {
-  text-align: center;
-  color: #0077cc;
-  margin-bottom: 40px;
-  font-size: 26px;
-}
-
-.benefits-list {
+.why-choose-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
+  justify-content: space-between;
+  gap: 60px;
+  flex-wrap: wrap;
 }
 
-.benefit-item {
+.why-choose-left {
+  flex: 1 1 35%;
   display: flex;
-  align-items: flex-start;
-  background-color: #f9f9f9;
-  padding: 20px;
+  align-items: center;
+}
+
+.why-choose-left h2 {
+  font-size: 2.2rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.why-choose-left h2 span {
+  color: #0073e6;
+}
+
+.why-choose-right {
+  flex: 1 1 60%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.why-card {
+  background-color: white;
+  padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid transparent;
+  cursor: pointer;
 }
 
-.benefit-item:hover {
-  transform: translateY(-3px);
+.why-card h4 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-.benefit-icon {
-  font-size: 32px;
-  color: #007bff;
-  margin-right: 20px;
-  flex-shrink: 0;
+.why-card p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
 }
 
-.benefit-item h3 {
-  margin: 0 0 5px;
-  font-size: 18px;
-  color: #333;
+/* Hover animation */
+.why-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
-.benefit-item p {
-  margin: 0;
-  color: #666;
-  font-size: 14px;
+/* Different border colors for each card */
+.why-card.one {
+  border-left-color: #0073e6;
+}
+.why-card.two {
+  border-left-color: #00bcd4;
+}
+.why-card.three {
+  border-left-color: #4caf50;
+}
+.why-card.four {
+  border-left-color: #ff9800;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .why-choose-wrapper {
+    flex-direction: column;
+  }
+
+  .why-choose-right {
+    grid-template-columns: 1fr;
+  }
+
+  .why-choose-left h2 {
+    font-size: 1.8rem;
+  }
 }

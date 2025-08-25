@@ -6,7 +6,7 @@
   color: white;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   transition: transform 0.3s ease;
-  background: linear-gradient(135deg, #667eea, #764ba2); /* default gradient */
+  background: linear-gradient(135deg, #667eea, #764ba2); 
 }
 
 .dashboard-card:hover {
@@ -28,5 +28,5 @@
 .dashboard-content {
   flex-grow: 1;
   padding: 40px;
-  margin-left: 180px; /* match sidebar width */
+  margin-left: 180px; 
 }

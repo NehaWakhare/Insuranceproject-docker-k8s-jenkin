@@ -1,0 +1,63 @@
+.service-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 10px 0vw 10px; 
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}
+
+.highlight-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  width: 280px; /* More rectangular */
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.highlight-card:hover {
+  transform: translateY(-5px);
+}
+
+.highlight-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.highlight-card h3 {
+  margin: 10px 0 8px;
+  color: #003366;
+  font-size: 1.2rem;
+}
+
+.highlight-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 16px;
+  min-height: 60px;
+}
+
+.btn-small {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.btn-small:hover:not(.disabled) {
+  background-color: #0056b3;
+}
+
+.btn-small.disabled {
+  background-color: grey;
+  cursor: not-allowed;
+  pointer-events: none;
+}

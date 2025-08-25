@@ -1,58 +1,88 @@
-.intro-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3rem;
-  background-color: #f9f9f9;
-  gap: 2rem;
-  flex-wrap: wrap;
-   background: linear-gradient(to right, #e0f7fa, #ffffff);
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+
+.intro-banner-wrapper {
+  background-color: #f0f8ff;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 1px 0 10px; 
+}
+
+/* Centered content container */
+.intro-banner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Left content */
 .banner-left {
   flex: 1;
-  max-width: 600px;
-   background-color: rgba(255, 255, 255, 0.9); 
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  padding-right: 30px;
 }
 
 .banner-left h1 {
-  font-size: 2.7rem;
-  margin-bottom: 1rem;
-  font-weight: 700; 
-  color: #1d3557;
+  font-size: 1.80rem;
+  margin-bottom: 20px;
+  color: #002d5f;
+  font-weight: 500;
 }
 
 .banner-left p {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  color: #444;
+  font-weight: 300;
 }
-
 
 .banner-btn {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: #0077cc;
+  background-color: #007bff;
   color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
   text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
+  font-weight: 400;
 }
 
 .banner-btn:hover {
-  background-color: #005fa3;
+  background-color: #0056b3;
 }
 
-.banner-right {
-  flex: 1;
-  text-align: center;
-}
-
+/* Right image */
 .banner-right img {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
+  height: auto;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .intro-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .banner-left {
+    padding-right: 0;
+  }
+
+  .banner-right {
+    margin-top: 30px;
+  }
 }

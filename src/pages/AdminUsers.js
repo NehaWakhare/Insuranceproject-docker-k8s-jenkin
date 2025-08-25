@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './AdminUsers.css'; // You can create styles here
+import './AdminUsers.css'; 
 
 export default function AdminUsers() {
   const [userPolicies, setUserPolicies] = useState([]);

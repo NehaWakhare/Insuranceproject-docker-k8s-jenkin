@@ -1,0 +1,29 @@
+
+
+.my-claims-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+}
+
+.my-claims-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.claim-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.claim-card h3 {
+  margin-bottom: 10px;
+}
+
+.documents ul {
+  margin: 10px 0 0 0;
+  padding-left: 20px;
+}

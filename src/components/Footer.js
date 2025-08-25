@@ -3,25 +3,67 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <footer className="footer-section">
-         <h3 className="footer-heading">Important Legal Disclaimer</h3>
-      <p>
-        QST Insurance Portal presents a composite view of benefits drawn from multiple insurance policies, which are also available individually. Please review the complete policy brochures for the 
-        <em>QST Comprehensive Health Insurance Policy</em> and the <em>QST Senior Citizen Health Protection Plan</em> before making any decisions. The purpose of this illustration is informational only and should not be construed as policy documentation.
-      </p>
-      <p>
-        QST Insurance Co. Ltd., Regd. Office: #123, Health Tower, Wellness Avenue, Navi Mumbai – 400706. CIN: L66010MH2020PLC123456 | IRDAI Reg. No.: 234 | UAN: QST/2025‑26/ONLINE‑LP/COMP‑QSTHIP0101V062525. Insurance is the subject matter of solicitation. For full details on risk factors, terms, conditions, and exclusions, refer to the official policy documents.
-      </p>
-      <p>
-        <strong>IRDAI Advisory:</strong> The IRDAI does not sell insurance, collect premiums, or declare bonuses. Beware of fraudulent communications claiming otherwise; please report such activity to the police immediately.
-      </p>
-      <p>
-        Contact us: <a href="mailto:info@qstinsurance.in">info@qstinsurance.in</a> | Toll-Free: 1800‑123‑4567 / 1800‑987‑6543 | Website: <a href="https://www.qstinsurance.in">www.qstinsurance.in</a>
-      </p>
-      <p className="footer-copy">
-        Privacy Policy | Copyright ©
-        <span id="current-year">{new Date().getFullYear()}</span> QST Insurance. All rights reserved.
-      </p>
+    <footer className="pb-footer">
+    
+      <div className="pb-footer-top">
+        <div className="pb-col">
+          <h4>Insurance Products</h4>
+          <ul>
+            <li><a href="/health">Health Insurance</a></li>
+            <li><a href="/motor">Motor Insurance</a></li>
+            <li><a href="/travel">Travel Insurance</a></li>
+            <li><a href="/home">Home Insurance</a></li>
+          </ul>
+        </div>
+
+        <div className="pb-col">
+          <h4>Policy Tools</h4>
+          <ul>
+            <li><a href="/claim-status">Claim Status</a></li>
+            <li><a href="/print-policy">Print Policy</a></li>
+            <li><a href="/calculator">Premium Calculator</a></li>
+            <li><a href="/grievance">Grievance Portal</a></li>
+          </ul>
+        </div>
+
+        <div className="pb-col">
+          <h4>Contact & Support</h4>
+          <ul>
+            <li>Toll‑Free: 1800 2666</li>
+            <li>Email: <a href="mailto:support@example.com">support@example.com</a></li>
+            <li><a href="/branches">Branch Locator</a></li>
+            <li><a href="/chat">Chat with Us</a></li>
+          </ul>
+        </div>
+
+        <div className="pb-col">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="/about">Company Overview</a></li>
+            <li><a href="/team">Leadership Team</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/media">Press & Media</a></li>
+          </ul>
+        </div>
+
+        <div className="pb-col">
+          <h4>Legal Disclosures</h4>
+          <ul>
+            <li><a href="/terms">Terms & Conditions</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/irda">IRDAI Compliance</a></li>
+            <li><a href="/disclaimer">Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom legal section */}
+      <div className="pb-footer-bottom">
+        <p>© {new Date().getFullYear()} Your Insurance Co. All Rights Reserved.</p>
+        <p>
+          Insurance is a subject matter of solicitation. Read our <a href="/terms">Terms & Conditions</a> and <a href="/privacy">Privacy Policy</a>.
+        </p>
+      </div>
     </footer>
   );
 }
