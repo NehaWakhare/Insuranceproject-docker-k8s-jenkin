@@ -59,10 +59,10 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     if (userId) fetchUserProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [userId]);
 
-  // Handle change
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
