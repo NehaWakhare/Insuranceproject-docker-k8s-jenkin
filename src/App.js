@@ -15,17 +15,30 @@ import Footer from './components/Footer';
 import Claims from './pages/Claims';
 import { AuthProvider } from './context/AuthContext';
 
+import SuperAdminLogin from './pages/SuperAdmin/SuperAdminLogin';
+import SuperAdminDashboard from './pages/SuperAdmin/SuperAdminDashboard';
+
 function App() {
   const location = useLocation();
-  const hideNavbarRoutes = ['/auth'];
-  const hideFooterRoutes = ['/admin/dashboard', '/admin/users', '/admin/add-policy', '/admin/view-policies'];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
-  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
+  
+  const hideNavbarRoutes = ['/auth', '/superadmin/login', '/superadmin/dashboard']; 
+  const hideFooterRoutes = [
+    '/admin/dashboard',
+    '/admin/users',
+    '/admin/add-policy',
+    '/admin/view-policies',
+    '/superadmin/login',
+    '/superadmin/dashboard'
+  ];
+
+  const shouldHideNavbar = hideNavbarRoutes.some(route => location.pathname.startsWith(route));
+  const shouldHideFooter = hideFooterRoutes.some(route => location.pathname.startsWith(route));
 
   return (
     <>
       {!shouldHideNavbar && <Navbar />}
-       {!shouldHideNavbar && <div className="navbar-spacer" />}
+      {!shouldHideNavbar && <div className="navbar-spacer" />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} /> 
@@ -39,9 +52,13 @@ function App() {
         <Route path="/admin/view-policies" element={<ViewPolicies />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/support" element={<Support />} />
-        
         <Route path="/claims" element={<Claims />} />
+        
+        {/* SuperAdmin routes */}
+        <Route path="/superadmin/login" element={<SuperAdminLogin />} />
+        <Route path="/superadmin/dashboard/*" element={<SuperAdminDashboard />} />
       </Routes>
+      
       {!shouldHideFooter && <Footer />}
     </>
   );
@@ -51,9 +68,8 @@ export default function AppWrapper() {
   return (
     <Router>
       <AuthProvider>
-         <App />
+        <App />
       </AuthProvider>
-     
     </Router>
   );
 }
