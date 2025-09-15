@@ -1,4 +1,16 @@
-const API_BASE_URL = "http://localhost:8089/api"; //  Base URL for backend
+// src/api/SuperAdminApi.js
+
+const API_BASE_URL = "http://localhost:8089/api"; // Base URL for backend
+
+// Helper to include token in headers if available
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+  return token
+    ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
+    : { "Content-Type": "application/json" };
+}
+
+// ---------------- SUPER ADMIN AUTH ----------------
 
 // Super Admin login
 export async function superAdminLogin(email, password) {
@@ -12,13 +24,16 @@ export async function superAdminLogin(email, password) {
     throw new Error("Invalid super admin credentials");
   }
 
-  return response.json(); // token, role
+  return response.json(); // should contain token, role, etc.
 }
+
+// ---------------- ADMIN MANAGEMENT ----------------
 
 // Get all admins
 export async function fetchAllAdmins() {
   const response = await fetch(`${API_BASE_URL}/admin/all`, {
     method: "GET",
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -32,6 +47,7 @@ export async function fetchAllAdmins() {
 export async function fetchPendingAdmins() {
   const response = await fetch(`${API_BASE_URL}/admin/pending`, {
     method: "GET",
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -45,6 +61,7 @@ export async function fetchPendingAdmins() {
 export async function approveAdmin(id) {
   const response = await fetch(`${API_BASE_URL}/admin/approve/${id}`, {
     method: "PUT",
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -58,6 +75,7 @@ export async function approveAdmin(id) {
 export async function rejectAdmin(id) {
   const response = await fetch(`${API_BASE_URL}/admin/reject/${id}`, {
     method: "PUT",
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -66,3 +84,6 @@ export async function rejectAdmin(id) {
 
   return response.text();
 }
+
+// ---------------- PLACEHOLDER FOR FUTURE ----------------
+// (We’ll add Users, Policies, Claims, Hospitals APIs here later)

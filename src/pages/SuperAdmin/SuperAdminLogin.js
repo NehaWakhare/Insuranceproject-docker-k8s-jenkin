@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { superAdminLogin } from "../../api/superAdminApi";
-
 
 function SuperAdminLogin() {
   const [email, setEmail] = useState("");
@@ -9,23 +9,29 @@ function SuperAdminLogin() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      // 🔹 Call API function
+      // 🔹 Call API
       const data = await superAdminLogin(email, password);
 
-      // 🔹 Save token + role from backend
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role || "superadmin");
+      // 🔹 Save token & role
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role || "SUPERADMIN");
 
-      // 🔹 Redirect
-      window.location.href = "/superadmin/dashboard";
+        // 🔹 Redirect to dashboard
+        navigate("/superadmin/dashboard", { replace: true });
+      } else {
+        throw new Error("Login failed: No token received");
+      }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -143,6 +149,7 @@ const styles = {
   error: {
     color: "red",
     marginBottom: "10px",
+    fontSize: "14px",
   },
 };
 

@@ -1,13 +1,11 @@
 import axios from "axios";
 
-
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8089", // keep this as base
+  baseURL: "http://localhost:8089", // backend base URL
   headers: {
     "Content-Type": "application/json",
   },
 });
-
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -28,16 +26,18 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-
 export const login = async (email, password) => {
   const res = await axiosInstance.post("/api/admin/login", { email, password });
   return res.data;
 };
 
-
-export const verifyOtp = async (email, otp) => {
-  const res = await axiosInstance.post("/api/admin/verify-otp", { email, otp });
-  return res.data;
+export const verifyOtp = async (email, otp, password) => {
+  const response = await axiosInstance.post("/api/admin/verify-otp", {
+    email,
+    otp,
+    password,
+  });
+  return response.data;
 };
 
 export default axiosInstance;

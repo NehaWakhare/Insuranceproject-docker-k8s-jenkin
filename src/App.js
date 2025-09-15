@@ -15,10 +15,12 @@ import Footer from "./components/Footer";
 import Claims from "./pages/Claims";
 import { AuthProvider } from "./context/AuthContext";
 import AdminRegister from "./pages/Admin/AdminRegister";
-import AdminLogin from './pages/Admin/AdminLogin';
+import AdminLogin from "./pages/Admin/AdminLogin";
+
+// 🔹 SuperAdmin Pages
 import SuperAdminLogin from "./pages/SuperAdmin/SuperAdminLogin";
 import SuperAdminDashboard from "./pages/SuperAdmin/SuperAdminDashboard";
-import AdminList from './pages/SuperAdmin/AdminList';
+import AdminList from "./pages/SuperAdmin/AdminList";
 
 function App() {
   const location = useLocation();
@@ -40,36 +42,54 @@ function App() {
     "/superadmin/dashboard",
   ];
 
-  const shouldHideNavbar = hideNavbarRoutes.some((route) =>location.pathname.startsWith(route));
-  const shouldHideFooter = hideFooterRoutes.some((route) => location.pathname.startsWith(route) );
+  const shouldHideNavbar = hideNavbarRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+  const shouldHideFooter = hideFooterRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+
   return (
     <>
       {!shouldHideNavbar && <Navbar />}
       {!shouldHideNavbar && <div className="navbar-spacer" />}
 
       <Routes>
-        
+        {/* 🔹 Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/support" element={<Support />} />
         <Route path="/claims" element={<Claims />} />
         <Route path="/hospital-search" element={<HospitalSearch />} />
         <Route path="/teleconsultation" element={<Teleconsultation />} />
-        <Route path="/wellness"element={  <div style={{ padding: "2rem" }}> <h2>Wellness Coming Soon</h2></div> } />
+        <Route
+          path="/wellness"
+          element={
+            <div style={{ padding: "2rem" }}>
+              <h2>Wellness Coming Soon</h2>
+            </div>
+          }
+        />
+
+        {/* 🔹 User Dashboard */}
         <Route path="/dashboard/*" element={<UserDashboard />} />
-        <Route path="/available-policies/:id"element={<AvailablePolicies />} />
+        <Route
+          path="/available-policies/:id"
+          element={<AvailablePolicies />}
+        />
+
+        {/* 🔹 Admin Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/add-policy" element={<AddPolicy />} />
         <Route path="/admin/view-policies" element={<ViewPolicies />} />
         <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/Admin/AdminRegister" element={<AdminRegister />} />
-        
-         <Route path="/Admin/AdminLogin" element={<AdminLogin />} />  
-                                                                  
+        <Route path="/admin/register" element={<AdminRegister />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* 🔹 Super Admin Routes */}
         <Route path="/superadmin/login" element={<SuperAdminLogin />} />
         <Route path="/superadmin/dashboard/*" element={<SuperAdminDashboard />} />
         <Route path="/superadmin/dashboard/admins" element={<AdminList />} />
-
       </Routes>
 
       {!shouldHideFooter && <Footer />}

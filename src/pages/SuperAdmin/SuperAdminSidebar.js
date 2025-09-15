@@ -6,15 +6,16 @@ import {
   FileText, 
   Stethoscope, 
   CheckCircle, 
-  Shield, 
-  LogOut 
-} from "lucide-react"; 
+  LogOut,
+  UserCircle   
+} from "lucide-react";
 
 export default function SuperAdminSidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
     { name: "Dashboard", path: "/superadmin/dashboard", icon: <LayoutDashboard size={18} /> },
+    { name: "Profile", path: "/superadmin/dashboard/profile", icon: <UserCircle size={18} /> },
     { name: "Users", path: "/superadmin/dashboard/users", icon: <Users size={18} /> },
     { name: "Doctors", path: "/superadmin/dashboard/doctors", icon: <Stethoscope size={18} /> },
     { name: "Policies", path: "/superadmin/dashboard/policies", icon: <FileText size={18} /> },
