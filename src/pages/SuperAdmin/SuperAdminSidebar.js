@@ -5,9 +5,9 @@ import {
   Users, 
   FileText, 
   Stethoscope, 
-  CheckCircle, 
   LogOut,
-  UserCircle   
+  UserCircle,
+  ShieldCheck
 } from "lucide-react";
 
 export default function SuperAdminSidebar() {
@@ -20,9 +20,9 @@ export default function SuperAdminSidebar() {
     { name: "Doctors", path: "/superadmin/dashboard/doctors", icon: <Stethoscope size={18} /> },
     { name: "Policies", path: "/superadmin/dashboard/policies", icon: <FileText size={18} /> },
     { name: "Claims", path: "/superadmin/dashboard/claims", icon: <FileText size={18} /> },
-    { name: "Approvals", path: "/superadmin/dashboard/approvals", icon: <CheckCircle size={18} /> },
-    { name: "Admin List", path: "/superadmin/dashboard/admins", icon: <Users size={18} /> },
-
+    { name: "Appointments", path: "/superadmin/dashboard/Appointments", icon: <FileText size={18} /> },
+    // ✅ Unified Admin menu
+    { name: "Admins", path: "/superadmin/dashboard/admins", icon: <ShieldCheck size={18} /> },
   ];
 
   const handleLogout = () => {
@@ -49,6 +49,7 @@ export default function SuperAdminSidebar() {
             {item.name}
           </NavLink>
         ))}
+
         <button
           onClick={handleLogout}
           style={styles.logoutBtn}

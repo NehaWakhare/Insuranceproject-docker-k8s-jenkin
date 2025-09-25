@@ -31,7 +31,7 @@ const AdminRegister = () => {
 
      
       setTimeout(() => {
-        navigate("/login");
+        navigate("/admin/login");
       }, 1500);
 
     } catch (error) {

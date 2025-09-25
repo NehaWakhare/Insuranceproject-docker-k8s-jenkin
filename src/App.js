@@ -20,7 +20,13 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 // 🔹 SuperAdmin Pages
 import SuperAdminLogin from "./pages/SuperAdmin/SuperAdminLogin";
 import SuperAdminDashboard from "./pages/SuperAdmin/SuperAdminDashboard";
-import AdminList from "./pages/SuperAdmin/AdminList";
+import SuperAdminRoute from "./pages/SuperAdmin/SuperAdminRoute";
+
+// ✅ New SuperAdmin User Management Page
+import SuperAdminUsers from "./pages/SuperAdmin/Users/SuperAdminUsers";
+
+// ✅ New SuperAdmin Admin Management (Tabs for List + Approvals)
+import SuperAdminAdmins from "./pages/SuperAdmin/Admins/SuperAdminAdmins";
 
 function App() {
   const location = useLocation();
@@ -73,10 +79,7 @@ function App() {
 
         {/* 🔹 User Dashboard */}
         <Route path="/dashboard/*" element={<UserDashboard />} />
-        <Route
-          path="/available-policies/:id"
-          element={<AvailablePolicies />}
-        />
+        <Route path="/available-policies/:id" element={<AvailablePolicies />} />
 
         {/* 🔹 Admin Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -88,8 +91,34 @@ function App() {
 
         {/* 🔹 Super Admin Routes */}
         <Route path="/superadmin/login" element={<SuperAdminLogin />} />
-        <Route path="/superadmin/dashboard/*" element={<SuperAdminDashboard />} />
-        <Route path="/superadmin/dashboard/admins" element={<AdminList />} />
+        <Route
+          path="/superadmin/dashboard/*"
+          element={
+            <SuperAdminRoute>
+              <SuperAdminDashboard />
+            </SuperAdminRoute>
+          }
+        />
+
+        {/* ✅ New SuperAdmin Admin Management (List + Approvals in Tabs) */}
+        <Route
+          path="/superadmin/dashboard/admins"
+          element={
+            <SuperAdminRoute>
+              <SuperAdminAdmins />
+            </SuperAdminRoute>
+          }
+        />
+
+        {/* ✅ New SuperAdmin User Management */}
+        <Route
+          path="/superadmin/dashboard/users"
+          element={
+            <SuperAdminRoute>
+              <SuperAdminUsers />
+            </SuperAdminRoute>
+          }
+        />
       </Routes>
 
       {!shouldHideFooter && <Footer />}

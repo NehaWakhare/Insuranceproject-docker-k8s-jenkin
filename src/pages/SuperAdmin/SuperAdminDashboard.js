@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import SuperAdminProfile from "./SuperAdminProfile";
 import SuperAdminSidebar from "./SuperAdminSidebar";
-import AdminApproval from "./AdminApproval"; 
-import AdminList from "./AdminList"; 
+import SuperAdminAdmins from "./Admins/SuperAdminAdmins";  // ✅ FIXED
 import {
   fetchAllAdmins,
   fetchPendingAdmins,
@@ -21,16 +20,13 @@ export default function SuperAdminDashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // ✅ Fetch Admins
         const admins = await fetchAllAdmins();
         const pending = await fetchPendingAdmins();
-
-        // ⚠️ For now, mock users + policies count (until API confirmed)
         setStats({
-          users: 120, // TODO: Replace with real API
+          users: 120,
           admins: admins.length,
           pending: pending.length,
-          policies: 25, // TODO: Replace with real API
+          policies: 25,
         });
       } catch (error) {
         console.error("Error fetching stats:", error);
@@ -38,18 +34,14 @@ export default function SuperAdminDashboard() {
         setLoading(false);
       }
     };
-
+            
     fetchStats();
   }, []);
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar */}
       <SuperAdminSidebar />
-
-      {/* Main Content */}
       <div style={styles.main}>
-        {/* 🔹 Topbar */}
         <div style={styles.topbar}>
           <h2 style={{ margin: 0 }}>Super Admin Dashboard</h2>
           <button
@@ -62,8 +54,7 @@ export default function SuperAdminDashboard() {
             Logout
           </button>
         </div>
-
-        {/* 🔹 Routes + Dashboard Content */}
+         
         <div style={styles.content}>
           <Routes>
             <Route
@@ -101,16 +92,18 @@ export default function SuperAdminDashboard() {
             <Route path="doctors" element={<h2>Manage Doctors (Coming Soon)</h2>} />
             <Route path="policies" element={<h2>Manage Policies (Coming Soon)</h2>} />
             <Route path="claims" element={<h2>Manage Claims (Coming Soon)</h2>} />
-            <Route path="approvals" element={<AdminApproval />} />
-            <Route path="admins" element={<AdminList />} />
+
+            {/* ✅ One unified Admins page with tabs */}
+            <Route path="admins" element={<SuperAdminAdmins />} />
+
             <Route path="logout" element={<h2>Logout Page (Coming Soon)</h2>} />
-            <Route path="/superadmin/dashboard/admin-list" element={<AdminList />} />
           </Routes>
         </div>
       </div>
     </div>
   );
 }
+
 
 const styles = {
   layout: {
