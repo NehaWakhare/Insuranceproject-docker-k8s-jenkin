@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchMyAppointments } from '../../../api/user/myAppointments';
 import './MyAppointments.css';
 
 export default function MyAppointments() {
@@ -8,24 +8,31 @@ export default function MyAppointments() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const profileId = sessionStorage.getItem("userProfileId");
+   
+    const userProfileId = sessionStorage.getItem("userProfileId"); 
 
-    if (!profileId) {
-      setError("User profile not found. Please complete your profile.");
+    console.log("userProfileId:", userProfileId); 
+
+    if (!userProfileId) {
+      setError("User profile not found. Please log in again.");
       setLoading(false);
       return;
     }
 
-    axios.get(`http://localhost:8089/appointments/user/${profileId}`)
-      .then(res => {
-        setAppointments(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
+    const loadAppointments = async () => {
+      try {
+        const data = await fetchMyAppointments(userProfileId);
+        console.log("Fetched appointments:", data);
+        setAppointments(data);
+      } catch (err) {
         console.error("Error fetching appointments:", err);
-        setError("Failed to load appointments.");
+        setError("Failed to load appointments. Please try again later.");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    loadAppointments();
   }, []);
 
   if (loading) return <p className="appointment-msg">Loading appointments...</p>;
@@ -35,6 +42,7 @@ export default function MyAppointments() {
   return (
     <div className="appointments-container">
       <h2>My Appointments</h2>
+      <br/>
       <table className="appointments-table">
         <thead>
           <tr>

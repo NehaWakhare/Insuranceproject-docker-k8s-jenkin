@@ -1,9 +1,9 @@
 
 import React, { useContext, useState } from 'react';
 import './Auth.css';
-import { register, login, verifyOtp } from '../../services/auth';
+import { register, login, verifyOtp } from '../../../services/auth';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function AuthPage() {
   const navigate = useNavigate();

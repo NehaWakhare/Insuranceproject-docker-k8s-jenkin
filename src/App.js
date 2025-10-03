@@ -4,13 +4,13 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import AuthPage from "./pages/UserLogin/AuthPage";
+import AuthPage from "./pages/User/auth/AuthPage";
 import Support from "./pages/Support";
 import AvailablePolicies from "./pages/AvailablePolicies";
 import HospitalSearch from "./pages/HospitalSearch";
 import Teleconsultation from "./pages/Teleconsultation";
 import Claims from "./pages/Claims";
-import UserDashboard from "./pages/UserDashboard";
+import UserDashboard from "./pages/User/dashboard/UserDashboard";
 import { AuthProvider } from "./context/AuthContext";
 
 // 🔹 Admin Pages

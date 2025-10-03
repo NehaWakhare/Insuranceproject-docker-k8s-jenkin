@@ -1,5 +1,6 @@
 .appointments-container {
-  padding:  6rem 2rem 2rem;
+  background-color: #e4ebf1; 
+  padding:  2rem 2rem 2rem;
   max-width: 900px;
   margin: auto;
 }

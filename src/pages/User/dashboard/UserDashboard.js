@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import UserSidebar from '../components/UserSidebar';
+import UserSidebar from './UserSidebar';
 import ProfileInfo from './ProfileInfo';
 import MyAppointments from './MyAppointments';
 import MyPolicies from './MyPolicies';
