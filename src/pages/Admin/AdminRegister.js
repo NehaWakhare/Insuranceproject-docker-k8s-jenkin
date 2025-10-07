@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";  
-import { registerAdmin } from "../../pages/AdminAPI/AdminRegisterAPI.js";  
+import { registerAdmin } from "../AdminAPI/AdminRegisterAPI.js";  
 import "../../pages/Admin/AdminRegister.css";
 
 

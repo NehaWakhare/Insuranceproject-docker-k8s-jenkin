@@ -94,11 +94,11 @@ export default function SuperAdminDashboard() {
             <Route path="policies" element={<h2>Manage Policies (Coming Soon)</h2>} />
             <Route path="claims" element={<h2>Manage Claims (Coming Soon)</h2>} />
 
-            {/* ✅ Doctors */}
+            {/* Doctors */}
             <Route path="doctors" element={<SuperAdminDoctors />} />
             <Route path="doctors/:id" element={<DoctorDetails />} />
 
-            {/* ✅ Admins */}
+            {/*Admins */}
             <Route path="admins" element={<SuperAdminAdmins />} />
 
             <Route path="logout" element={<h2>Logout Page (Coming Soon)</h2>} />

@@ -12,7 +12,7 @@ export default function MyDocuments() {
     const fetchDocuments = async () => {
       try {
         const token = JSON.parse(localStorage.getItem("authData"))?.token;
-        const res = await axios.get("http://localhost:8089/api/documents", {
+        const res = await axios.get("http://localhost:8089/api/documents/{documentId}", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDocuments(res.data);

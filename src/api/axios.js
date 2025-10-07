@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       console.warn("401 detected → clearing auth and redirecting to login");
       localStorage.removeItem("authData");
-      window.location.href = "/login";
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

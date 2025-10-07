@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuthHeaders } from "../../../api/superAdminApi"; // make sure this path is correct
 
@@ -10,7 +10,7 @@ export default function AdminList() {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // ✅ Fetch admins
+  // Fetch admins
   const fetchAdmins = async () => {
     try {
       setLoading(true);
@@ -22,7 +22,7 @@ export default function AdminList() {
 
       if (!res.ok) throw new Error(`Failed to fetch admins: ${res.status}`);
 
-      // ✅ Directly parse JSON (no manual JSON.parse)
+      //  Directly parse JSON (no manual JSON.parse)
       const data = await res.json();
       console.log("Admins response:", data);
 
@@ -39,7 +39,7 @@ export default function AdminList() {
     fetchAdmins();
   }, []);
 
-  // ✅ Close dropdown when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

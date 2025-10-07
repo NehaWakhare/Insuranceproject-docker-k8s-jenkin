@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AdminLogin.css";
-import { login, verifyOtp } from "../../pages/AdminAPI/AdminLoginAPI";
+import { login, verifyOtp } from "../AdminAPI/AdminLoginAPI";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
@@ -55,8 +55,8 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-form">
+    <div className="auth-page2">
+      <div className="auth-form2">
         <h2>{step === 1 ? "Admin Login" : "Verify OTP"}</h2>
 
         {step === 1 && (
@@ -111,7 +111,7 @@ export default function AdminLogin() {
           </form>
         )}
 
-        {message && <p className="auth-message">{message}</p>}
+        {message && <p className="auth-message2">{message}</p>}
       </div>
     </div>
   );

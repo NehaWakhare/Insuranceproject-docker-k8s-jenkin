@@ -13,20 +13,16 @@ import Claims from "./pages/Claims";
 import UserDashboard from "./pages/User/dashboard/UserDashboard";
 import { AuthProvider } from "./context/AuthContext";
 
-// 🔹 Admin Pages
+// Admin Pages
 import AdminRegister from "./pages/Admin/AdminRegister";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard"; 
 
-// 🔹 SuperAdmin Pages
+//  SuperAdmin Pages
 import SuperAdminLogin from "./pages/SuperAdmin/SuperAdminLogin";
 import SuperAdminDashboard from "./pages/SuperAdmin/SuperAdminDashboard";
 import SuperAdminRoute from "./pages/SuperAdmin/SuperAdminRoute";
-
-// ✅ New SuperAdmin User Management Page
 import SuperAdminUsers from "./pages/SuperAdmin/Users/SuperAdminUsers";
-
-// ✅ New SuperAdmin Admin Management (Tabs for List + Approvals)
 import SuperAdminAdmins from "./pages/SuperAdmin/Admins/SuperAdminAdmins";
 
 function App() {
@@ -75,16 +71,16 @@ function App() {
           }
         />
 
-        {/* 🔹 User Dashboard */}
+        {/*  User Dashboard */}
         <Route path="/dashboard/*" element={<UserDashboard />} />
         <Route path="/available-policies/:id" element={<AvailablePolicies />} />
 
-        {/* 🔹 Admin Routes */}
+        {/*  Admin Routes */}
         <Route path="/Admin/AdminRegister" element={<AdminRegister />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard/*" element={<AdminDashboard />} />
 
-        {/* 🔹 Super Admin Routes */}
+        {/*  Super Admin Routes */}
         <Route path="/superadmin/login" element={<SuperAdminLogin />} />
         <Route
           path="/superadmin/dashboard/*"
@@ -95,7 +91,7 @@ function App() {
           }
         />
 
-        {/* ✅ New SuperAdmin Admin Management (List + Approvals in Tabs) */}
+        {/* New SuperAdmin Admin Management (List + Approvals in Tabs) */}
         <Route
           path="/superadmin/dashboard/admins"
           element={
@@ -105,7 +101,7 @@ function App() {
           }
         />
 
-        {/* ✅ New SuperAdmin User Management */}
+        {/*  New SuperAdmin User Management */}
         <Route
           path="/superadmin/dashboard/users"
           element={

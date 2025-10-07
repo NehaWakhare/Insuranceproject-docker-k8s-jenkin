@@ -17,8 +17,8 @@ export default function HealthPlans() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem("authData"));
     if (!authData || !authData.token) {
-      alert("Please login to view policies.");
-      navigate("/login", { state: { redirectAfterLogin: "/available-policies" } });
+      alert("Please login.");
+      navigate("/auth", { state: { redirectAfterLogin: "/available-policies" } });
       return;
     }
 
@@ -36,7 +36,7 @@ export default function HealthPlans() {
       setLoading(false);
       if (err.response?.status === 401) {
         alert("Session expired. Please login again.");
-        navigate("/login");
+        navigate("/auth");
       }
     });
   }, [navigate]);

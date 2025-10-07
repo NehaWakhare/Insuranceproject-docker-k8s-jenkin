@@ -9,7 +9,7 @@ export default function IntroBanner() {
         <div className="banner-left">
           <h1>Secure Your Health and Future with QST Insurance</h1>
           <p>Comprehensive protection for health, travel, life, and more — trusted by millions.</p>
-          <Link to="/policies" className="banner-btn">Explore Policies</Link>
+          <Link to="/health-plans" className="banner-btn">Explore Policies</Link>
         </div>
         <div className="banner-right">
           <img src={familyImg} alt="Family Health" />

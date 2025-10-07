@@ -15,7 +15,7 @@ export default function SuperAdminUsers() {
   const [showProfile, setShowProfile] = useState(false);
   const [profileData, setProfileData] = useState(null);
 
-  // ✅ Fetch users
+  // Fetch users
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -32,12 +32,12 @@ export default function SuperAdminUsers() {
     fetchUsers();
   }, []);
 
-  // ✅ Handle input change
+  //  Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Open modal
+  // Open modal
   const openModal = (user = null) => {
     if (user) {
       setEditingUser(user);
@@ -49,7 +49,7 @@ export default function SuperAdminUsers() {
     setShowModal(true);
   };
 
-  // ✅ Save user (Add or Edit)
+  // Save user (Add or Edit)
   const saveUser = async () => {
     try {
       if (editingUser) {
@@ -64,7 +64,7 @@ export default function SuperAdminUsers() {
     }
   };
 
-  // ✅ Delete user
+  //  Delete user
   const deleteUser = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
@@ -75,7 +75,7 @@ export default function SuperAdminUsers() {
     }
   };
 
-  // ✅ View user profile
+  //  View user profile
   const viewProfile = async (id) => {
     try {
       const res = await axios.get(`${API_BASE}/user-profiles/by-user/${id}`);
@@ -90,7 +90,7 @@ export default function SuperAdminUsers() {
   return (
     <div style={{ padding: "2rem" }}>
       <h2 style={{ marginBottom: "1rem" }}>👥 Manage Users</h2>
-      <button
+      {/* <button
         onClick={() => openModal()}
         style={{
           background: "#4cafef",
@@ -103,7 +103,7 @@ export default function SuperAdminUsers() {
         }}
       >
         ➕ Add User
-      </button>
+      </button> */}
 
       {loading ? (
         <p>Loading...</p>

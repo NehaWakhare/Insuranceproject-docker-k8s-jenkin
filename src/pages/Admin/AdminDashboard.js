@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import AdminSidebar from "../Admin/AdminSidebar";
-import AdminNavbar from "../Admin/AdminNavbar";
-import AdminProfileForm from "../Admin/AdminProfile";
-import AdminAddPolicy from "../Admin/AdminAddPolicy";
-import AdminViewPolicy from "../Admin/AdminViewPolicy";
-import UsersPage from "../Admin/AdminUsers"; 
+import AdminSidebar from "./AdminSidebar";
+import AdminNavbar from "./AdminNavbar";
+import AdminProfileForm from "./AdminProfile";
+import AdminAddPolicy from "./AdminAddPolicy";
+import AdminViewPolicy from "./AdminViewPolicy";
+import UsersPage from "./AdminUsers"; 
 import { getDashboardStats } from "../AdminAPI/AdminDashboard";
 
 export default function AdminDashboard() {
@@ -87,7 +87,7 @@ const styles = {
   content: {
     padding: "20px",
     backgroundColor: "#f4f6f8",
-    minHeight: "calc(100vh - 60px)", // account for navbar height
+    minHeight: "calc(100vh - 60px)",
   },
   cardGrid: {
     display: "grid",

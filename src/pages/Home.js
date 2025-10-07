@@ -22,17 +22,17 @@ export default function Home() {
       <div id ="policies">
      
       </div>
-     {userRole === 'USER' ? (
+     {/* {userRole === 'USER' ? (
   <div className="user-actions">
     <Link to="/my-policies" className="action-btn">View/Claim Policies</Link>
   </div>
 ) : (
   <div className="user-actions">
     <p style={{ textAlign: 'center' }}>
-      <Link to="/login" className="action-btn">Login  to view or claim your policies</Link> 
+      <Link to="/auth" className="action-btn">Login to view or claim your policies</Link> 
     </p>
   </div>
-)}
+)} */}
 
           <WhyChoose />
       <ServiceHighlights />

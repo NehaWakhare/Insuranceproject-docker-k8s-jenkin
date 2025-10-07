@@ -20,6 +20,10 @@ export const AuthProvider = ({ children }) => {
 
     // Save in localStorage and state
     localStorage.setItem("authData", JSON.stringify(userData));
+
+    sessionStorage.setItem("userProfileId", data.userId);
+
+
     setUser(userData);
 
     console.log("User Logged In:", userData);
@@ -27,6 +31,8 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = () => {
     localStorage.removeItem("authData");
+     sessionStorage.removeItem("userProfileId");
+
     setUser(null);
   };
 
