@@ -4,8 +4,6 @@ import HealthPlans from '../components/HealthPlans';
 import WhyChooseUs from '../components/WhyChooseUs';
 import Faqs from '../components/Faqs';
 import { Link } from 'react-router-dom';
-//import PolicyTiles from '../components/PolicyTiles';
-//import Footer from '../components/Footer';
 import './Home.css';
 import ServiceHighlights from '../components/ServiceHighlights';
 import HowItWorks from '../components/HowItWorks';
@@ -36,7 +34,7 @@ export default function Home() {
 
           <WhyChoose />
       <ServiceHighlights />
-            <Faqs />
+           {/* <Faqs /> */}
       
     </div>
   );

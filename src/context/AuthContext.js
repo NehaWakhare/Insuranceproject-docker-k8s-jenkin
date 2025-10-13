@@ -1,4 +1,4 @@
-// src/context/AuthContext.js
+
 import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const loginUser = (data) => {
-    // Build a clean user object
+    
     const userData = {
       userId: data.userId,
       userName: data.userName,
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       token: data.token,
     };
 
-    // Save in localStorage and state
+    
     localStorage.setItem("authData", JSON.stringify(userData));
 
     sessionStorage.setItem("userProfileId", data.userId);

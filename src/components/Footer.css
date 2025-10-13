@@ -3,7 +3,7 @@
   background-color: #003b6f; 
   color: #fff;
   margin-top: 60px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .pb-footer-top {
@@ -12,7 +12,7 @@
   justify-content: center;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
   border-bottom: 1px solid #005288;
 }
 

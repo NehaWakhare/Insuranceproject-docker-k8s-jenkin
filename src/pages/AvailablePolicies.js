@@ -31,7 +31,7 @@ export default function AvailablePolicies() {
     const authData = JSON.parse(localStorage.getItem("authData"));
     if (!authData || !authData.token) {
       alert("Please login to view policy details.");
-      navigate("/login", { state: { redirectAfterLogin: `/available-policies/${id}` } });
+      navigate("/auth", { state: { redirectAfterLogin: `/available-policies/${id}` } });
       return;
     }
 
@@ -72,7 +72,7 @@ export default function AvailablePolicies() {
     try {
       await axios.post("http://localhost:8089/user-policy/purchase", payload);
       alert("Policy purchased successfully!");
-      navigate("/my-policies");
+      navigate("/dashboard/policies");
     } catch (err) {
       console.error("Error buying policy:", err);
       alert("Failed to buy policy");
@@ -83,6 +83,7 @@ export default function AvailablePolicies() {
 
   return (
     <div className="policy-details-container">
+     
       <h2 className="policy-name">{policy.policyName}</h2>
       <div className="image-container">
         <img

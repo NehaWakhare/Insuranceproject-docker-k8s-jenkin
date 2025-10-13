@@ -12,75 +12,50 @@ import defaultImg from '../assets/default.png';
 export default function HealthPlans() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authData = JSON.parse(localStorage.getItem("authData"));
-    if (!authData || !authData.token) {
-      alert("Please login.");
-      navigate("/auth", { state: { redirectAfterLogin: "/available-policies" } });
-      return;
+    axios.get('http://localhost:8089/admin/policy-plans/all')  
+      .then((res) => setPlans(res.data))
+      .catch((err) => console.error("Error fetching health plans:", err));
+  }, []);
+
+  const handleViewPlan = (policyId) => {
+    const userId = sessionStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login to view policies.");
+      navigate("/auth", { state: { redirectAfterLogin: `/available-policies/${policyId}` } });
+    } else {
+      navigate(`/available-policies/${policyId}`);
     }
-
-    const token = authData.token;
-
-    axios.get("http://localhost:8089/admin/policy-plans/all", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then((res) => {
-      setPlans(res.data);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.error("Error fetching health plans:", err);
-      setLoading(false);
-      if (err.response?.status === 401) {
-        alert("Session expired. Please login again.");
-        navigate("/auth");
-      }
-    });
-  }, [navigate]);
-
-  const handleViewPlan = (plan) => {
-    const planId = plan.id || plan.planId || plan.policyId;
-    if (!planId) {
-      alert("Policy ID not found!");
-      return;
-    }
-    navigate(`/available-policies/${planId}`);
   };
 
-  const getPlanImage = (policyType = "") => {
-    const key = policyType.toLowerCase();
+  const getPlanImage = (name = "") => {
+    const key = name.toLowerCase();
     if (key.includes("family")) return familyImg;
     if (key.includes("senior")) return seniorImg;
-    if (key.includes("child")) return criticalImg;
+    if (key.includes("critical")) return criticalImg;
     if (key.includes("individual")) return individualImg;
     return defaultImg; 
   };
-
-  if (loading) return <p>Loading health plans...</p>;
 
   return (
     <section className="insurance-categories">
       <h2>Explore Our Health Insurance Plans</h2>
       <div className="categories-grid">
         {plans.map((plan) => (
-          <div key={plan.id} className="category-tile">
+          <div key={plan.policyId} className="category-tile">
             <img
-              src={getPlanImage(plan.policyType)}
-              alt={plan.policyName}
+              src={getPlanImage(plan.planName)}
+              alt={plan.planName}
               className="category-img"
             />
-            <h3>{plan.policyName}</h3>
-            <div className="btn-container">
-              <button
-                className="category-link"
-                onClick={() => handleViewPlan(plan)}
-              >
-                View Plan
-              </button>
-            </div>
+            <h3>{plan.planName}</h3>
+            <button
+              className="category-link"
+              onClick={() => handleViewPlan(plan.policyId)}
+            >
+              View Plan
+            </button>
           </div>
         ))}
       </div>

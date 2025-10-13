@@ -46,7 +46,7 @@ export default function MyPolicies() {
         const allPlans = plansRes.data;
         setPlans(allPlans);
 
-        // Merge purchased policies with plan info
+        
         const merged = purchasedPolicies.map(up => {
           const plan = allPlans.find(p => p.id === up.policyId);
           return { ...up, plan };

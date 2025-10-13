@@ -41,7 +41,8 @@ export default function AuthPage() {
     e.preventDefault();
     try {
       await login(formData.email, formData.password);
-      setMessage("OTP sent to your email.");
+      alert("OTP sent to your email");
+     // setMessage("OTP sent to your email.");
       setStep(2);
     } catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
@@ -68,12 +69,16 @@ export default function AuthPage() {
       navigate("/"); 
     } catch (err) {
       setMessage(err.response?.data?.message || "Invalid OTP");
+      alert("Invalid OTP");
     }
   };
 
   return (
     <div className="auth-page">
       <div className="auth-form">
+         <div className="close-button" onClick={() => navigate('/')}>
+      &times;
+    </div>
         <h2>{isLogin ? (step === 1 ? "Login" : "Verify OTP") : "Register"}</h2>
 
         {isLogin && step === 1 && (

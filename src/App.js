@@ -40,6 +40,7 @@ function App() {
     "/admin/login",
     "/superadmin/login",
     "/superadmin/dashboard",
+    "/dashboard"
   ];
 
   const shouldHideNavbar = hideNavbarRoutes.some(route =>
@@ -55,7 +56,7 @@ function App() {
       {!shouldHideNavbar && <div className="navbar-spacer" />}
 
       <Routes>
-        {/* 🔹 Public Routes */}
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/support" element={<Support />} />
