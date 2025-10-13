@@ -32,11 +32,14 @@ function App() {
     "/auth",
     "/superadmin/login",
     "/superadmin/dashboard",
+    "/admin/login",
+    "/admin/dashboard",
+    "/Admin/AdminRegister"
   ];
 
   const hideFooterRoutes = [
     "/admin/dashboard",
-    "/admin/register",
+    "/Admin/AdminRegister",
     "/admin/login",
     "/superadmin/login",
     "/superadmin/dashboard",

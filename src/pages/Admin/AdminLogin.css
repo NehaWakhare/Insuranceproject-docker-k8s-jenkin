@@ -1,36 +1,48 @@
 .auth-page2 {
-  background-image: url('../../assets/AdminLogin.png'); 
-  background-size: cover;
-  background-position: center;
+  background-image: url('../../assets//AdminRegister.png'); 
+  background-size: 100%;        /* smaller image */
+  background-position: right top;  /* top right corner */
   background-repeat: no-repeat;
+  background-color: #f5f7fa;  /* light background for contrast */
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .auth-form2 {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 40px;
-  border-radius: 12px;
-  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 35px;
+  border-radius: 16px;
+  max-width: 380px;
   width: 100%;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   text-align: center;
+  animation: fadeIn 0.6s ease;
 }
 
 .auth-form2 h2 {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   font-size: 28px;
-  color: #333;
+  color: #1565c0;
+  font-weight: 600;
 }
 
 .auth-form2 input {
   width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 16px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.auth-form2 input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.4);
 }
 
 .auth-form2 button {
@@ -39,16 +51,36 @@
   background-color: #1976d2;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .auth-form2 button:hover {
-  background-color: #115293;
+  background-color: #0d47a1;
+  transform: translateY(-2px);
 }
 
 .auth-message2 {
-  margin-top: 12px;
-  color: #1976d2;
+  margin-top: 14px;
+  color: #1565c0;
+  font-weight: 500;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-form2 {
+    padding: 30px 20px;
+  }
+  .auth-page2 {
+    background-size: 60%;
+    background-position: top right;
+  }
 }

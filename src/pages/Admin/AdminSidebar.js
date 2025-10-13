@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Users, FileText, UserCircle } from "lucide-react";
+import logo from "../../assets/logo.png"; // ✅ Import your logo
 
 export default function AdminSidebar() {
   const menuItems = [
@@ -13,7 +14,11 @@ export default function AdminSidebar() {
 
   return (
     <div style={styles.sidebar}>
-      <h2 style={styles.logo}>Admin Panel</h2>
+      {/* ✅ Logo instead of heading */}
+      <div style={styles.logoContainer}>
+        <img src={logo} alt="Admin Logo" style={styles.logo} />
+      </div>
+
       <nav style={styles.nav}>
         {menuItems.map((item, index) => (
           <NavLink
@@ -24,7 +29,7 @@ export default function AdminSidebar() {
               background: isActive
                 ? "linear-gradient(135deg, rgba(63, 117, 243, 1), rgba(64, 41, 235, 1))"
                 : "#fff",
-              color: isActive ? "#fff" : "#0f485a",
+              color: isActive ? "#fff" : "#000000ff",
               boxShadow: isActive
                 ? "0 4px 12px rgba(0,0,0,0.15)"
                 : "0 2px 6px rgba(0,0,0,0.05)",
@@ -53,13 +58,22 @@ const styles = {
     boxShadow: "2px 0 15px rgba(0,0,0,0.08)",
     zIndex: 100,
   },
-  logo: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: "35px",
-    color: "rgba(61, 95, 217, 1)",
+
+  // ✅ New logo container
+  logoContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "30px",
   },
+
+  // ✅ Logo style
+  logo: {
+    width: "140px",
+    height: "auto",
+    borderRadius: "10px",
+  },
+
   nav: {
     display: "flex",
     flexDirection: "column",

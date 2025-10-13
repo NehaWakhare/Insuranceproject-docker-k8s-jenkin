@@ -30,36 +30,34 @@ export default function AdminDashboard() {
   };
 
   const cards = [
-    { title: "Total Policies", value: stats.totalPolicies, color: "#3498db" },
-    { title: "Active Users", value: stats.activeUsers, color: "#2ecc71" },
-    { title: "Pending Claims", value: stats.pendingClaims, color: "#e67e22" },
-    { title: "Approved Claims", value: stats.approvedClaims, color: "#9b59b6" },
+    { title: "Total Policies", value: stats.totalPolicies, color: "#42a5f5" },
+    { title: "Active Users", value: stats.activeUsers, color: "#42a5f5" },
+    { title: "Pending Claims", value: stats.pendingClaims, color: "#42a5f5" },
+    { title: "Approved Claims", value: stats.approvedClaims, color: "#42a5f5" },
   ];
 
   return (
     <div>
-      {/* Sidebar (fixed) */}
       <AdminSidebar />
-
-      {/* Main Content */}
       <div style={styles.main}>
         <AdminNavbar />
-
         <div style={styles.content}>
           <Routes>
             <Route
               path="/"
               element={
                 <div>
-                  <h1>Welcome, Admin!</h1>
                   <div style={styles.cardGrid}>
                     {cards.map((card) => (
                       <div
                         key={card.title}
-                        style={{ ...styles.card, borderTop: `7px solid ${card.color}` }}
+                        style={{
+                          ...styles.card,
+                          borderTop: `6px solid ${card.color}`,
+                        }}
                       >
-                        <h3>{card.title}</h3>
-                        <p>{card.value}</p>
+                        <h3 style={styles.cardTitle}>{card.title}</h3>
+                        <p style={styles.cardValue}>{card.value}</p>
                       </div>
                     ))}
                   </div>
@@ -79,27 +77,49 @@ export default function AdminDashboard() {
 
 const styles = {
   main: {
-    marginLeft: "240px", 
+    marginLeft: "240px",
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh",
+    height: "100vh", 
+    background: "linear-gradient(180deg, rgba(247, 247, 247, 1) 0%, rgba(247, 247, 247, 1) 0%",
   },
   content: {
-    padding: "20px",
-    backgroundColor: "#f4f6f8",
-    minHeight: "calc(100vh - 60px)",
+    padding: "30px",
+    flexGrow: 1,
+    overflowY: "auto", // enable scrolling
+  },
+
+
+
+
+  heading: {
+    color: "#0d47a1",
+    fontSize: "26px",
+    marginBottom: "20px",
+    textAlign: "center",
+    letterSpacing: "0.5px",
   },
   cardGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "20px",
-    marginTop: "20px",
+    gap: "25px",
   },
   card: {
-    backgroundColor: "#fff",
-    padding: "40px",
-    borderRadius: "20px",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    backgroundColor: "#ffffff",
+    padding: "30px 20px",
+    borderRadius: "14px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  },
+  cardTitle: {
+    fontSize: "18px",
+    color: "#000000ff",
+    marginBottom: "10px",
+  },
+  cardValue: {
+    fontSize: "26px",
+    fontWeight: "bold",
+    color: "#000000ff",
   },
 };

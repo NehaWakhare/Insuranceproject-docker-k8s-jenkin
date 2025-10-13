@@ -13,15 +13,11 @@ export default function AdminNavbar() {
 
   return (
     <div style={styles.navbar}>
-      <div style={styles.left}>
-        <h1 style={styles.logo}>Admin Dashboard</h1>
-      </div>
+      <h1 style={styles.logo}>Admin Dashboard</h1>
       <div style={styles.right}>
         <UserCircle size={28} style={styles.icon} />
         <button
           style={styles.logoutBtn}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#d90606ff")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#f59e0b")}
           onClick={handleLogout}
         >
           <LogOut size={18} style={{ marginRight: "6px" }} />
@@ -36,25 +32,28 @@ const styles = {
   navbar: {
     width: "100%",
     height: "60px",
-    background: "linear-gradient(90deg, #9333ea, #ec4899)", // purple → pink
+    background: "linear-gradient(90deg, #1565c0, #1565c0)",
     color: "#fff",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "0 20px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+    padding: "0 25px",
     position: "sticky",
     top: 0,
     zIndex: 100,
+    boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
   },
-  left: { display: "flex", alignItems: "center" },
-  logo: { fontSize: "20px", fontWeight: "bold", letterSpacing: "0.5px" },
+  logo: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    letterSpacing: "0.5px",
+  },
   right: { display: "flex", alignItems: "center", gap: "15px" },
   icon: { cursor: "pointer", color: "#fff" },
   logoutBtn: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#f59e0b", 
+    backgroundColor: "rgba(229, 30, 30, 1)",
     color: "#fff",
     border: "none",
     padding: "8px 14px",

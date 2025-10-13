@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getPlansByAdmin } from "../AdminAPI/AdminPolicyPlanAPI.js";
+import { getPlansByAdmin, deletePolicyPlan } from "../AdminAPI/AdminPolicyPlanAPI.js";
 import "../Admin/AdminPolicy.css";
 
 export default function AdminViewPolicy() {
   const [plans, setPlans] = useState([]);
-  const adminId = sessionStorage.getItem("adminId"); // auto from session
+  const adminId = sessionStorage.getItem("adminId");
 
   const fetchPlans = async () => {
-    if (!adminId) return;
     try {
       const res = await getPlansByAdmin(adminId);
       setPlans(res.data);
@@ -17,9 +16,25 @@ export default function AdminViewPolicy() {
     }
   };
 
+const handleDelete = async (planId) => {
+  if (window.confirm("Are you sure you want to delete this policy?")) {
+    try {
+      await deletePolicyPlan(adminId, planId);
+      fetchPlans(); 
+    } catch (err) {
+      console.error("Error deleting:", err);
+      alert("❌ Failed to delete policy");
+    }
+  }
+};
+
+  const handleEdit = (plan) => {
+    sessionStorage.setItem("editPolicy", JSON.stringify(plan));
+    window.location.href = "/admin/dashboard/add-policy"; // or use navigate("/admin/edit-policy")
+  };
+
   useEffect(() => {
-    fetchPlans(); // initial fetch
-    // 🔹 Listen for add-policy event
+    fetchPlans();
     window.addEventListener("policyAdded", fetchPlans);
     return () => window.removeEventListener("policyAdded", fetchPlans);
   }, [adminId]);
@@ -33,10 +48,12 @@ export default function AdminViewPolicy() {
             <tr>
               <th>ID</th>
               <th>Policy Name</th>
-              <th>Policy Type</th>
+              <th>Type</th>
               <th>Coverage</th>
               <th>Premium</th>
-              <th>Duration (Years)</th>
+              <th>Duration</th>
+              <th>Image</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -48,6 +65,25 @@ export default function AdminViewPolicy() {
                 <td>₹ {plan.coverage}</td>
                 <td>₹ {plan.premium}</td>
                 <td>{plan.durationInYears}</td>
+                <td>
+                  {plan.imageUrl ? (
+                    <a
+                      href={`http://localhost:8089/admin/policy-plans/view-image/${plan.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View
+                    </a>
+                  ) : (
+                    "No Image"
+                  )}
+                </td>
+               <td>
+                <div className="action-btns">
+                 <button className="edit-btn" onClick={() => handleEdit(plan)}>✏️ Edit</button>
+                  <button className="delete-btn" onClick={() => handleDelete(plan.id)}>🗑️ Delete</button>
+                   </div>
+               </td>
               </tr>
             ))}
           </tbody>

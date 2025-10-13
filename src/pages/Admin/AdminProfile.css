@@ -1,22 +1,68 @@
 .form-container {
-  width: 95%;          /* almost full width */
-  max-width: 1200px;   /* optional upper limit */
+  width: 75%;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0px 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .form-container h2 {
   text-align: center;
-  color: #2c3e50;
+  color: #1565c0;
   margin-bottom: 25px;
 }
 
+/* Table styling for view mode */
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.profile-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-table .field-name {
+  font-weight: 600;
+  color: #333;
+  width: 40%;
+  text-transform: capitalize;
+}
+
+.profile-table .field-value {
+  color: #555;
+}
+
+/* Button styling */
+.profile-actions {
+  text-align: right;
+}
+
+.edit-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.blue-btn {
+  background-color: #1565c0;
+  color: #fff;
+}
+
+.blue-btn:hover {
+  background-color: #0d47a1;
+}
+
+/* Form styling for create/edit */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -28,7 +74,8 @@
 .form-group label {
   font-weight: 600;
   margin-bottom: 6px;
-  color: #34495e;
+  color: #000000;
+  text-transform: capitalize;
 }
 
 .form-group input,
@@ -47,7 +94,7 @@
 }
 
 .form-group.full-width {
-  grid-column: span 2;  /* will span 2 columns for full width elements */
+  grid-column: span 2;
 }
 
 .error {

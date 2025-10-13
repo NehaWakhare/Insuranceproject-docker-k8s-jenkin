@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../../pages/Admin/AdminProfile.css";
-import { saveAdminProfile, getAdminProfile, updateAdminProfile } from "../AdminAPI/AdminProfileAPI";
- 
+import {
+  saveAdminProfile,
+  getAdminProfile,
+  updateAdminProfile,
+} from "../AdminAPI/AdminProfileAPI";
+
 export default function AdminProfileForm() {
   const [mode, setMode] = useState("loading"); // "loading", "create", "view", "edit"
   const [profileId, setProfileId] = useState(null);
- 
- 
   const adminId = sessionStorage.getItem("adminId");
   const profileKey = `profileId_${adminId}`;
- 
-  // Formik setup
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -25,6 +26,8 @@ export default function AdminProfileForm() {
       panNumber: "",
       gstNumber: "",
       headOfficeAddress: "",
+      correspondenceAddress: "",
+      permanentAddress: "",
       city: "",
       state: "",
       country: "",
@@ -41,6 +44,8 @@ export default function AdminProfileForm() {
       panNumber: Yup.string().required("PAN number is required"),
       gstNumber: Yup.string().required("GST number is required"),
       headOfficeAddress: Yup.string().required("Head Office Address is required"),
+      correspondenceAddress: Yup.string().required("Correspondence Address is required"),
+      permanentAddress: Yup.string().required("Permanent Address is required"),
       city: Yup.string().required("City is required"),
       state: Yup.string().required("State is required"),
       country: Yup.string().required("Country is required"),
@@ -51,47 +56,42 @@ export default function AdminProfileForm() {
         alert("Admin not logged in!");
         return;
       }
- 
+
       const payload = { ...values, admin: { id: parseInt(adminId, 10) } };
- 
+
       try {
         if (mode === "edit" && profileId) {
-          // Update existing profile
           await updateAdminProfile(profileId, payload);
           alert("Profile Updated Successfully!");
         } else {
-          // Create new profile
           const res = await saveAdminProfile(payload);
           if (res.id) {
-            // Track profile ID per admin in sessionStorage
             sessionStorage.setItem(profileKey, res.id);
             setProfileId(res.id);
           }
           alert("Profile Created Successfully!");
         }
-        fetchProfile(); // refresh profile data
+        fetchProfile();
       } catch (err) {
         console.error("Error saving profile:", err);
         alert("Failed to save profile.");
       }
     },
   });
- 
-  // Fetch profile for current admin
+
+  // Fetch Profile
   const fetchProfile = async () => {
     if (!adminId) {
       setMode("create");
       return;
     }
- 
-    // Check sessionStorage for profileId first
+
     let storedProfileId = sessionStorage.getItem(profileKey);
- 
     if (!storedProfileId) {
       setMode("create");
       return;
     }
- 
+
     try {
       const data = await getAdminProfile(storedProfileId);
       if (data) {
@@ -107,6 +107,8 @@ export default function AdminProfileForm() {
           panNumber: data.panNumber || "",
           gstNumber: data.gstNumber || "",
           headOfficeAddress: data.headOfficeAddress || "",
+          correspondenceAddress: data.correspondenceAddress || "",
+          permanentAddress: data.permanentAddress || "",
           city: data.city || "",
           state: data.state || "",
           country: data.country || "",
@@ -121,46 +123,53 @@ export default function AdminProfileForm() {
       setMode("create");
     }
   };
- 
+
   useEffect(() => {
     fetchProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminId]);
- 
-  // Loading state
+
+  // Loading State
   if (mode === "loading") return <p>Loading...</p>;
- 
-  // View mode
+
+  // View Mode - TABLE FORMAT
   if (mode === "view") {
     const values = formik.values;
     return (
       <div className="form-container">
         <h2>Admin Profile</h2>
-        <div className="profile-view">
-          {Object.keys(formik.initialValues).map((field) => (
-            <div key={field} className="profile-row">
-              <strong>{field.replace(/([A-Z])/g, " $1")}:</strong>{" "}
-              <span>{values[field]}</span>
-            </div>
-          ))}
-          <div className="profile-actions">
-            <button onClick={() => setMode("edit")} className="edit-btn">
-              Edit Profile
-            </button>
-          </div>
+        <table className="profile-table">
+          <tbody>
+            {Object.keys(formik.initialValues).map((field) => (
+              <tr key={field}>
+                <td className="field-name">
+                  {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
+                </td>
+                <td className="field-value">{values[field]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="profile-actions">
+          <button onClick={() => setMode("edit")} className="edit-btn blue-btn">
+            Edit Profile
+          </button>
         </div>
       </div>
     );
   }
- 
-  // Create/Edit form
+
+  // Create/Edit Form
   return (
     <div className="form-container">
       <h2>{mode === "edit" ? "Edit Admin Profile" : "Create Admin Profile"}</h2>
       <form onSubmit={formik.handleSubmit} className="form-grid">
         {Object.keys(formik.initialValues).map((field) => (
           <div key={field} className="form-group">
-            <label>{field.replace(/([A-Z])/g, " $1")}</label>
+            <label>
+              {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}
+            </label>
             <input
               type={
                 field === "password"
