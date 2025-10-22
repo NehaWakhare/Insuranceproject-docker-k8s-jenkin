@@ -132,22 +132,42 @@ export default function SuperAdminDashboard() {
     </div>
   );
 }
-
 const styles = {
-  layout: { display: "flex", minHeight: "100vh" },
-  main: { flex: 1, display: "flex", flexDirection: "column" },
-  content: { flex: 1, padding: "20px", background: "#f4f6f8" },
+  layout: {
+    display: "flex",
+    minHeight: "100vh",
+    backgroundColor: "#f4f6f8",
+  },
+
+  // main area beside sidebar
+  main: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  // navbar + page content area
+  content: {
+    flex: 1,
+    padding: "20px",
+    background: "#f4f6f8",
+    overflowX: "auto",  // enables horizontal scroll for wide tables
+    overflowY: "auto",
+  },
+
+  // dashboard cards grid
   cardGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
     gap: "20px",
     marginTop: "20px",
   },
+
   card: {
     background: "#fff",
     padding: "20px",
     borderRadius: "10px",
-    boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
     textAlign: "center",
     cursor: "pointer",
     transition: "transform 0.2s ease, box-shadow 0.2s ease",

@@ -13,24 +13,6 @@ export default function AdminAddPolicy() {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  
-  useEffect(() => {
-    const storedPolicy = sessionStorage.getItem("editPolicy");
-    if (storedPolicy) {
-      const policy = JSON.parse(storedPolicy);
-      formik.setValues({
-        policyName: policy.policyName || "",
-        policyType: policy.policyType || "",
-        coverage: policy.coverage || "",
-        premium: policy.premium || "",
-        durationInYears: policy.durationInYears || "",
-      });
-      setEditId(policy.id);
-      setEditMode(true);
-      sessionStorage.removeItem("editPolicy");
-    }
-  }, []);
-
   const formik = useFormik({
     initialValues: {
       policyName: "",
@@ -53,11 +35,9 @@ export default function AdminAddPolicy() {
         if (file) formData.append("image", file);
 
         if (editMode) {
-          
           await updatePolicyPlan(adminId, editId, formData);
           alert("Policy Updated Successfully!");
         } else {
-          
           await createPolicyPlan(adminId, formData);
           alert("Policy Added Successfully!");
         }
@@ -67,10 +47,7 @@ export default function AdminAddPolicy() {
         setEditMode(false);
         setEditId(null);
 
-        // Notify other components (like view page)
         window.dispatchEvent(new Event("policyAdded"));
-
-        // Redirect to view page after update
         window.location.href = "/admin/dashboard/view-policies";
       } catch (err) {
         console.error("Error:", err);
@@ -78,6 +55,24 @@ export default function AdminAddPolicy() {
       }
     },
   });
+
+  useEffect(() => {
+    const storedPolicy = sessionStorage.getItem("editPolicy");
+    if (storedPolicy) {
+      const policy = JSON.parse(storedPolicy);
+      formik.setValues((prev) => ({
+        ...prev,
+        policyName: policy.policyName || "",
+        policyType: policy.policyType || "",
+        coverage: policy.coverage || "",
+        premium: policy.premium || "",
+        durationInYears: policy.durationInYears || "",
+      }));
+      setEditId(policy.id);
+      setEditMode(true);
+      sessionStorage.removeItem("editPolicy");
+    }
+  }, [formik]);
 
   return (
     <div className="form-container">
@@ -99,14 +94,9 @@ export default function AdminAddPolicy() {
           </div>
         ))}
 
-        {/* Image Upload */}
         <div className="form-group">
           <label>Policy Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
         </div>
 
         <div className="form-group full-width">
