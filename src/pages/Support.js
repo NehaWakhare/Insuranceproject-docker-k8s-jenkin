@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Support.css";
+import Footer from "../components/Footer";
 
 export default function Support() {
   return (
+     <div className="page-with-footer">
     <div className="support-page">
       <h2>24×7 Customer Support</h2>
       <p>Call us at: <strong>1800-123-4567</strong></p>
@@ -17,6 +19,10 @@ export default function Support() {
           <button className="register-btn">Register as Agent</button>
         </Link>
       </div>
+    </div>
+
+     {/* Footer always stays at the bottom */}
+      <Footer />
     </div>
   );
 }

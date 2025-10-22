@@ -35,16 +35,15 @@ body {
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .logo {
   height: 60px;
+  margin-top: 28px;
   max-width: 150px;
   width: auto;
 }
-
-
 
 /* Navigation links */
 .nav-links {

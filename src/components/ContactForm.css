@@ -1,77 +1,167 @@
-
-.contact-form-page {
+/* Overlay background */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  position: relative; 
+  overflow-y: auto;
+  z-index: 1000;
 }
 
+/* Form container */
+.contact-form-page {
+  background: #fff;
+  width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1001;
+}
 
+/* Close button */
 .close-button {
   position: absolute;
   top: 10px;
-  right: 10px;
-  font-size: 28px;
-  font-weight: bold;
+  right: 18px;
+  font-size: 22px;
   cursor: pointer;
-  color: #333;
-  z-index: 10;
+  color: #555;
   transition: color 0.2s ease;
 }
 
 .close-button:hover {
-  color: #0077cc;
+  color: #000;
 }
 
+/* Form layout */
 .contact-form {
-  position: relative; 
   display: flex;
   flex-direction: column;
-  gap: 12px; 
-  width: 90%;
-  max-width: 500px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  gap: 12px;
 }
 
-
-
-.contact-form input,
-.contact-form textarea {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 15px;
+.contact-form h2 {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 20px;
+  color: #003366;
 }
 
-.contact-form button {
-  background-color: #0077cc;
-  color: #fff;
-  padding: 11px;
-  border: none;
-  border-radius: 8px;
+label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #333;
+  display: block;
+  margin-top: 6px;
+}
+
+/* Input with icon */
+.input-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .icon {
+  margin-right: 8px;
+  color: #003366;
   font-size: 16px;
+}
+
+/* Inputs, selects, textarea */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  height: 45px;
+}
+
+/* Mobile input with +91 */
+.mobile-input {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-input span {
+  padding: 10px;
+  background: #eee;
+  border-radius: 6px 0 0 6px;
+  border: 1px solid #ccc;
+}
+
+.mobile-input input {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+  flex: 1;
+}
+
+/* Checkbox styling */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 8px 0;
+  padding: 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin: 0;
+  transform: scale(0.9);
+  accent-color: #003366;
+}
+
+.checkbox-container label {
+  margin: 0;
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
   cursor: pointer;
 }
 
-.contact-form button:hover {
-  background-color: #005fa3;
+/* Submit button */
+button {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 9px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.response-message {
-  margin-top: 15px;
-  color: rgb(2, 1, 11);
-  font-weight: 600;
-  text-align: center;
+button:hover {
+  background: #0056b3;
 }
-.contact-form select {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 15px;
+
+/* Response and error messages */
+.response-message {
+  text-align: center;
+  color: green;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
 }

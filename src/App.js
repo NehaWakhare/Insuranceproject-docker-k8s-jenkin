@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
 import Home from "./pages/Home";
 import AuthPage from "./pages/User/auth/AuthPage";
 import Support from "./pages/Support";
@@ -42,21 +40,14 @@ function App() {
     "/dashboard"
   ];
 
-  const hideFooterRoutes = [
-    "/admin/dashboard",
-    "/Admin/AdminRegister",
-    "/admin/login",
-    "/superadmin/login",
-    "/superadmin/dashboard",
-    "/dashboard"
-  ];
+
 
   const shouldHideNavbar = hideNavbarRoutes.some(route =>
     location.pathname.startsWith(route)
   );
-  const shouldHideFooter = hideFooterRoutes.some(route =>
-    location.pathname.startsWith(route)
-  );
+  // const shouldHideFooter = hideFooterRoutes.some(route =>
+  //   location.pathname.startsWith(route)
+  // );
 
   return (
     <>
@@ -133,7 +124,7 @@ function App() {
         />
       </Routes>
 
-      {!shouldHideFooter && <Footer />}
+      
     </>
   );
 }

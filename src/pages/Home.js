@@ -6,9 +6,11 @@ import Faqs from '../components/Faqs';
 import './Home.css';
 import ServiceHighlights from '../components/ServiceHighlights';
 import HowItWorks from '../components/HowItWorks';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
+    <div className="page-with-footer">
     <div className="home-page">
       <IntroBanner />
       <WhyChooseUs />
@@ -18,6 +20,8 @@ export default function Home() {
       <WhyChoose />
       <ServiceHighlights />
       <Faqs />
+    </div>
+    <Footer />
     </div>
   );
 }

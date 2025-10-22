@@ -80,6 +80,17 @@ html {
 .btn-small:hover {
   background-color: #005ea8;
 }
+.page-with-footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ensures footer stays bottom if content short */
+}
+
+.support-page {
+  flex: 1; /* content takes remaining space */
+  text-align: center;
+  padding: 40px 20px;
+}
 
 
 

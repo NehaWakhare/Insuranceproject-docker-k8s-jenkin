@@ -43,3 +43,15 @@
 .register-btn:hover {
   background-color: #0056b3;
 }
+
+.page-with-footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* ensures footer stays bottom if content short */
+}
+
+.support-page {
+  flex: 1; /* content takes remaining space */
+  text-align: center;
+  padding: 40px 20px;
+}
