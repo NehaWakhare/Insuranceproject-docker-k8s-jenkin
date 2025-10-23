@@ -1,7 +1,23 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./ContactForm.css";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Box,
+  Paper,
+  IconButton,
+  Fade,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./ContactForm.css"; // ✅ Import CSS file
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -17,6 +33,7 @@ export default function ContactForm() {
 
   const [sameAddress, setSameAddress] = useState(false);
   const [errors, setErrors] = useState({});
+  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
   const validateField = (name, value) => {
@@ -45,7 +62,8 @@ export default function ContactForm() {
         if (!value.trim()) error = "Correspondence address is required.";
         break;
       case "permanentAddress":
-        if (!value.trim() && !sameAddress) error = "Permanent address is required.";
+        if (!value.trim() && !sameAddress)
+          error = "Permanent address is required.";
         break;
       case "panNumber":
         if (!panRegex.test(value))
@@ -63,8 +81,6 @@ export default function ContactForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    // validate field on change
     setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
@@ -83,15 +99,12 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // validate all fields
     const newErrors = {};
     Object.keys(formData).forEach((field) => {
       newErrors[field] = validateField(field, formData[field]);
     });
     setErrors(newErrors);
-
-    if (Object.values(newErrors).some((e) => e)) return; // stop if any error
+    if (Object.values(newErrors).some((e) => e)) return;
 
     try {
       const response = await axios.post(
@@ -114,128 +127,168 @@ export default function ContactForm() {
     } catch (error) {
       console.error("API Error:", error.response?.data || error.message);
       alert(
-        error.response?.data?.message || "Something went wrong. Please try again."
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
       );
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    setTimeout(() => navigate("/support"), 400);
+  };
+
   return (
-    <div className="overlay">
-      <div className="contact-form-page">
-        <form className="contact-form" onSubmit={handleSubmit}>
-          <div className="close-button" onClick={() => navigate("/support")}>
-            &times;
-          </div>
-          <h2>Register as Agent</h2>
+    <Fade in={open} timeout={600}>
+      <Box className="contactForm-backdrop">
+        <Paper elevation={6} className="contactForm-container">
+          <IconButton onClick={handleClose} className="contactForm-closeBtn">
+            <CloseIcon />
+          </IconButton>
 
-          {/* Full Name */}
-          <label>Full Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          {errors.name && <p className="error-text">{errors.name}</p>}
+          <Typography variant="h5" align="center" className="contactForm-title">
+            Register as Agent
+          </Typography>
 
-          {/* Email */}
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          {errors.email && <p className="error-text">{errors.email}</p>}
-
-          {/* DOB */}
-          <label>Date of Birth</label>
-          <input
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-          />
-          {errors.dob && <p className="error-text">{errors.dob}</p>}
-
-          {/* Mobile */}
-          <label>Mobile Number</label>
-          <div className="mobile-input">
-            <span>+91</span>
-            <input
-              type="text"
-              name="mobileNumber"
-              placeholder="Enter 10-digit number"
-              value={formData.mobileNumber}
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              size="small"
+              label="Full Name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              maxLength="10"
+              margin="dense"
+              error={!!errors.name}
+              helperText={errors.name}
             />
-          </div>
-          {errors.mobileNumber && (
-            <p className="error-text">{errors.mobileNumber}</p>
-          )}
 
-          {/* Correspondence */}
-          <label>Correspondence Address</label>
-          <textarea
-            name="correspondenceAddress"
-            placeholder="Correspondence Address"
-            value={formData.correspondenceAddress}
-            onChange={handleChange}
-          />
-          {errors.correspondenceAddress && (
-            <p className="error-text">{errors.correspondenceAddress}</p>
-          )}
-
-          {/* Checkbox */}
-          <div className="checkbox-container">
-            <input
-              type="checkbox"
-              checked={sameAddress}
-              onChange={handleCheckboxChange}
+            <TextField
+              fullWidth
+              size="small"
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              margin="dense"
+              error={!!errors.email}
+              helperText={errors.email}
             />
-            <label>Same as correspondence address</label>
-          </div>
 
-          {/* Permanent Address */}
-          <label>Permanent Address</label>
-          <textarea
-            name="permanentAddress"
-            placeholder="Permanent Address"
-            value={formData.permanentAddress}
-            onChange={handleChange}
-            disabled={sameAddress}
-          />
-          {errors.permanentAddress && (
-            <p className="error-text">{errors.permanentAddress}</p>
-          )}
+            <TextField
+              fullWidth
+              size="small"
+              label="Date of Birth"
+              type="date"
+              name="dob"
+              value={formData.dob}
+              onChange={handleChange}
+              margin="dense"
+              InputLabelProps={{ shrink: true }}
+              error={!!errors.dob}
+              helperText={errors.dob}
+            />
 
-          {/* PAN */}
-          <label>PAN Number</label>
-          <input
-            type="text"
-            name="panNumber"
-            placeholder="PAN Number"
-            value={formData.panNumber}
-            onChange={handleChange}
-            maxLength="10"
-          />
-          {errors.panNumber && <p className="error-text">{errors.panNumber}</p>}
+            <Box className="contactForm-mobile">
+              <Typography className="contactForm-countryCode">+91</Typography>
+              <TextField
+                fullWidth
+                size="small"
+                label="Mobile Number"
+                name="mobileNumber"
+                value={formData.mobileNumber}
+                onChange={handleChange}
+                margin="dense"
+                error={!!errors.mobileNumber}
+                helperText={errors.mobileNumber}
+              />
+            </Box>
 
-          {/* Role */}
-          <label>Role</label>
-          <select name="role" value={formData.role} onChange={handleChange}>
-            <option value="">Select Role</option>
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-          {errors.role && <p className="error-text">{errors.role}</p>}
+            <TextField
+              fullWidth
+              size="small"
+              label="Correspondence Address"
+              name="correspondenceAddress"
+              value={formData.correspondenceAddress}
+              onChange={handleChange}
+              margin="dense"
+              multiline
+              rows={2}
+              error={!!errors.correspondenceAddress}
+              helperText={errors.correspondenceAddress}
+            />
 
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </div>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={sameAddress}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Same as correspondence address"
+              className="contactForm-checkbox"
+            />
+
+            <TextField
+              fullWidth
+              size="small"
+              label="Permanent Address"
+              name="permanentAddress"
+              value={formData.permanentAddress}
+              onChange={handleChange}
+              margin="dense"
+              multiline
+              rows={2}
+              disabled={sameAddress}
+              error={!!errors.permanentAddress}
+              helperText={errors.permanentAddress}
+            />
+
+            <TextField
+              fullWidth
+              size="small"
+              label="PAN Number"
+              name="panNumber"
+              value={formData.panNumber}
+              onChange={handleChange}
+              margin="dense"
+              inputProps={{ maxLength: 10 }}
+              error={!!errors.panNumber}
+              helperText={errors.panNumber}
+            />
+
+            <FormControl
+              fullWidth
+              size="small"
+              margin="dense"
+              error={!!errors.role}
+            >
+              <InputLabel id="role-label">Select Role</InputLabel>
+              <Select
+                labelId="role-label"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                label="Select Role"
+              >
+                <MenuItem value="">Select Role</MenuItem>
+                <MenuItem value="USER">User</MenuItem>
+                <MenuItem value="ADMIN">Admin</MenuItem>
+              </Select>
+              {errors.role && (
+                <Typography variant="caption" color="error">
+                  {errors.role}
+                </Typography>
+              )}
+            </FormControl>
+
+            <Button type="submit" fullWidth variant="contained" className="contactForm-submit">
+              Submit
+            </Button>
+          </form>
+        </Paper>
+      </Box>
+    </Fade>
   );
 }
