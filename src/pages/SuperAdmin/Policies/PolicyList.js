@@ -20,6 +20,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
+import CONFIG from "../../../config/config";
+
+const API_BASE = CONFIG.BASE_URL;
  
 export default function PolicyList() {
   const [tabValue, setTabValue] = useState(0);
@@ -30,7 +33,7 @@ export default function PolicyList() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
  
-  const API_BASE = "http://localhost:8089";
+ 
  
   // Fetch all admins for dropdown
   const fetchAdmins = async () => {

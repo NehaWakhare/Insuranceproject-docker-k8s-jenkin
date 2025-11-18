@@ -29,6 +29,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
+import CONFIG from "../../../config/config";
+const API_BASE = CONFIG.BASE_URL;
+
 
 export default function DoctorsByHospital() {
   const [hospitals, setHospitals] = useState([]);
@@ -53,7 +56,7 @@ export default function DoctorsByHospital() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const API_BASE = "http://localhost:8089";
+ 
 
   const fetchHospitals = async () => {
     try {

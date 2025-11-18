@@ -1,5 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import { getAuthHeaders } from "../../../api/superAdminApi";
+import CONFIG from "../../../config/config"; // ✅ import config
 import {
   Dialog,
   DialogTitle,
@@ -9,7 +11,6 @@ import {
   Snackbar,
   Alert,
   IconButton,
-  // Backdrop,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,12 +31,11 @@ export default function AdminList() {
     severity: "success",
   });
 
- 
   const fetchAdmins = async () => {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch("http://localhost:8089/api/admin/all", {
+      const res = await fetch(`${CONFIG.BASE_URL}/api/admin/all`, {
         headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error(`Failed to fetch admins: ${res.status}`);
@@ -71,7 +71,6 @@ export default function AdminList() {
     setOpenMenu(openMenu === adminId ? null : adminId);
   };
 
-  // popup profile / policies
   const handleOpenPopup = async (admin, type) => {
     setPopupType(type);
     setSelectedAdmin(admin);
@@ -82,8 +81,8 @@ export default function AdminList() {
     try {
       const url =
         type === "profile"
-          ? `http://localhost:8089/api/admin/${admin.id}`
-          : `http://localhost:8089/admin/${admin.id}/policy-plans`;
+          ? `${CONFIG.BASE_URL}/api/admin/${admin.id}`
+          : `${CONFIG.BASE_URL}/admin/${admin.id}/policy-plans`;
 
       const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error(`Failed to fetch ${type}: ${res.status}`);
@@ -97,12 +96,11 @@ export default function AdminList() {
     }
   };
 
-  //  Delete admin
   const handleDeleteAdmin = async (id) => {
     if (!window.confirm("Are you sure you want to delete this admin?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8089/api/admin/delete/${id}`, {
+      const res = await fetch(`${CONFIG.BASE_URL}/api/admin/delete/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });
@@ -134,7 +132,6 @@ export default function AdminList() {
 
   return (
     <div style={styles.wrapper}>
-      {/* Full-page dim blur overlay */}
       {openPopup && <div style={styles.blurOverlay}></div>}
 
       <div style={styles.container}>
@@ -216,7 +213,6 @@ export default function AdminList() {
         )}
       </div>
 
-      {/*  Popup Dialog */}
       <Dialog
         open={openPopup}
         onClose={() => setOpenPopup(false)}
@@ -246,17 +242,12 @@ export default function AdminList() {
             : `📄 ${selectedAdmin?.username || "Admin"}'s Uploaded Policies`}
           <IconButton
             onClick={() => setOpenPopup(false)}
-            sx={{
-              position: "absolute",
-              right: 12,
-              top: 8,
-              color: "white",
-            }}
+            sx={{ position: "absolute", right: 12, top: 8, color: "white" }}
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        
+
         <DialogContent style={{ backgroundColor: "#f9fafb", padding: "25px 30px" }}>
           {popupLoading ? (
             <div style={{ textAlign: "center", padding: "30px" }}>
@@ -300,7 +291,6 @@ export default function AdminList() {
         </DialogContent>
       </Dialog>
 
-      {/*  Snackbar for alerts */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
@@ -319,6 +309,8 @@ export default function AdminList() {
     </div>
   );
 }
+
+
 
 //  Styles
 const styles = {

@@ -124,7 +124,7 @@ export default function ProfileInfo() {
         } else {
   const created = await saveUserProfileApi(userId, formData, authData.token);
 
-  // ⭐ Save profileId in sessionStorage
+  //  Save profileId in sessionStorage
   if (created?.id) {
     sessionStorage.setItem("userProfileId", created.id);
   }

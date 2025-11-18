@@ -16,6 +16,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import axios from "axios";
+import CONFIG from "../../../config/config";
 
 export default function ActivePolicies() {
   const adminId = sessionStorage.getItem("adminId");
@@ -30,7 +31,7 @@ export default function ActivePolicies() {
   const [editDialog, setEditDialog] = useState(false);
   const [editData, setEditData] = useState({ id: "", nominee: "", relation: "" });
 
-  const BASE_URL = "http://localhost:8089";
+  const BASE_URL = CONFIG.BASE_URL;
 
   // ✅ Fetch all active policies for this admin
   const fetchActivePolicies = async () => {

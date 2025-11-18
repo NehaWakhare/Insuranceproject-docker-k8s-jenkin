@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CONFIG from "../config/config";
 
 import {
   Box,
@@ -21,7 +22,6 @@ export default function HospitalSearch() {
   const [openAppointmentModal, setOpenAppointmentModal] = useState(false);
   const navigate = useNavigate();
 
-
   const [formData, setFormData] = useState({
     doctorId: "",
     userProfileId: "",
@@ -35,10 +35,12 @@ export default function HospitalSearch() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+
   // Fetch hospitals
   useEffect(() => {
     axios
-      .get("http://localhost:8089/hospitals/all")
+      .get(`${BASE_URL}/hospitals/all`)
       .then((res) => setHospitals(res.data))
       .catch((err) => console.error("Failed to fetch hospitals:", err));
   }, []);
@@ -47,7 +49,7 @@ export default function HospitalSearch() {
   const fetchDoctors = async (hospitalId) => {
     try {
       const res = await axios.get(
-        `http://localhost:8089/api/doctors/hospital/${hospitalId}`
+        `${BASE_URL}/api/doctors/hospital/${hospitalId}`
       );
       setDoctors(res.data);
       setOpenDoctorModal(true);
@@ -108,14 +110,14 @@ export default function HospitalSearch() {
     }
 
     try {
-      await axios.post("http://localhost:8089/appointments/book", formData);
+      await axios.post(`${BASE_URL}/appointments/book`, formData);
       setSuccessMsg("Appointment booked successfully!");
       setErrorMsg("");
 
       setTimeout(() => {
         setOpenAppointmentModal(false);
         setSuccessMsg("");
-         navigate("/dashboard/appointments");
+        navigate("/dashboard/appointments");
       }, 1500);
     } catch (error) {
       console.error("Booking error:", error);

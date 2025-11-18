@@ -1,6 +1,7 @@
 import axios from "axios";
+import CONFIG from "../../config/config";
 
-const API_BASE_URL = "http://localhost:8089/api/admin-profiles";
+const API_BASE_URL = `${CONFIG.BASE_URL}/api/admin-profiles`;
 
 // ✅ Create Admin Profile (by admin ID)
 export const saveAdminProfile = async (adminId, data) => {

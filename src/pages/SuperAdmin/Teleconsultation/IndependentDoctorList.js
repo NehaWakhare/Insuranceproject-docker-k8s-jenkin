@@ -18,13 +18,13 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CONFIG from "../../../config/config";
 
 export default function IndependentDoctorList() {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
@@ -37,11 +37,13 @@ export default function IndependentDoctorList() {
     email: "",
   });
 
+  const API_BASE = CONFIG.BASE_URL; 
+
   // Fetch all doctors
   const fetchDoctors = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8089/api/doctors/self");
+      const response = await axios.get(`${API_BASE}/api/doctors/self`);
       if (Array.isArray(response.data)) setDoctors(response.data);
       else setDoctors([]);
     } catch (error) {
@@ -56,14 +58,12 @@ export default function IndependentDoctorList() {
     fetchDoctors();
   }, []);
 
-  // Handle form inputs
   const handleChange = (e) => {
     setErrorMsg("");
     setSuccessMsg("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Open modal to add doctor
   const handleAddModal = () => {
     setEditMode(false);
     setSelectedDoctorId(null);
@@ -77,7 +77,6 @@ export default function IndependentDoctorList() {
     setOpen(true);
   };
 
-  // Open modal to edit doctor
   const handleEditDoctor = (doctor) => {
     setEditMode(true);
     setSelectedDoctorId(doctor.id);
@@ -91,10 +90,8 @@ export default function IndependentDoctorList() {
     setOpen(true);
   };
 
-  // Add or update doctor
   const handleSubmit = async () => {
     const { doctorName, specialization, status, availableTime, email } = formData;
-
     if (!doctorName || !specialization || !status || !availableTime || !email) {
       setErrorMsg("All fields are required.");
       return;
@@ -102,9 +99,8 @@ export default function IndependentDoctorList() {
 
     try {
       if (editMode) {
-        
         const res = await axios.put(
-          `http://localhost:8089/api/doctors/update/self/${selectedDoctorId}`,
+          `${API_BASE}/api/doctors/update/self/${selectedDoctorId}`,
           formData
         );
         setDoctors((prev) =>
@@ -112,24 +108,13 @@ export default function IndependentDoctorList() {
         );
         setSuccessMsg("Doctor updated successfully!");
       } else {
-        // Add doctor
-        const res = await axios.post(
-          "http://localhost:8089/api/doctors/save/self",
-          formData
-        );
+        const res = await axios.post(`${API_BASE}/api/doctors/save/self`, formData);
         setDoctors((prev) => [...prev, res.data]);
         setSuccessMsg("Doctor added successfully!");
       }
 
-      setFormData({
-        doctorName: "",
-        specialization: "",
-        status: "",
-        availableTime: "",
-        email: "",
-      });
+      setFormData({ doctorName: "", specialization: "", status: "", availableTime: "", email: "" });
       setOpen(false);
-
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (error) {
       console.error(error);
@@ -141,7 +126,7 @@ export default function IndependentDoctorList() {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
 
     try {
-      await axios.delete(`http://localhost:8089/api/doctors/${id}`);
+      await axios.delete(`${API_BASE}/api/doctors/${id}`);
       setDoctors((prev) => prev.filter((doc) => doc.id !== id));
       setSuccessMsg("Doctor deleted successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
@@ -153,7 +138,6 @@ export default function IndependentDoctorList() {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* Header */}
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <Typography variant="h5">🧑‍⚕️ Independent Doctor List</Typography>
         <Button variant="contained" onClick={handleAddModal}>
@@ -161,17 +145,8 @@ export default function IndependentDoctorList() {
         </Button>
       </Box>
 
-      {errorMsg && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {errorMsg}
-        </Alert>
-      )}
-
-      {successMsg && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          {successMsg}
-        </Alert>
-      )}
+      {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
+      {successMsg && <Alert severity="success" sx={{ mb: 2 }}>{successMsg}</Alert>}
 
       {loading ? (
         <CircularProgress />
@@ -199,16 +174,10 @@ export default function IndependentDoctorList() {
                     <TableCell>{doc.availableTime}</TableCell>
                     <TableCell>{doc.email}</TableCell>
                     <TableCell>
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleEditDoctor(doc)}
-                      >
+                      <IconButton color="primary" onClick={() => handleEditDoctor(doc)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleDelete(doc.id)}
-                      >
+                      <IconButton color="error" onClick={() => handleDelete(doc.id)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -216,9 +185,7 @@ export default function IndependentDoctorList() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} align="center">
-                    No doctors found.
-                  </TableCell>
+                  <TableCell colSpan={6} align="center">No doctors found.</TableCell>
                 </TableRow>
               )}
             </TableBody>
@@ -226,7 +193,6 @@ export default function IndependentDoctorList() {
         </Paper>
       )}
 
-      {/* Add/Edit Modal */}
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -245,59 +211,15 @@ export default function IndependentDoctorList() {
             {editMode ? "Edit Doctor" : "Add New Doctor"}
           </Typography>
 
-          {errorMsg && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {errorMsg}
-            </Alert>
-          )}
+          {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
 
-          <TextField
-            fullWidth
-            name="doctorName"
-            label="Doctor Name"
-            value={formData.doctorName}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            name="specialization"
-            label="Specialization"
-            value={formData.specialization}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            name="status"
-            label="Status"
-            value={formData.status}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            name="availableTime"
-            label="Available Time"
-            value={formData.availableTime}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            fullWidth
-            name="email"
-            label="Email"
-            value={formData.email}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
+          <TextField fullWidth name="doctorName" label="Doctor Name" value={formData.doctorName} onChange={handleChange} sx={{ mb: 2 }} />
+          <TextField fullWidth name="specialization" label="Specialization" value={formData.specialization} onChange={handleChange} sx={{ mb: 2 }} />
+          <TextField fullWidth name="status" label="Status" value={formData.status} onChange={handleChange} sx={{ mb: 2 }} />
+          <TextField fullWidth name="availableTime" label="Available Time" value={formData.availableTime} onChange={handleChange} sx={{ mb: 2 }} />
+          <TextField fullWidth name="email" label="Email" value={formData.email} onChange={handleChange} sx={{ mb: 2 }} />
 
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleSubmit}
-            sx={{ mt: 1 }}
-          >
+          <Button variant="contained" fullWidth onClick={handleSubmit} sx={{ mt: 1 }}>
             {editMode ? "Update Doctor" : "Add Doctor"}
           </Button>
         </Box>

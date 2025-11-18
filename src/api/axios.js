@@ -1,7 +1,8 @@
 import axios from "axios";
+import CONFIG from "../config/config";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8089",
+  baseURL: CONFIG.BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -17,7 +18,7 @@ axiosInstance.interceptors.request.use(
     if (
       !config.url.includes("/api/v1/save") && // registration
       !config.url.includes("/api/auth/login") && // login
-      !config.url.includes("/api/auth/verify-otp") // otp verify
+      !config.url.includes("/api/auth/verify-otp") // OTP verify
     ) {
       const authData = JSON.parse(sessionStorage.getItem("authData"));
       const token = authData?.token;

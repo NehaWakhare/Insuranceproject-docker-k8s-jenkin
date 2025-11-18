@@ -1,16 +1,19 @@
-import './HealthPlans.css';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import "./HealthPlans.css";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import CONFIG from "../config/config";
 
 export default function HealthPlans() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const BASE_URL = `${CONFIG.BASE_URL}/admin/policy-plans`;
+
   useEffect(() => {
     axios
-      .get('http://localhost:8089/admin/policy-plans/all')
+      .get(`${BASE_URL}/all`)
       .then((res) => setPlans(res.data))
       .catch((err) => console.error("Error fetching health plans:", err))
       .finally(() => setLoading(false));
@@ -31,7 +34,7 @@ export default function HealthPlans() {
 
   const getImageUrl = (plan) => {
     return plan?.imageUrl
-      ? `http://localhost:8089/admin/policy-plans/view-image/${plan.id}`
+      ? `${BASE_URL}/view-image/${plan.id}`
       : null;
   };
 
@@ -51,7 +54,9 @@ export default function HealthPlans() {
                   className="category-img"
                 />
               )}
-              <h3>{index + 1}. {plan.policyName}</h3>
+              <h3>
+                {index + 1}. {plan.policyName}
+              </h3>
               <button
                 className="category-link"
                 onClick={() => handleViewPlan(plan.id)}

@@ -11,6 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 import axios from "axios";
+import CONFIG from "../../../config/config";
 
 export default function PendingPolicies() {
   const adminId = sessionStorage.getItem("adminId");
@@ -22,7 +23,7 @@ export default function PendingPolicies() {
     severity: "success",
   });
 
-  const BASE_URL = "http://localhost:8089";
+  const BASE_URL = CONFIG.BASE_URL;
 
   // ✅ Fetch all pending policies for this admin
   const fetchPendingPolicies = async () => {

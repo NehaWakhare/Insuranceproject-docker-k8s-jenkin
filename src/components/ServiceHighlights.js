@@ -9,11 +9,11 @@ import wellnessImg from '../assets/wellness.png';
 
 export default function ServiceHighlights() {
 
-  const { user } = useContext(AuthContext);   // ✅ this is the logged-in user
+  const { user } = useContext(AuthContext);   //  this is the logged-in user
   const navigate = useNavigate();
 
   const handleProtectedClick = (path) => {
-    if (user && user.userId) {                // ✅ correct login condition
+    if (user && user.userId) {                //  correct login condition
       navigate(path);
     } else {
       alert("Please login first to view details");

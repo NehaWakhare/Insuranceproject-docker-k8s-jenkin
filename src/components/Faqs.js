@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Faqs.css";
+import CONFIG from "../config/config";
 
 export default function FAQs() {
   const [faqs, setFaqs] = useState([]);
@@ -11,7 +12,7 @@ export default function FAQs() {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch("http://localhost:8089/faq/all");
+           const response = await fetch(`${CONFIG.BASE_URL}/faq/all`);
         if (!response.ok) throw new Error("Failed to fetch FAQs");
         const data = await response.json();
         setFaqs(data);

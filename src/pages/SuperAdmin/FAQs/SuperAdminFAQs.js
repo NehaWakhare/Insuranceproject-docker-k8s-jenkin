@@ -9,6 +9,7 @@ import { Edit, Delete } from "@mui/icons-material";
 import axios from "axios";
 import SuperAdminSidebar from "../SuperAdminSidebar";
 import SuperAdminNavbar from "../SuperAdminNavbar";
+import CONFIG from "../../../config/config";
 
 export default function SuperAdminFAQs() {
   const [faqs, setFaqs] = useState([]);
@@ -19,7 +20,7 @@ export default function SuperAdminFAQs() {
   // Fetch all FAQs
   const fetchFAQs = async () => {
     try {
-      const res = await axios.get("http://localhost:8089/faq/all");
+      const res = await axios.get(`${CONFIG.BASE_URL}/faq/all`);
       setFaqs(res.data);
     } catch (error) {
       console.error("Error fetching FAQs:", error);
@@ -32,10 +33,10 @@ export default function SuperAdminFAQs() {
   const handleSave = async () => {
     try {
       if (editId) {
-        await axios.put(`http://localhost:8089/faq/update/${editId}`, faqData);
+        await axios.put(`${CONFIG.BASE_URL}/faq/update/${editId}`, faqData);
         alert("FAQ updated successfully!");
       } else {
-        await axios.post("http://localhost:8089/faq/add", faqData);
+        await axios.post(`${CONFIG.BASE_URL}/faq/add`, faqData);
         alert("FAQ added successfully!");
       }
       setFaqData({ question: "", answer: "" });
@@ -57,7 +58,7 @@ export default function SuperAdminFAQs() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this FAQ?")) {
       try {
-        await axios.delete(`http://localhost:8089/faq/delete/${id}`);
+        await axios.delete(`${CONFIG.BASE_URL}/faq/delete/${id}`);
         alert("FAQ deleted successfully!");
         fetchFAQs();
       } catch (error) {

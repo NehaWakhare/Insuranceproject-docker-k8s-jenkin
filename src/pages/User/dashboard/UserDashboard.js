@@ -6,9 +6,9 @@ import MyAppointments from "./MyAppointments";
 import MyPolicies from "./MyPolicies";
 import MyDocuments from "./MyDocuments";
 import { AuthContext } from "../../../context/AuthContext";
-// import MyClaims from "./MyClaims";
 import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
+import CONFIG from "../../../config/config";
 import "./UserDashboard.css";
 
 export default function UserDashboard() {
@@ -17,6 +17,7 @@ export default function UserDashboard() {
   const [userDetails, setUserDetails] = useState(null);
   const profileRef = useRef(null);
   const navigate = useNavigate();
+  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL
 
   const handleLogout = () => {
     logoutUser();
@@ -27,7 +28,7 @@ export default function UserDashboard() {
     setShowProfile((prev) => !prev);
   };
 
-  // ✅ Fetch logged-in user details (use sessionStorage like Navbar)
+  // Fetch logged-in user details
   useEffect(() => {
     const authData = sessionStorage.getItem("authData");
     if (authData) {
@@ -37,13 +38,9 @@ export default function UserDashboard() {
 
         if (userId) {
           axios
-            .get(`http://localhost:8089/api/v1/${userId}`)
-            .then((res) => {
-              setUserDetails(res.data);
-            })
-            .catch((err) => {
-              console.error("Failed to fetch user details:", err);
-            });
+            .get(`${BASE_URL}/api/v1/${userId}`) // ✅ use BASE_URL
+            .then((res) => setUserDetails(res.data))
+            .catch((err) => console.error("Failed to fetch user details:", err));
         }
       } catch (error) {
         console.error("Invalid authData in sessionStorage:", error);
@@ -53,8 +50,9 @@ export default function UserDashboard() {
 
   return (
     <div className="user-dashboard-container">
-       <div className="user-dashboard-sidebar">
-      <UserSidebar /></div>
+      <div className="user-dashboard-sidebar">
+        <UserSidebar />
+      </div>
       <div className="user-dashboard-main">
         <div className="dashboard-header">
           <h1 className="dashboard-heading">User Dashboard</h1>
@@ -64,9 +62,7 @@ export default function UserDashboard() {
             <FaUserCircle className="user-icon" onClick={toggleProfile} />
             {showProfile && (
               <div className="profile-dropdown">
-                <p className="user-email">
-                  {userDetails?.email || "user@mail.com"}
-                </p>
+                <p className="user-email">{userDetails?.email || "user@mail.com"}</p>
                 <hr />
                 <span className="dropdown-logout" onClick={handleLogout}>
                   Logout

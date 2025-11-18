@@ -22,13 +22,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 
+import CONFIG from "../../../config/config"; // ✅ Import config
+
 export default function HospitalList() {
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-
   const [selectedId, setSelectedId] = useState(null);
   const [formData, setFormData] = useState({
     hospitalName: "",
@@ -36,19 +36,21 @@ export default function HospitalList() {
     speciality: "",
     contactNumber: "",
   });
-
   const [msg, setMsg] = useState("");
   const token = localStorage.getItem("token");
+  
+  const API_BASE = CONFIG.BASE_URL; // ✅ Base URL from config
 
   const showMsg = (message) => {
     setMsg(message);
     setTimeout(() => setMsg(""), 3000);
   };
 
-
   const getHospitals = async () => {
     try {
-      const res = await fetch("http://localhost:8089/hospitals/all");
+      const res = await fetch(`${API_BASE}/hospitals/all`, {  // ✅ Use BASE_URL
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       setHospitals(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -62,24 +64,16 @@ export default function HospitalList() {
     getHospitals();
   }, []);
 
-  // ✅ Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleAdd = () => {
     setEditMode(false);
-    setFormData({
-      hospitalName: "",
-      city: "",
-      speciality: "",
-      contactNumber: "",
-    });
+    setFormData({ hospitalName: "", city: "", speciality: "", contactNumber: "" });
     setOpen(true);
   };
 
-  //  Open Edit Modal
   const handleEdit = (hospital) => {
     setEditMode(true);
     setSelectedId(hospital.id);
@@ -96,11 +90,9 @@ export default function HospitalList() {
     if (!window.confirm("Are you sure you want to delete this hospital?")) return;
 
     try {
-      const response = await fetch(`http://localhost:8089/hospitals/delete/${id}`, {
+      const response = await fetch(`${API_BASE}/hospitals/delete/${id}`, { // ✅ BASE_URL
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!response.ok) {
@@ -110,7 +102,7 @@ export default function HospitalList() {
         return;
       }
 
-      showMsg("✅ Hospital deleted successfully"); 
+      showMsg("✅ Hospital deleted successfully");
       setHospitals((prev) => prev.filter((h) => h.id !== id));
     } catch (err) {
       console.error("Error deleting hospital:", err);
@@ -118,20 +110,17 @@ export default function HospitalList() {
     }
   };
 
- 
   const handleSubmit = async () => {
     try {
       if (editMode) {
-        
-        await fetch(`http://localhost:8089/hospitals/update/${selectedId}`, {
+        await fetch(`${API_BASE}/hospitals/update/${selectedId}`, { // ✅ BASE_URL
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         });
         showMsg("✅ Hospital updated successfully");
       } else {
-        
-        await fetch("http://localhost:8089/hospitals/add", {
+        await fetch(`${API_BASE}/hospitals/add`, { // ✅ BASE_URL
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -154,11 +143,7 @@ export default function HospitalList() {
         🏥 Hospital List
       </Typography>
 
-      {msg && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          {msg}
-        </Alert>
-      )}
+      {msg && <Alert severity="success" sx={{ mb: 2 }}>{msg}</Alert>}
 
       <Button
         variant="contained"
@@ -169,7 +154,6 @@ export default function HospitalList() {
         Add Hospital
       </Button>
 
-      {/* TABLE */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -215,11 +199,8 @@ export default function HospitalList() {
         </Table>
       </TableContainer>
 
-      {/* Add / Edit Modal */}
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>
-          {editMode ? "Edit Hospital" : "Add New Hospital"}
-        </DialogTitle>
+        <DialogTitle>{editMode ? "Edit Hospital" : "Add New Hospital"}</DialogTitle>
 
         <DialogContent>
           <TextField

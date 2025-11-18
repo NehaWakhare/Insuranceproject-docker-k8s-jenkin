@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CONFIG from "../../../config/config";
 import "./MyDocuments.css";
 
 export default function MyDocuments() {
@@ -7,12 +8,13 @@ export default function MyDocuments() {
   const [file, setFile] = useState(null);
   const [documentName, setDocumentName] = useState("");
   const userId = JSON.parse(sessionStorage.getItem("authData"))?.userId;
+  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
 
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
         const token = JSON.parse(sessionStorage.getItem("authData"))?.token;
-        const res = await axios.get("http://localhost:8089/api/documents/{documentId}", {
+        const res = await axios.get(`${BASE_URL}/api/documents/{documentId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDocuments(res.data);
@@ -36,11 +38,9 @@ export default function MyDocuments() {
     formData.append("documentName", documentName);
 
     try {
-      const res = await axios.post(
-        "http://localhost:8089/api/documents/upload",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await axios.post(`${BASE_URL}/api/documents/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       alert("Document uploaded successfully!");
       setDocuments((prev) => [...prev, res.data]);
       setFile(null);
@@ -79,7 +79,7 @@ export default function MyDocuments() {
             <li key={doc.documentId}>
               {doc.documentName} ({doc.originalFileName}) — {doc.uploadedAt} &nbsp;
               <a
-                href={`http://localhost:8089/api/documents/view/${doc.documentId}`}
+                href={`${BASE_URL}/api/documents/view/${doc.documentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -87,7 +87,7 @@ export default function MyDocuments() {
               </a>{" "}
               |{" "}
               <a
-                href={`http://localhost:8089/api/documents/download/${doc.documentId}`}
+                href={`${BASE_URL}/api/documents/download/${doc.documentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

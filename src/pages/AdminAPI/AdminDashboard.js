@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8089";
+import CONFIG from "../../config/config";
+const BASE_URL = CONFIG.BASE_URL;
 
 export const getDashboardStats = async () => {
   const users = await axios.get(`${BASE_URL}/api/v1`);

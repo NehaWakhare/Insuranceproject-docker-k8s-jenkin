@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MyPolicies.css';
 import { Link } from 'react-router-dom';
+import CONFIG from "../../../config/config";
+
+const BASE_URL = CONFIG.BASE_URL;
 
 export default function MyPolicies() {
   const [policies, setPolicies] = useState([]);
@@ -24,14 +27,14 @@ export default function MyPolicies() {
 
         // Fetch purchased policies
         const purchasedRes = await axios.get(
-          `http://localhost:8089/user-policy/user/${userId}`,
+          `${BASE_URL}/user-policy/user/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const purchasedPolicies = purchasedRes.data;
 
         // Fetch all policy plans
         const plansRes = await axios.get(
-          'http://localhost:8089/admin/policy-plans/all',
+          `${BASE_URL}/admin/policy-plans/all`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const allPlans = plansRes.data;
@@ -39,7 +42,7 @@ export default function MyPolicies() {
         // Merge purchased policies with plan details
         const merged = purchasedPolicies.map(up => {
           const plan = allPlans.find(p => p.id === up.policyId);
-          return { ...up, plan, showInfo: false }; // track hover state
+          return { ...up, plan, showInfo: false };
         });
 
         setPolicies(merged);
@@ -85,7 +88,11 @@ export default function MyPolicies() {
               onMouseLeave={() => toggleInfo(policy.id)}
             >
               <img
-                src={policy.plan?.imageUrl ? `http://localhost:8089/admin/policy-plans/view-image/${policy.plan.id}` : ''}
+                src={
+                  policy.plan?.imageUrl
+                    ? `${BASE_URL}/admin/policy-plans/view-image/${policy.plan.id}`
+                    : ''
+                }
                 alt={policy.plan?.policyName}
                 className="policy-img"
               />

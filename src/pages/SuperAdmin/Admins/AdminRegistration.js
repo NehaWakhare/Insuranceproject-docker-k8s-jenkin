@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { TextField, Button, Box, Typography, Alert } from "@mui/material";
+import CONFIG from "../../../config/config";
 
 export default function AdminRegistration() {
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ export default function AdminRegistration() {
     if (!validateForm()) return;
   
     try {
-      await axios.post("http://localhost:8089/api/admin/register", formData);
+      await axios.post("${CONFIG.BASE_URL}/api/admin/register", formData);
       setSuccessMsg(
         `🎉 Admin registered successfully! Congratulations! Email sent to ${formData.email}`
       );

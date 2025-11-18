@@ -1,6 +1,9 @@
 import axios from "axios";
+import CONFIG from "../../config/config"; 
 
-const API_URL = "http://localhost:8089/admin";
+const API_URL = `${CONFIG.BASE_URL}/admin`;
+
+
 
 // ✅ CREATE Policy
 export const createPolicyPlan = async (adminId, formData) => {

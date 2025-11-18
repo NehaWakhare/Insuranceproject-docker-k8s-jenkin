@@ -5,6 +5,9 @@ import logo from '../assets/logo.png';
 import { AuthContext } from '../context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
+import CONFIG from '../config/config';
+
+const BASE_URL = CONFIG.BASE_URL;
 
 export default function Navbar() {
   const { user, logoutUser } = useContext(AuthContext);
@@ -37,7 +40,7 @@ export default function Navbar() {
 
         if (userId) {
           axios
-            .get(`http://localhost:8089/api/v1/${userId}`)
+            .get(`${BASE_URL}/api/v1/${userId}`)
             .then((res) => {
               setUserDetails(res.data);
             })

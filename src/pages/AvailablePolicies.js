@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import CONFIG from "../config/config";
 import "./AvailablePolicies.css";
 
 const AvailablePolicies = () => {
@@ -11,8 +12,10 @@ const AvailablePolicies = () => {
   const [nomineeRelation, setNomineeRelation] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+
   useEffect(() => {
-    fetch("http://localhost:8089/admin/policy-plans/all")
+    fetch(`${BASE_URL}/admin/policy-plans/all`) 
       .then((res) => res.json())
       .then((data) => {
         const selected = data.find((p) => p.id.toString() === id);
@@ -38,7 +41,7 @@ const AvailablePolicies = () => {
     const userId = authData?.userId;
 
     if (!userId) {
-      console.error("User ID not found in localStorage!");
+      console.error("User ID not found in sessionStorage!");
       return;
     }
 
@@ -49,7 +52,7 @@ const AvailablePolicies = () => {
       nomineeRelation,
     };
 
-    fetch("http://localhost:8089/user-policy/purchase", {
+    fetch(`${BASE_URL}/user-policy/purchase`, { 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(purchaseData),
@@ -75,14 +78,14 @@ const AvailablePolicies = () => {
   return (
     <div className="available-policies-container">
       {successMessage && <div className="success-banner">{successMessage}</div>}
-   
+
       <div className="policy-detail-card">
         <button className="close-btn" onClick={handleClose}>✖</button>
 
         <div className="policy-detail-content">
           <div className="policy-detail-image">
             <img
-              src={`http://localhost:8089/admin/policy-plans/view-image/${policy.id}`}
+              src={`${BASE_URL}/admin/policy-plans/view-image/${policy.id}`} 
               alt={policy.policyName}
               onError={(e) => (e.target.style.display = "none")}
             />

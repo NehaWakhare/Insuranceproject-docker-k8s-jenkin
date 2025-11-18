@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CONFIG from "../config/config";
+import { useNavigate } from "react-router-dom";
+
 import {
   Box,
   Button,
@@ -10,7 +13,6 @@ import {
   Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
 
 export default function Teleconsultation() {
   const [doctors, setDoctors] = useState([]);
@@ -32,42 +34,40 @@ export default function Teleconsultation() {
     reason: "",
   });
 
-  // ⭐ Fetch teleconsultation doctors
+  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+
+  // Fetch teleconsultation doctors
   useEffect(() => {
     axios
-      .get("http://localhost:8089/api/doctors/self") // <-- Your teleconsult doctor API
+      .get(`${BASE_URL}/api/doctors/self`) 
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error("Error fetching doctors:", err));
   }, []);
 
-  // ⭐ Book appointment
+  // Book appointment
   const handleBook = (doctor) => {
+    const profileId = sessionStorage.getItem("userProfileId");
 
-  // 1️⃣ PROFILE COMPLETION CHECK
-  const profileId = sessionStorage.getItem("userProfileId");
+    if (!profileId) {
+      alert("Please complete your profile before booking an appointment.");
+      return navigate("/dashboard/profile");
+    }
 
-  if (!profileId) {
-    alert("Please complete your profile before booking an appointment.");
-    return navigate("/dashboard/profile");
-  }
+    setSelectedDoctor(doctor);
 
-  // 2️⃣ IF PROFILE EXISTS → allow booking
-  setSelectedDoctor(doctor);
+    setFormData({
+      doctorId: doctor.id,
+      userProfileId: Number(profileId),
+      appointmentDate: "",
+      age: "",
+      gender: "",
+      weight: "",
+      reason: "",
+    });
 
-  setFormData({
-    doctorId: doctor.id,
-    userProfileId: Number(profileId),
-    appointmentDate: "",
-    age: "",
-    gender: "",
-    weight: "",
-    reason: "",
-  });
+    setOpenModal(true);
+  };
 
-  setOpenModal(true);
-};
-
- 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -81,8 +81,7 @@ export default function Teleconsultation() {
     }
 
     try {
-      await axios.post("http://localhost:8089/appointments/book", formData);
-
+      await axios.post(`${BASE_URL}/appointments/book`, formData); 
       setSuccessMsg("Teleconsultation booked successfully!");
       setErrorMsg("");
 
@@ -151,7 +150,7 @@ export default function Teleconsultation() {
         open={openModal}
         onClose={() => setOpenModal(false)}
         BackdropProps={{
-          sx: { backdropFilter: "blur(5px)" }, // ⭐ blur background
+          sx: { backdropFilter: "blur(5px)" },
         }}
       >
         <Box

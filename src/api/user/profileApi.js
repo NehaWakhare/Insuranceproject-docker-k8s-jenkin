@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import CONFIG from "../../config/config";
 
-const BASE_URL = 'http://localhost:8089/api/user-profiles';
+const BASE_URL = `${CONFIG.BASE_URL}/api/user-profiles`;
 
 export const fetchUserProfileApi = async (userId, token) => {
   const res = await axios.get(`${BASE_URL}/by-user/${userId}`, {

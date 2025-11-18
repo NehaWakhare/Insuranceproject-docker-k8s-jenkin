@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { getPlansByAdmin, deletePolicyPlan } from "../AdminAPI/AdminPolicyPlanAPI.js";
 import "../Admin/AdminPolicy.css";
+import CONFIG from "../../config/config.js";
 
 export default function AdminViewPolicy() {
   const [plans, setPlans] = useState([]);
@@ -101,7 +102,7 @@ const handleDelete = async (planId) => {
             {selectedPlan.imageUrl ? (
               <div className="policy-image-preview">
                 <img
-                  src={`http://localhost:8089/admin/policy-plans/view-image/${selectedPlan.id}`}
+                  src={`${CONFIG.BASE_URL}/admin/policy-plans/view-image/${selectedPlan.id}`}
                   alt="Policy"
                 />
               </div>

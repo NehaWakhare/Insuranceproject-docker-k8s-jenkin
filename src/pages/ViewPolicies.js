@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import CONFIG from '../config/config';  // import config
 import './ViewPolicies.css';
+
+const API_BASE_URL = `${CONFIG.BASE_URL}/admin/policy-plans`;  // use const
 
 export default function ViewPolicies() {
   const [policies, setPolicies] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8089/admin/policy-plans')
+    axios.get(API_BASE_URL)  // use API_BASE_URL
       .then(response => {
         console.log('Policy response:', response.data);
         setPolicies(response.data);

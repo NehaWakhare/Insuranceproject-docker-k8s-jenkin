@@ -7,7 +7,9 @@ import { fetchAllAdmins, fetchPendingAdmins } from "../../api/superAdminApi";
 import SuperAdminFAQs from "./FAQs/SuperAdminFAQs";
 import SuperAdminNavbar from "./SuperAdminNavbar";
 import SuperAdminTeleconsultation from "./Teleconsultation/Teleconsultation";
+import CONFIG from "../../config/config";
 import PolicyList from "./Policies/PolicyList";
+
 export default function SuperAdminDashboard() {
   const [stats, setStats] = useState({
     users: 0,
@@ -16,12 +18,12 @@ export default function SuperAdminDashboard() {
     policies: 0,
   });
   const [loading, setLoading] = useState(true);
-  // const [refreshing, setRefreshing] = useState(false);
   const navigate = useNavigate();
 
+  
   const fetchUsersCount = async () => {
     try {
-      const res = await fetch("http://localhost:8089/api/v1"); 
+      const res = await fetch(`${CONFIG.BASE_URL}/api/v1`);
       if (!res.ok) throw new Error(`Failed to fetch users: ${res.status}`);
       const data = await res.json();
       return Array.isArray(data) ? data.length : 0;
@@ -45,7 +47,6 @@ export default function SuperAdminDashboard() {
     }
   };
 
-  // Fetch pending approvals count using existing helper
   const fetchPendingCount = async () => {
     try {
       const pending = await fetchPendingAdmins();
@@ -56,7 +57,6 @@ export default function SuperAdminDashboard() {
     }
   };
 
-  // master fetch
   const loadStats = async () => {
     setLoading(true);
     try {
@@ -84,13 +84,6 @@ export default function SuperAdminDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // // Manual refresh handler (useful while debugging)
-  // const handleRefresh = async () => {
-  //   setRefreshing(true);
-  //   await loadStats();
-  //   setRefreshing(false);
-  // };
-
   return (
     <div style={styles.layout}>
       <SuperAdminSidebar />
@@ -100,23 +93,6 @@ export default function SuperAdminDashboard() {
         <div style={styles.content}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h2>Welcome, Super Admin! </h2>
-            
-            {/* <div>
-              <button
-                onClick={handleRefresh}
-                style={{
-                  background: "#1976d2",
-                  color: "#fff",
-                  border: "none",
-                  padding: "8px 12px",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
-                disabled={refreshing}
-              >
-                {refreshing ? "Refreshing..." : "Refresh Counts"}
-              </button>
-            </div> */}
           </div>
 
           <Routes>
@@ -148,19 +124,9 @@ export default function SuperAdminDashboard() {
                           navigate("/superadmin/dashboard/policies")
                         }
                       >
-                        {/* <h3>Pending Approvals</h3>
-                        <p>{stats.pending}</p>
-                      </div>
-                      <div
-                        style={styles.card}
-                        onClick={() =>
-                          // navigate("/superadmin/dashboard/policies")
-                        }
-                      > */}
                         <h3>Total Policies</h3>
                         <p>{stats.policies}</p>
                       </div>
-                      
                     </div>
                   )}
                 </div>
@@ -173,7 +139,7 @@ export default function SuperAdminDashboard() {
             {/* Other routes */}
             <Route path="users" element={<h2>Manage Users (Coming Soon)</h2>} />
             <Route path="doctors" element={<SuperAdminTeleconsultation />} />
-               <Route path="policies" element={<PolicyList />} />
+            <Route path="policies" element={<PolicyList />} />
             <Route path="policies" element={<h2>Manage Policies (Coming Soon)</h2>} />
             <Route path="claims" element={<h2>Manage Claims (Coming Soon)</h2>} />
             <Route path="admins" element={<SuperAdminAdmins />} />
@@ -185,23 +151,17 @@ export default function SuperAdminDashboard() {
   );
 }
 
-
-
 const styles = {
   layout: {
     display: "flex",
     minHeight: "100vh",
     backgroundColor: "#f4f6f8",
   },
-
-  // main area beside sidebar
   main: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
   },
-
-  // navbar + page content area
   content: {
     flex: 1,
     padding: "20px",
@@ -209,15 +169,12 @@ const styles = {
     overflowX: "auto", 
     overflowY: "auto",
   },
-
-  // dashboard cards grid
   cardGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
     gap: "20px",
     marginTop: "20px",
   },
-
   card: {
     background: "#fff",
     padding: "20px",

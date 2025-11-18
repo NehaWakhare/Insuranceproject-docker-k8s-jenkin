@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from "@mui/material";
+import CONFIG from "../../../config/config";
 
 export default function AdminDetails() {
   const [requests, setRequests] = useState([]);
@@ -9,7 +10,7 @@ export default function AdminDetails() {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8089/api/contact-form/all");
+      const res = await fetch(`${CONFIG.BASE_URL}/api/contact-form/all`);
       if (!res.ok) throw new Error("Failed to fetch admin requests");
       const data = await res.json();
       setRequests(data);
