@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { getAuthHeaders } from "../../../api/superAdminApi";
-import CONFIG from "../../../config/config"; // ✅ import config
+import CONFIG from "../../../config/config"; 
 import {
   Dialog,
   DialogTitle,
