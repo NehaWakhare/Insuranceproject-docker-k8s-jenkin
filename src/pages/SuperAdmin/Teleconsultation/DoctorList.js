@@ -30,7 +30,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
 import CONFIG from "../../../config/config";
-const API_BASE = CONFIG.BASE_URL;
+const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
 
 
 export default function DoctorsByHospital() {
@@ -72,7 +72,7 @@ export default function DoctorsByHospital() {
     if (!hospitalId) return setDoctors([]);
     setLoadingDoctors(true);
     try {
-      const res = await axios.get(`${API_BASE}/api/doctors/hospital/${hospitalId}`, { headers: getAuthHeaders() });
+      const res = await axios.get(`${API_BASE}/doctors/hospital/${hospitalId}`, { headers: getAuthHeaders() });
       setDoctors(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Fetch doctors by hospital", err);
@@ -134,7 +134,7 @@ export default function DoctorsByHospital() {
       if (isEdit && editingDoctor?.id) {
         
         const res = await axios.put(
-          `${API_BASE}/api/doctors/update/${selectedHospital}/${editingDoctor.id}`,
+          `${API_BASE}/doctors/update/${selectedHospital}/${editingDoctor.id}`,
           form,
           { headers: getAuthHeaders() }
         );
@@ -146,7 +146,7 @@ export default function DoctorsByHospital() {
       } else {
         //  add new doctor under hospital
         const res = await axios.post(
-          `${API_BASE}/api/doctors/save/${selectedHospital}`,
+          `${API_BASE}/doctors/save/${selectedHospital}`,
           form,
           { headers: getAuthHeaders() }
         );
@@ -167,7 +167,7 @@ export default function DoctorsByHospital() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this doctor?")) return;
     try {
-      await axios.delete(`${API_BASE}/api/doctors/${id}`, { headers: getAuthHeaders() });
+      await axios.delete(`${API_BASE}/doctors/${id}`, { headers: getAuthHeaders() });
       fetchDoctorsByHospital(selectedHospital);
     } catch (err) {
       console.error("Delete doctor", err);

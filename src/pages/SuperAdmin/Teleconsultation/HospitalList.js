@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 
-import CONFIG from "../../../config/config"; // ✅ Import config
+import CONFIG from "../../../config/config"; 
 
 export default function HospitalList() {
   const [hospitals, setHospitals] = useState([]);
@@ -39,7 +39,8 @@ export default function HospitalList() {
   const [msg, setMsg] = useState("");
   const token = localStorage.getItem("token");
   
-  const API_BASE = CONFIG.BASE_URL; // ✅ Base URL from config
+  const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   const showMsg = (message) => {
     setMsg(message);
@@ -48,7 +49,7 @@ export default function HospitalList() {
 
   const getHospitals = async () => {
     try {
-      const res = await fetch(`${API_BASE}/hospitals/all`, {  // ✅ Use BASE_URL
+      const res = await fetch(`${API_BASE}/hospitals/all`, {  
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -90,7 +91,7 @@ export default function HospitalList() {
     if (!window.confirm("Are you sure you want to delete this hospital?")) return;
 
     try {
-      const response = await fetch(`${API_BASE}/hospitals/delete/${id}`, { // ✅ BASE_URL
+      const response = await fetch(`${API_BASE}/hospitals/delete/${id}`, { 
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -113,14 +114,14 @@ export default function HospitalList() {
   const handleSubmit = async () => {
     try {
       if (editMode) {
-        await fetch(`${API_BASE}/hospitals/update/${selectedId}`, { // ✅ BASE_URL
+        await fetch(`${API_BASE}/hospitals/update/${selectedId}`, { 
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         });
         showMsg("✅ Hospital updated successfully");
       } else {
-        await fetch(`${API_BASE}/hospitals/add`, { // ✅ BASE_URL
+        await fetch(`${API_BASE}/hospitals/add`, { 
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

@@ -35,7 +35,8 @@ export default function HospitalSearch() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+ const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   // Fetch hospitals
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function HospitalSearch() {
   const fetchDoctors = async (hospitalId) => {
     try {
       const res = await axios.get(
-        `${BASE_URL}/api/doctors/hospital/${hospitalId}`
+        `${BASE_URL}/doctors/hospital/${hospitalId}`
       );
       setDoctors(res.data);
       setOpenDoctorModal(true);

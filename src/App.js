@@ -23,8 +23,6 @@ import SuperAdminRoute from "./pages/SuperAdmin/SuperAdminRoute";
 import SuperAdminUsers from "./pages/SuperAdmin/Users/SuperAdminUsers";
 import SuperAdminAdmins from "./pages/SuperAdmin/Admins/SuperAdminAdmins";
 import SuperAdminFAQs from "./pages/SuperAdmin/FAQs/SuperAdminFAQs";
-
-/* ✅ NEW Teleconsultation Main Page */
 import SuperAdminTeleconsultation from "./pages/SuperAdmin/Teleconsultation/Teleconsultation";
 
 import ContactForm from "./components/ContactForm";

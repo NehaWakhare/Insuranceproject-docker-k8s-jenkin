@@ -30,15 +30,15 @@ export default function ActivePolicies() {
 
   const [editDialog, setEditDialog] = useState(false);
   const [editData, setEditData] = useState({ id: "", nominee: "", relation: "" });
+  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
 
-  const BASE_URL = CONFIG.BASE_URL;
 
   // ✅ Fetch all active policies for this admin
   const fetchActivePolicies = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${BASE_URL}/api/admin/active-policies/${adminId}`
+        `${BASE_URL}/admin/active-policies/${adminId}`
       );
 
       if (Array.isArray(res.data)) {

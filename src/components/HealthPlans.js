@@ -9,7 +9,7 @@ export default function HealthPlans() {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const BASE_URL = `${CONFIG.BASE_URL}/admin/policy-plans`;
+  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/policy-plans`;
 
   useEffect(() => {
     axios

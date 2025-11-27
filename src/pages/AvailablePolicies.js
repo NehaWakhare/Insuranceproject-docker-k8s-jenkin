@@ -12,10 +12,11 @@ const AvailablePolicies = () => {
   const [nomineeRelation, setNomineeRelation] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+ const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   useEffect(() => {
-    fetch(`${BASE_URL}/admin/policy-plans/all`) 
+    fetch(`${BASE_URL}/admin-policy/policy-plans/all`) 
       .then((res) => res.json())
       .then((data) => {
         const selected = data.find((p) => p.id.toString() === id);
@@ -85,7 +86,7 @@ const AvailablePolicies = () => {
         <div className="policy-detail-content">
           <div className="policy-detail-image">
             <img
-              src={`${BASE_URL}/admin/policy-plans/view-image/${policy.id}`} 
+              src={`${BASE_URL}/admin-policy/policy-plans/view-image/${policy.id}`} 
               alt={policy.policyName}
               onError={(e) => (e.target.style.display = "none")}
             />

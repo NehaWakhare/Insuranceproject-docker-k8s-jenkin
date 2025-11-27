@@ -19,11 +19,12 @@ export default function SuperAdminDashboard() {
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
   
+  const API_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
   const fetchUsersCount = async () => {
     try {
-      const res = await fetch(`${CONFIG.BASE_URL}/api/v1`);
+      const res = await fetch(`${API_URL}/user`);
       if (!res.ok) throw new Error(`Failed to fetch users: ${res.status}`);
       const data = await res.json();
       return Array.isArray(data) ? data.length : 0;

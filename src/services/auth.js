@@ -2,13 +2,13 @@ import axios from '../api/axios';
 
 // Login
 export const login = async (email, password) => {
-  const response = await axios.post('/api/auth/login', { email, password });
+  const response = await axios.post('/auth/login', { email, password });
   return response.data; // "OTP sent"
 };
 
 // Register
 export const register = async (userName, email, password) => {
-  const response = await axios.post('/api/v1/save', {
+  const response = await axios.post('/user/save', {
     userName,
     email,
     password,
@@ -22,7 +22,7 @@ export const verifyOtp = async (email, otp) => {
   try {
     console.log("Sending verifyOtp request:", { email, otp });
 
-    const response = await axios.post('/api/auth/verify-otp', { email, otp });
+    const response = await axios.post('/auth/verify-otp', { email, otp });
 
     console.log("VerifyOtp response:", response.data);
 

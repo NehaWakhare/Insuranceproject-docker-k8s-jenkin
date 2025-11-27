@@ -37,13 +37,14 @@ export default function IndependentDoctorList() {
     email: "",
   });
 
-  const API_BASE = CONFIG.BASE_URL; 
+ const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   // Fetch all doctors
   const fetchDoctors = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE}/api/doctors/self`);
+      const response = await axios.get(`${API_BASE}/doctors/self`);
       if (Array.isArray(response.data)) setDoctors(response.data);
       else setDoctors([]);
     } catch (error) {
@@ -100,7 +101,7 @@ export default function IndependentDoctorList() {
     try {
       if (editMode) {
         const res = await axios.put(
-          `${API_BASE}/api/doctors/update/self/${selectedDoctorId}`,
+          `${API_BASE}/doctors/update/self/${selectedDoctorId}`,
           formData
         );
         setDoctors((prev) =>
@@ -108,7 +109,7 @@ export default function IndependentDoctorList() {
         );
         setSuccessMsg("Doctor updated successfully!");
       } else {
-        const res = await axios.post(`${API_BASE}/api/doctors/save/self`, formData);
+        const res = await axios.post(`${API_BASE}/doctors/save/self`, formData);
         setDoctors((prev) => [...prev, res.data]);
         setSuccessMsg("Doctor added successfully!");
       }
@@ -126,7 +127,7 @@ export default function IndependentDoctorList() {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
 
     try {
-      await axios.delete(`${API_BASE}/api/doctors/${id}`);
+      await axios.delete(`${API_BASE}/doctors/${id}`);
       setDoctors((prev) => prev.filter((doc) => doc.id !== id));
       setSuccessMsg("Doctor deleted successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);

@@ -23,14 +23,17 @@ export default function PendingPolicies() {
     severity: "success",
   });
 
-  const BASE_URL = CONFIG.BASE_URL;
+  
+  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
+  
 
   // ✅ Fetch all pending policies for this admin
   const fetchPendingPolicies = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${BASE_URL}/api/admin/pending-policies/${adminId}`
+        `${BASE_URL}/admin/pending-policies/${adminId}`
       );
 
       if (Array.isArray(res.data)) {

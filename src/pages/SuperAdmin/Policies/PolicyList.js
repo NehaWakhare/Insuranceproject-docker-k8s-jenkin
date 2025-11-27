@@ -22,7 +22,7 @@ import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
 import CONFIG from "../../../config/config";
 
-const API_BASE = CONFIG.BASE_URL;
+const API_BASE =`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
  
 export default function PolicyList() {
   const [tabValue, setTabValue] = useState(0);
@@ -38,7 +38,7 @@ export default function PolicyList() {
   // Fetch all admins for dropdown
   const fetchAdmins = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/api/admin/all`, {
+      const res = await axios.get(`${API_BASE}/admin/all`, {
         headers: getAuthHeaders(),
       });
       if (Array.isArray(res.data)) setAdmins(res.data);
@@ -54,8 +54,8 @@ export default function PolicyList() {
     try {
       let url =
         adminId && adminId !== "all"
-          ? `${API_BASE}/admin/${adminId}/policy-plans`
-          : `${API_BASE}/admin/policy-plans/all`;
+          ? `${API_BASE}/admin-policy/${adminId}/policy-plans`
+          : `${API_BASE}/admin-policy/policy-plans/all`;
  
       const response = await axios.get(url, { headers: getAuthHeaders() });
       if (Array.isArray(response.data)) {

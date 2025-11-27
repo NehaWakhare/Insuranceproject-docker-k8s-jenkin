@@ -17,7 +17,8 @@ export default function UserDashboard() {
   const [userDetails, setUserDetails] = useState(null);
   const profileRef = useRef(null);
   const navigate = useNavigate();
-  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL
+  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   const handleLogout = () => {
     logoutUser();
@@ -38,7 +39,7 @@ export default function UserDashboard() {
 
         if (userId) {
           axios
-            .get(`${BASE_URL}/api/v1/${userId}`) // ✅ use BASE_URL
+            .get(`${BASE_URL}/user/${userId}`) 
             .then((res) => setUserDetails(res.data))
             .catch((err) => console.error("Failed to fetch user details:", err));
         }

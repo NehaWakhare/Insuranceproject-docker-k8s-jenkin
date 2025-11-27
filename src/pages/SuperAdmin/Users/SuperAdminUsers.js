@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SuperAdminSidebar from "../SuperAdminSidebar";
 import SuperAdminNavbar from "../SuperAdminNavbar";
-import CONFIG from "../../../config/config"; // ✅ import config
+import CONFIG from "../../../config/config"; 
 
-const API_BASE_USERS = CONFIG.BASE_URL + "/api/v1"; // ✅ use base URL
+const API_BASE_USERS = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/user`;
 
 export default function SuperAdminUsers() {
   const [users, setUsers] = useState([]);

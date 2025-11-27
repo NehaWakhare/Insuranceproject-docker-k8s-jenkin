@@ -34,12 +34,13 @@ export default function Teleconsultation() {
     reason: "",
   });
 
-  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+ const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   // Fetch teleconsultation doctors
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/api/doctors/self`) 
+      .get(`${BASE_URL}/doctors/self`) 
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error("Error fetching doctors:", err));
   }, []);

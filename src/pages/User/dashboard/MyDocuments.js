@@ -8,13 +8,14 @@ export default function MyDocuments() {
   const [file, setFile] = useState(null);
   const [documentName, setDocumentName] = useState("");
   const userId = JSON.parse(sessionStorage.getItem("authData"))?.userId;
-  const BASE_URL = CONFIG.BASE_URL; // ✅ base URL from config
+  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
         const token = JSON.parse(sessionStorage.getItem("authData"))?.token;
-        const res = await axios.get(`${BASE_URL}/api/documents/{documentId}`, {
+        const res = await axios.get(`${BASE_URL}/documents/{documentId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDocuments(res.data);
@@ -38,7 +39,7 @@ export default function MyDocuments() {
     formData.append("documentName", documentName);
 
     try {
-      const res = await axios.post(`${BASE_URL}/api/documents/upload`, formData, {
+      const res = await axios.post(`${BASE_URL}/documents/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Document uploaded successfully!");
@@ -79,7 +80,7 @@ export default function MyDocuments() {
             <li key={doc.documentId}>
               {doc.documentName} ({doc.originalFileName}) — {doc.uploadedAt} &nbsp;
               <a
-                href={`${BASE_URL}/api/documents/view/${doc.documentId}`}
+                href={`${BASE_URL}/documents/view/${doc.documentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -87,7 +88,7 @@ export default function MyDocuments() {
               </a>{" "}
               |{" "}
               <a
-                href={`${BASE_URL}/api/documents/download/${doc.documentId}`}
+                href={`${BASE_URL}/documents/download/${doc.documentId}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

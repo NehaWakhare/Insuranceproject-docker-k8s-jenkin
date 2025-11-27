@@ -4,7 +4,8 @@ import './MyPolicies.css';
 import { Link } from 'react-router-dom';
 import CONFIG from "../../../config/config";
 
-const BASE_URL = CONFIG.BASE_URL;
+const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
 export default function MyPolicies() {
   const [policies, setPolicies] = useState([]);
@@ -34,7 +35,7 @@ export default function MyPolicies() {
 
         // Fetch all policy plans
         const plansRes = await axios.get(
-          `${BASE_URL}/admin/policy-plans/all`,
+          `${BASE_URL}/admin-policy/policy-plans/all`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const allPlans = plansRes.data;
@@ -90,7 +91,7 @@ export default function MyPolicies() {
               <img
                 src={
                   policy.plan?.imageUrl
-                    ? `${BASE_URL}/admin/policy-plans/view-image/${policy.plan.id}`
+                    ? `${BASE_URL}/admin-policy/policy-plans/view-image/${policy.plan.id}`
                     : ''
                 }
                 alt={policy.plan?.policyName}

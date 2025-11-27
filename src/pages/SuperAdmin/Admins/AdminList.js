@@ -35,7 +35,7 @@ export default function AdminList() {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch(`${CONFIG.BASE_URL}/api/admin/all`, {
+      const res = await fetch(`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin/all`, {
         headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error(`Failed to fetch admins: ${res.status}`);
@@ -81,8 +81,8 @@ export default function AdminList() {
     try {
       const url =
         type === "profile"
-          ? `${CONFIG.BASE_URL}/api/admin/${admin.id}`
-          : `${CONFIG.BASE_URL}/admin/${admin.id}/policy-plans`;
+          ? `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin/${admin.id}`
+          : `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/${admin.id}/policy-plans`;
 
       const res = await fetch(url, { headers: getAuthHeaders() });
       if (!res.ok) throw new Error(`Failed to fetch ${type}: ${res.status}`);
@@ -100,7 +100,7 @@ export default function AdminList() {
     if (!window.confirm("Are you sure you want to delete this admin?")) return;
 
     try {
-      const res = await fetch(`${CONFIG.BASE_URL}/api/admin/delete/${id}`, {
+      const res = await fetch(`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin/delete/${id}`, {
         method: "DELETE",
         headers: getAuthHeaders(),
       });

@@ -39,8 +39,9 @@ export default function Navbar() {
         const { userId } = parsedData;
 
         if (userId) {
-          axios
-            .get(`${BASE_URL}/api/v1/${userId}`)
+          
+            axios.get(`${BASE_URL}${CONFIG.API_PREFIX}/user/${userId}`)
+
             .then((res) => {
               setUserDetails(res.data);
             })

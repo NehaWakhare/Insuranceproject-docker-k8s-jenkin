@@ -14,6 +14,11 @@ axiosInstance.interceptors.request.use(
     console.log("Request URL:", config.url);
     console.log("Request headers before interceptor:", config.headers);
 
+     // Add API prefix automatically if not already present
+     if (!config.url.startsWith(CONFIG.API_PREFIX)) {
+      config.url = `${CONFIG.API_PREFIX}${config.url}`;
+    }
+
     // Skip token for registration & login APIs
     if (
       !config.url.includes("/api/v1/save") && // registration

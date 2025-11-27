@@ -59,7 +59,7 @@ export default function AdminRegistration() {
     if (!validateForm()) return;
   
     try {
-      await axios.post(`${CONFIG.BASE_URL}/api/admin/register`, formData);
+      await axios.post(`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin/register`, formData);
       setSuccessMsg(
         `🎉 Admin registered successfully! Congratulations! Email sent to ${formData.email}`
       );

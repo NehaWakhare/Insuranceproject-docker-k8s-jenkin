@@ -109,10 +109,11 @@ export default function ContactForm() {
 
     try {
       
-      const response = await axios.post(
-        `${CONFIG.BASE_URL}/api/contact-form/add`,
-        formData
-      );
+        const response = await axios.post(
+  `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/contact-form/add`,
+  formData
+);
+
 
       alert(`Registration successful! ID: ${response.data.id}`);
 

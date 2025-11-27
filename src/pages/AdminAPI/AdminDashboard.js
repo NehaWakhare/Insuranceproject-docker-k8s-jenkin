@@ -1,10 +1,11 @@
 import axios from "axios";
 
 import CONFIG from "../../config/config";
-const BASE_URL = CONFIG.BASE_URL;
+const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
 export const getDashboardStats = async () => {
-  const users = await axios.get(`${BASE_URL}/api/v1`);
+  const users = await axios.get(`${BASE_URL}/v1`);
   const policies = await axios.get(`${BASE_URL}/user/fetch-plan`);
   const claims = await axios.get(`${BASE_URL}/claims`);
 

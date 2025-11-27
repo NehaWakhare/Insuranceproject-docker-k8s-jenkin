@@ -2,8 +2,9 @@ import axios from "axios";
 import CONFIG from "../../config/config";
 
 const API = axios.create({
-  baseURL: CONFIG.BASE_URL,
+  baseURL: `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`,
 });
+
 
 API.interceptors.request.use((config) => {
   const authData = JSON.parse(sessionStorage.getItem("authData"));

@@ -1,6 +1,7 @@
 import CONFIG from "../config/config";
 
-const API_BASE_URL = `${CONFIG.BASE_URL}/api`;
+const API_BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+
 
 export function getAuthHeaders() {
   const token = localStorage.getItem("token");

@@ -3,13 +3,13 @@ import axios from 'axios';
 import CONFIG from '../config/config';  // import config
 import './ViewPolicies.css';
 
-const API_BASE_URL = `${CONFIG.BASE_URL}/admin/policy-plans`;  // use const
+const API_BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/policy-plans`;  
 
 export default function ViewPolicies() {
   const [policies, setPolicies] = useState([]);
 
   useEffect(() => {
-    axios.get(API_BASE_URL)  // use API_BASE_URL
+    axios.get(API_BASE_URL)
       .then(response => {
         console.log('Policy response:', response.data);
         setPolicies(response.data);

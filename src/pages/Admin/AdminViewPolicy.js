@@ -102,7 +102,7 @@ const handleDelete = async (planId) => {
             {selectedPlan.imageUrl ? (
               <div className="policy-image-preview">
                 <img
-                  src={`${CONFIG.BASE_URL}/admin/policy-plans/view-image/${selectedPlan.id}`}
+                  src={`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/policy-plans/view-image/${selectedPlan.id}`}
                   alt="Policy"
                 />
               </div>

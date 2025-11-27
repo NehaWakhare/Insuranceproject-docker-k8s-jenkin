@@ -12,7 +12,8 @@ export default function FAQs() {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-           const response = await fetch(`${CONFIG.BASE_URL}/faq/all`);
+           const response = await fetch(`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/faq/all`);
+
         if (!response.ok) throw new Error("Failed to fetch FAQs");
         const data = await response.json();
         setFaqs(data);
