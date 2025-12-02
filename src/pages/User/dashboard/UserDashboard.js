@@ -17,7 +17,7 @@ export default function UserDashboard() {
   const [userDetails, setUserDetails] = useState(null);
   const profileRef = useRef(null);
   const navigate = useNavigate();
-  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const BASE_URL = CONFIG.BASE_URL;
 
 
   const handleLogout = () => {

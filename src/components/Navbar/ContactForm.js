@@ -17,7 +17,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import CONFIG from "../config/config";
+import CONFIG from "../../config/config";
 import "./ContactForm.css";
 
 export default function ContactForm() {
@@ -110,7 +110,7 @@ export default function ContactForm() {
     try {
       
         const response = await axios.post(
-  `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/contact-form/add`,
+  `${CONFIG.BASE_URL}/contact-form/add`,
   formData
 );
 

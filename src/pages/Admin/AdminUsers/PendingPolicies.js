@@ -24,7 +24,7 @@ export default function PendingPolicies() {
   });
 
   
-  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const BASE_URL = CONFIG.BASE_URL;
 
   
 

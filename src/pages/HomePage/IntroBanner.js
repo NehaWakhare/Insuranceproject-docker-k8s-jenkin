@@ -1,6 +1,6 @@
 import './IntroBanner.css';
 import { Link } from 'react-router-dom';
-import familyImg from '../assets/family-health.png';
+import familyImg from '../../assets/family-health.png';
 
 export default function IntroBanner() {
   return (

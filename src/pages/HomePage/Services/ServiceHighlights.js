@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../../context/AuthContext';
 import './ServiceHighlights.css';
 
-import hospitalImg from '../assets/hospital.png';
-import doctorImg from '../assets/doctor.png';
-import wellnessImg from '../assets/wellness.png';
+import hospitalImg from '../../../assets/hospital.png';
+import doctorImg from '../../../assets/doctor.png';
+import wellnessImg from '../../../assets/wellness.png';
 
 export default function ServiceHighlights() {
 
@@ -13,7 +13,7 @@ export default function ServiceHighlights() {
   const navigate = useNavigate();
 
   const handleProtectedClick = (path) => {
-    if (user && user.userId) {                //  correct login condition
+    if (user && user.userId) {                
       navigate(path);
     } else {
       alert("Please login first to view details");

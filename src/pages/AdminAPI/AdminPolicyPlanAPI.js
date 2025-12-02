@@ -1,7 +1,7 @@
 import axios from "axios";
 import CONFIG from "../../config/config"; 
 
-const API_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy`;
+const API_URL = `${CONFIG.BASE_URL}/admin-policy`;
 
 
 // ✅ CREATE Policy

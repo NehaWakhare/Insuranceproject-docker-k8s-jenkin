@@ -36,6 +36,14 @@ export default function Footer() {
             <li><a href="/disclaimer">Disclaimer</a></li>
           </ul>
         </div>
+
+        <div className="pb-col">
+          <h4>Others</h4>
+          <ul>
+            <li><a href="/admin/login">Agent Login</a></li>
+            <li><a href="/superadmin/login">Corporate Login</a></li>
+          </ul>
+        </div>
       </div>
 
       {/* Bottom legal section */}

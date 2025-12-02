@@ -10,7 +10,7 @@ export default function AdminDetails() {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/contact-form/all`);
+      const res = await fetch(`${CONFIG.BASE_URL}/contact-form/all`);
       if (!res.ok) throw new Error("Failed to fetch admin requests");
       const data = await res.json();
       setRequests(data);

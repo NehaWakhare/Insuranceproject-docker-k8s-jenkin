@@ -2,7 +2,7 @@ import axios from "axios";
 import CONFIG from "../../config/config";
 
 const API = axios.create({
-  baseURL: `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`,
+  baseURL: CONFIG.BASE_URL,
 });
 
 

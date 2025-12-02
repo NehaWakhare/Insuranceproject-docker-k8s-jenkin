@@ -2,14 +2,14 @@ import "./HealthPlans.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CONFIG from "../config/config";
+import CONFIG from "../../../config/config";
 
 export default function HealthPlans() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/policy-plans`;
+  const BASE_URL = `${CONFIG.BASE_URL}/admin-policy/policy-plans`;
 
   useEffect(() => {
     axios

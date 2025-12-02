@@ -1,7 +1,7 @@
 import axios from "axios";
 import CONFIG from "../../config/config";
 
-const API_BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-profiles`;
+const API_BASE_URL = `${CONFIG.BASE_URL}/admin-profiles`;
 
 
 // ✅ Create Admin Profile (by admin ID)

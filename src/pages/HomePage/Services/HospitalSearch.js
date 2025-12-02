@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import CONFIG from "../config/config";
+import CONFIG from "../../../config/config";
 
 import {
   Box,
@@ -35,7 +35,7 @@ export default function HospitalSearch() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
- const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+ const BASE_URL = CONFIG.BASE_URL;
 
 
   // Fetch hospitals

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import CONFIG from "../config/config";
+import CONFIG from "../../../config/config";
 import "./AvailablePolicies.css";
 
 const AvailablePolicies = () => {
@@ -12,7 +12,7 @@ const AvailablePolicies = () => {
   const [nomineeRelation, setNomineeRelation] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
- const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+ const BASE_URL = CONFIG.BASE_URL;
 
 
   useEffect(() => {

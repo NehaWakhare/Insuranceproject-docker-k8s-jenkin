@@ -30,7 +30,7 @@ export default function ActivePolicies() {
 
   const [editDialog, setEditDialog] = useState(false);
   const [editData, setEditData] = useState({ id: "", nominee: "", relation: "" });
-  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const BASE_URL = CONFIG.BASE_URL;
 
 
   // ✅ Fetch all active policies for this admin

@@ -39,7 +39,7 @@ export default function HospitalList() {
   const [msg, setMsg] = useState("");
   const token = localStorage.getItem("token");
   
-  const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const API_BASE = CONFIG.BASE_URL;
 
 
   const showMsg = (message) => {

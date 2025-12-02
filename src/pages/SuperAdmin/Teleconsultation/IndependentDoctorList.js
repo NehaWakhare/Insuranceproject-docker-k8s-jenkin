@@ -37,7 +37,7 @@ export default function IndependentDoctorList() {
     email: "",
   });
 
- const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+ const API_BASE = CONFIG.BASE_URL;
 
 
   // Fetch all doctors

@@ -8,7 +8,7 @@ export default function MyDocuments() {
   const [file, setFile] = useState(null);
   const [documentName, setDocumentName] = useState("");
   const userId = JSON.parse(sessionStorage.getItem("authData"))?.userId;
-  const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const BASE_URL = CONFIG.BASE_URL;
 
 
   useEffect(() => {

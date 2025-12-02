@@ -4,7 +4,7 @@ import SuperAdminSidebar from "../SuperAdminSidebar";
 import SuperAdminNavbar from "../SuperAdminNavbar";
 import CONFIG from "../../../config/config"; 
 
-const API_BASE_USERS = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/user`;
+const API_BASE_USERS = `${CONFIG.BASE_URL}/user`;
 
 export default function SuperAdminUsers() {
   const [users, setUsers] = useState([]);

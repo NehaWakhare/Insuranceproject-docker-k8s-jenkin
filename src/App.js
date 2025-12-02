@@ -1,16 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./pages/HomePage/Home/Home";
 import AuthPage from "./pages/User/auth/AuthPage";
-import Support from "./pages/Support";
-import AvailablePolicies from "./pages/AvailablePolicies";
-import HospitalSearch from "./pages/HospitalSearch";
-import Teleconsultation from "./pages/Teleconsultation";
+import Support from "./components/Navbar/Support";
+import AvailablePolicies from "./pages/HomePage/PolicyTiles/AvailablePolicies";
+import HospitalSearch from "./pages/HomePage/Services/HospitalSearch";
+import Teleconsultation from "./pages/HomePage/Services/Teleconsultation";
 // import Claims from "./pages/Claims";
 import UserDashboard from "./pages/User/dashboard/UserDashboard";
 import { AuthProvider } from "./context/AuthContext";
-import HealthPlans from "./components/HealthPlans";
+import HealthPlans from "./pages/HomePage/PolicyTiles/HealthPlans";
+import TC from "./components/Footer/footer/TC";
 
 // Admin Pages
 import AdminLogin from "./pages/Admin/AdminLogin";
@@ -25,7 +26,7 @@ import SuperAdminAdmins from "./pages/SuperAdmin/Admins/SuperAdminAdmins";
 import SuperAdminFAQs from "./pages/SuperAdmin/FAQs/SuperAdminFAQs";
 import SuperAdminTeleconsultation from "./pages/SuperAdmin/Teleconsultation/Teleconsultation";
 
-import ContactForm from "./components/ContactForm";
+import ContactForm from "./components/Navbar/ContactForm";
 
 function App() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function App() {
             </div>
           }
         />
+        <Route path="/terms" element={<TC />} />
 
         <Route path="/register-agent" element={<ContactForm />} />
 

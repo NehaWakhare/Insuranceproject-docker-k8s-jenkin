@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import CONFIG from '../config/config';  // import config
+import CONFIG from '../../../config/config';  
 import './ViewPolicies.css';
 
-const API_BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}/admin-policy/policy-plans`;  
+const API_BASE_URL = `${CONFIG.BASE_URL}/admin-policy/policy-plans`;  
 
 export default function ViewPolicies() {
   const [policies, setPolicies] = useState([]);

@@ -30,7 +30,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
 import CONFIG from "../../../config/config";
-const API_BASE = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+const API_BASE = CONFIG.BASE_URL;
 
 
 export default function DoctorsByHospital() {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Support.css";
-import Footer from "../components/Footer";
+import Footer from "../Footer/Footer";
 
 export default function Support() {
   return (

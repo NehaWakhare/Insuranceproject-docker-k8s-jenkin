@@ -20,7 +20,7 @@ export default function SuperAdminDashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   
-  const API_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+  const API_URL = CONFIG.BASE_URL;
 
   const fetchUsersCount = async () => {
     try {

@@ -38,6 +38,12 @@
   padding: 30px 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 60px; /* space for button */
+  height: 100%;
 }
 
  .category-tile:hover {
@@ -67,7 +73,7 @@
 .category-link {
   display: inline-block;
   margin-top: 10px;
-  padding: 8px 16px;
+  padding: 6px 14px;
   background-color: #0078d4;
   color: white;
   border: none;
@@ -75,6 +81,14 @@
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
+
+   position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;  
+  min-width: 100px;     /* optional, keeps it neat */
+  text-align: center;
 }
 
 .category-link:hover {
@@ -88,5 +102,6 @@
 .category-img {
   width: 200px; 
   height: auto;
-  margin-bottom: 0px;
+  margin-bottom:0 auto 10px auto;
+  display: block;
 }

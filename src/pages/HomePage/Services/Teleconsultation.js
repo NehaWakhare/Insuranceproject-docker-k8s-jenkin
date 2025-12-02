@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import CONFIG from "../config/config";
+import CONFIG from "../../../config/config";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -34,7 +34,7 @@ export default function Teleconsultation() {
     reason: "",
   });
 
- const BASE_URL = `${CONFIG.BASE_URL}${CONFIG.API_PREFIX}`;
+ const BASE_URL = CONFIG.BASE_URL;
 
 
   // Fetch teleconsultation doctors

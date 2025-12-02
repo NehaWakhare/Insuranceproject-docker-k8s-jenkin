@@ -1,0 +1,26 @@
+.tc-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  line-height: 1.7;
+}
+
+.tc-container h1 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.tc-container h2 {
+  color: #0c3c4c;
+  margin-top: 25px;
+  font-size: 1.25rem;
+}
+
+.tc-container p {
+  font-size: 0.95rem;
+  margin-top: 8px;
+}

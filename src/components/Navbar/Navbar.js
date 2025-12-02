@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import logo from '../assets/logo.png';
-import { AuthContext } from '../context/AuthContext';
+import logo from '../../assets/logo.png';
+import { AuthContext } from '../../context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
-import CONFIG from '../config/config';
+import CONFIG from '../../config/config';
 
 const BASE_URL = CONFIG.BASE_URL;
 
@@ -40,7 +40,7 @@ export default function Navbar() {
 
         if (userId) {
           
-            axios.get(`${BASE_URL}${CONFIG.API_PREFIX}/user/${userId}`)
+            axios.get(`${BASE_URL}/user/${userId}`)
 
             .then((res) => {
               setUserDetails(res.data);
