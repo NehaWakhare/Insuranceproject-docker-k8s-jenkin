@@ -17,7 +17,6 @@ export default function SuperAdminFAQs() {
   const [editId, setEditId] = useState(null);
   const [faqData, setFaqData] = useState({ question: "", answer: "" });
 
-  // Fetch all FAQs
   const fetchFAQs = async () => {
     try {
       const res = await axios.get(`${CONFIG.BASE_URL}/faq/all`);
@@ -29,8 +28,14 @@ export default function SuperAdminFAQs() {
 
   useEffect(() => { fetchFAQs(); }, []);
 
-  // Add /Update FAQ
   const handleSave = async () => {
+
+    // ✅ BLOCK BLANK FAQ SUBMISSION
+    if (!faqData.question.trim() || !faqData.answer.trim()) {
+      alert("Question and Answer cannot be empty!");
+      return;
+    }
+
     try {
       if (editId) {
         await axios.put(`${CONFIG.BASE_URL}/faq/update/${editId}`, faqData);
@@ -64,89 +69,111 @@ export default function SuperAdminFAQs() {
       } catch (error) {
         console.error("Error deleting FAQ:", error);
       }
-    }  
+    }
   };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f7fa" }}>
-      <SuperAdminSidebar />
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        {/*  Navbar with Profile + Logout */}
-        <SuperAdminNavbar />
+      
+      {/* 🔥 Apply BLUR to Everything when Dialog is Open */}
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          filter: open ? "blur(6px)" : "none",
+          transition: "0.3s ease"
+        }}
+      >
+        <SuperAdminSidebar />
 
-        <div style={{ padding: "20px 40px" }}>
-          <h2>FAQs Management</h2>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <SuperAdminNavbar />
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => { setFaqData({ question: "", answer: "" }); setEditId(null); setOpen(true); }}
-            style={{ marginBottom: "20px" }}
-          >
-            Add FAQ
-          </Button>
+          <div style={{ padding: "20px 40px" }}>
+            <h2>FAQs Management</h2>
 
-          {/* FAQs Table */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead style={{ backgroundColor: "#4cafef" }}>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Question</TableCell>
-                  <TableCell>Answer</TableCell>
-                  <TableCell align="center">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {faqs.length > 0 ? faqs.map((faq) => (
-                  <TableRow key={faq.id} hover>
-                    <TableCell>{faq.id}</TableCell>
-                    <TableCell>{faq.question}</TableCell>
-                    <TableCell>{faq.answer}</TableCell>
-                    <TableCell align="center">
-                      <IconButton color="primary" onClick={() => handleEdit(faq)}><Edit /></IconButton>
-                      <IconButton color="error" onClick={() => handleDelete(faq.id)}><Delete /></IconButton>
-                    </TableCell>
-                  </TableRow>
-                )) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => { setFaqData({ question: "", answer: "" }); setEditId(null); setOpen(true); }}
+              style={{ marginBottom: "20px" }}
+            >
+              Add FAQ
+            </Button>
+
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead style={{ backgroundColor: "#4cafef" }}>
                   <TableRow>
-                    <TableCell colSpan={4} align="center">No FAQs Found</TableCell>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Question</TableCell>
+                    <TableCell>Answer</TableCell>
+                    <TableCell align="center">Actions</TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {/* Add/Edit FAQ Dialog */}
-          <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
-            <DialogTitle>{editId ? "Edit FAQ" : "Add New FAQ"}</DialogTitle>
-            <DialogContent>
-              <TextField
-                label="Question"
-                fullWidth
-                margin="normal"
-                value={faqData.question}
-                onChange={(e) => setFaqData({ ...faqData, question: e.target.value })}
-              />
-              <TextField
-                label="Answer"
-                fullWidth
-                multiline
-                rows={3}
-                margin="normal"
-                value={faqData.answer}
-                onChange={(e) => setFaqData({ ...faqData, answer: e.target.value })}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setOpen(false)}>Cancel</Button>
-              <Button variant="contained" color="primary" onClick={handleSave}>
-                {editId ? "Update" : "Save"}
-              </Button>
-            </DialogActions>
-          </Dialog>
+                </TableHead>
+                <TableBody>
+                  {faqs.length > 0 ? faqs.map((faq) => (
+                    <TableRow key={faq.id} hover>
+                      <TableCell>{faq.id}</TableCell>
+                      <TableCell>{faq.question}</TableCell>
+                      <TableCell>{faq.answer}</TableCell>
+                      <TableCell align="center">
+                        <IconButton color="primary" onClick={() => handleEdit(faq)}><Edit /></IconButton>
+                        <IconButton color="error" onClick={() => handleDelete(faq.id)}><Delete /></IconButton>
+                      </TableCell>
+                    </TableRow>
+                  )) : (
+                    <TableRow>
+                      <TableCell colSpan={4} align="center">No FAQs Found</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
       </div>
+
+      {/* Dialog stays NOT blurred */}
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle>{editId ? "Edit FAQ" : "Add New FAQ"}</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Question"
+            fullWidth
+            margin="normal"
+            value={faqData.question}
+            onChange={(e) => {
+              let value = e.target.value.replace(/[^A-Za-z\s?]/g, "");
+              const words = value.trim().split(/\s+/);
+              if (words.length > 100) return;
+              setFaqData({ ...faqData, question: value });
+            }}
+          />
+
+          <TextField
+            label="Answer"
+            fullWidth
+            multiline
+            rows={3}
+            margin="normal"
+            value={faqData.answer}
+            onChange={(e) => {
+              let value = e.target.value.replace(/[^A-Za-z\s.,]/g, "");
+              const words = value.trim().split(/\s+/);
+              if (words.length > 300) return;
+              setFaqData({ ...faqData, answer: value });
+            }}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={handleSave}>
+            {editId ? "Update" : "Save"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

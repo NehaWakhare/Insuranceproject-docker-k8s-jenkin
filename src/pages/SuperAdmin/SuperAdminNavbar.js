@@ -35,7 +35,7 @@ export default function SuperAdminNavbar() {
 
   const handleLogout = () => {
     handleClose();
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("/superadmin/login");
   };
 

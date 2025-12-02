@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -24,14 +23,17 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import dayjs from "dayjs";
 import axios from "axios";
 import { getAuthHeaders } from "../../../api/superAdminApi";
 import CONFIG from "../../../config/config";
-const API_BASE = CONFIG.BASE_URL;
 
+const API_BASE = CONFIG.BASE_URL;
 
 export default function DoctorsByHospital() {
   const [hospitals, setHospitals] = useState([]);
@@ -55,8 +57,6 @@ export default function DoctorsByHospital() {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
- 
 
   const fetchHospitals = async () => {
     try {
@@ -115,47 +115,45 @@ export default function DoctorsByHospital() {
     setOpenDialog(true);
   };
 
-  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+    if (name === "doctorName" || name === "specialization") value = value.replace(/[^A-Za-z ]/g, "");
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const validate = () => {
     if (!form.doctorName.trim()) return "Name required";
     if (!form.specialization.trim()) return "Specialization required";
+    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return "Invalid email format";
+    if (!form.availableTime) return "Select available time";
     return null;
   };
 
-  //  FIXED handleSave for update/add doctor under hospital
   const handleSave = async () => {
     const v = validate();
     if (v) return setError(v);
     if (!selectedHospital) return setError("Select a hospital first");
+
     setSaving(true);
-    setError(""); 
+    setError("");
+
     try {
       if (isEdit && editingDoctor?.id) {
-        
         const res = await axios.put(
           `${API_BASE}/doctors/update/${selectedHospital}/${editingDoctor.id}`,
           form,
           { headers: getAuthHeaders() }
         );
-
-        // update doctor in UI immediately
-        setDoctors((prev) =>
-          prev.map((doc) => (doc.id === editingDoctor.id ? res.data : doc))
-        );
+        setDoctors((prev) => prev.map((doc) => (doc.id === editingDoctor.id ? res.data : doc)));
       } else {
-        //  add new doctor under hospital
         const res = await axios.post(
           `${API_BASE}/doctors/save/${selectedHospital}`,
           form,
           { headers: getAuthHeaders() }
         );
-
         setDoctors((prev) => [...prev, res.data]);
       }
-
       setOpenDialog(false);
-      setForm({ doctorName: "", specialization: "", status: "Active", availableTime: "", email: "" });
     } catch (err) {
       console.error("Save error", err);
       setError("Failed to save doctor. Check all fields.");
@@ -179,7 +177,6 @@ export default function DoctorsByHospital() {
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
         <Typography variant="h6">Doctors by Hospital</Typography>
-
         <Box display="flex" alignItems="center" gap={1}>
           <Select
             value={selectedHospital || ""}
@@ -200,14 +197,8 @@ export default function DoctorsByHospital() {
         </Box>
       </Box>
 
-      {loading ? (
-        <Box textAlign="center" py={6}>
-          <CircularProgress />
-        </Box>
-      ) : loadingDoctors ? (
-        <Box textAlign="center" py={6}>
-          <CircularProgress />
-        </Box>
+      {loading || loadingDoctors ? (
+        <Box textAlign="center" py={6}><CircularProgress /></Box>
       ) : doctors.length === 0 ? (
         <Typography>No doctors for this hospital.</Typography>
       ) : (
@@ -234,12 +225,8 @@ export default function DoctorsByHospital() {
                   <TableCell>{d.status}</TableCell>
                   <TableCell>{d.availableTime}</TableCell>
                   <TableCell align="center">
-                    <IconButton size="small" onClick={() => openEdit(d)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton size="small" color="error" onClick={() => handleDelete(d.id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    <IconButton size="small" onClick={() => openEdit(d)}><EditIcon /></IconButton>
+                    <IconButton size="small" color="error" onClick={() => handleDelete(d.id)}><DeleteIcon /></IconButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -248,35 +235,68 @@ export default function DoctorsByHospital() {
         </TableContainer>
       )}
 
-      <Dialog fullScreen={fullScreen} open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth>
+      {/* -------------------- Add / Edit Dialog -------------------- */}
+      <Dialog
+        fullScreen={fullScreen}
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        maxWidth="sm"
+        fullWidth
+        BackdropProps={{
+          sx: {
+            backgroundColor: "rgba(0,0,0,0.35)",
+            backdropFilter: "blur(6px)",
+          },
+        }}
+      >
         <DialogTitle>{isEdit ? "Edit Doctor" : "Add Doctor"}</DialogTitle>
+
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 0.5 }}>
             <Grid item xs={12}>
               <TextField label="Name" name="doctorName" value={form.doctorName} onChange={handleChange} fullWidth />
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField label="Specialization" name="specialization" value={form.specialization} onChange={handleChange} fullWidth />
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField label="Status" name="status" value={form.status} onChange={handleChange} fullWidth />
+              <Select name="status" value={form.status} onChange={handleChange} fullWidth>
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+              </Select>
             </Grid>
+
             <Grid item xs={12}>
-              <TextField label="Available Time" name="availableTime" value={form.availableTime} onChange={handleChange} fullWidth />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  label="Available Time"
+                  value={form.availableTime ? dayjs(form.availableTime, "HH:mm") : null}
+                  onChange={(newValue) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      availableTime: newValue ? dayjs(newValue).format("hh:mm A") : "",
+                    }))
+                  }
+                  slotProps={{ textField: { fullWidth: true } }}
+                />
+              </LocalizationProvider>
             </Grid>
+
             <Grid item xs={12}>
               <TextField label="Email" name="email" value={form.email} onChange={handleChange} fullWidth />
             </Grid>
+
             {error && (
-              <Grid item xs={12}>
-                <Typography color="error">{error}</Typography>
-              </Grid>
+              <Grid item xs={12}><Typography color="error">{error}</Typography></Grid>
             )}
           </Grid>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained" disabled={saving}>
+          <Button onClick={handleSave} variant="contained" disabled={saving || !!validate()}>
             {saving ? <CircularProgress size={18} /> : isEdit ? "Update" : "Create"}
           </Button>
         </DialogActions>

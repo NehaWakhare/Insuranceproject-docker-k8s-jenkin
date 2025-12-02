@@ -126,7 +126,7 @@ export default function SuperAdminUsers() {
                           justifyContent: "center",
                         }}
                       >
-                        <button
+                        {/* <button
                           onClick={() => openModal(u)}
                           style={{
                             background: "#ffa500",
@@ -138,7 +138,7 @@ export default function SuperAdminUsers() {
                           }}
                         >
                           ✏️ Edit
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => deleteUser(u.userId)}
                           style={{

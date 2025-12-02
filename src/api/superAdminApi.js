@@ -3,7 +3,7 @@ const API_BASE_URL = CONFIG.BASE_URL;
 
 
 export function getAuthHeaders() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   return token
     ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
     : { "Content-Type": "application/json" };

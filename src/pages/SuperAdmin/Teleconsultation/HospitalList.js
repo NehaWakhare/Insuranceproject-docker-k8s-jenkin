@@ -37,6 +37,8 @@ export default function HospitalList() {
     contactNumber: "",
   });
   const [msg, setMsg] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const token = localStorage.getItem("token");
   
   const API_BASE = CONFIG.BASE_URL;
@@ -66,24 +68,50 @@ export default function HospitalList() {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let { name, value } = e.target;
+
+    if (/[^A-Za-z0-9\s]/.test(value)) return;
+
+    if (["hospitalName", "city", "speciality"].includes(name)) {
+      if (/\d/.test(value)) return;
+    }
+
+    if (name === "contactNumber") {
+      value = value.replace(/\D/g, "");
+      if (value.length > 10) return;
+    }
+
+    const newForm = { ...formData, [name]: value };
+    setFormData(newForm);
+
+    const phoneRegex = /^[0-9]{10}$/;
+    const valid =
+      newForm.hospitalName.trim() &&
+      newForm.city.trim() &&
+      newForm.speciality.trim() &&
+      phoneRegex.test(newForm.contactNumber);
+
+    setIsFormValid(valid);
   };
 
   const handleAdd = () => {
     setEditMode(false);
     setFormData({ hospitalName: "", city: "", speciality: "", contactNumber: "" });
+    setIsFormValid(false);
     setOpen(true);
   };
 
   const handleEdit = (hospital) => {
+    const contactNum = hospital.contactNumber.replace("+91", "");
     setEditMode(true);
     setSelectedId(hospital.id);
     setFormData({
       hospitalName: hospital.hospitalName,
       city: hospital.city,
       speciality: hospital.speciality,
-      contactNumber: hospital.contactNumber,
+      contactNumber: contactNum,
     });
+
     setOpen(true);
   };
 
@@ -97,8 +125,6 @@ export default function HospitalList() {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Delete failed:", errorText);
         alert("❌ Failed to delete hospital.");
         return;
       }
@@ -106,25 +132,29 @@ export default function HospitalList() {
       showMsg("✅ Hospital deleted successfully");
       setHospitals((prev) => prev.filter((h) => h.id !== id));
     } catch (err) {
-      console.error("Error deleting hospital:", err);
       alert("❌ Failed to delete hospital.");
     }
   };
 
   const handleSubmit = async () => {
     try {
+      const hospitalPayload = {
+        ...formData,
+        contactNumber: "+91" + formData.contactNumber,
+      };
+
       if (editMode) {
         await fetch(`${API_BASE}/hospitals/update/${selectedId}`, { 
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(hospitalPayload),
         });
         showMsg("✅ Hospital updated successfully");
       } else {
         await fetch(`${API_BASE}/hospitals/add`, { 
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(hospitalPayload),
         });
         showMsg("✅ Hospital added successfully");
       }
@@ -182,7 +212,6 @@ export default function HospitalList() {
                     <IconButton color="primary" onClick={() => handleEdit(hosp)}>
                       <EditIcon />
                     </IconButton>
-
                     <IconButton color="error" onClick={() => handleDelete(hosp.id)}>
                       <DeleteIcon />
                     </IconButton>
@@ -200,7 +229,17 @@ export default function HospitalList() {
         </Table>
       </TableContainer>
 
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      {/* ⬇️ Blur Background Added Here */}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        BackdropProps={{
+          sx: {
+            backgroundColor: "rgba(0,0,0,0.4)",
+            backdropFilter: "blur(6px)",
+          },
+        }}
+      >
         <DialogTitle>{editMode ? "Edit Hospital" : "Add New Hospital"}</DialogTitle>
 
         <DialogContent>
@@ -235,12 +274,25 @@ export default function HospitalList() {
             onChange={handleChange}
             fullWidth
             margin="normal"
+            inputProps={{ maxLength: 10 }}
+            helperText="Enter 10-digit mobile number"
+            InputProps={{
+              startAdornment: (
+                <span style={{ marginRight: "6px", fontWeight: "bold" }}>
+                  +91
+                </span>
+              ),
+            }}
           />
         </DialogContent>
 
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={handleSubmit}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            disabled={!isFormValid}
+          >
             {editMode ? "Update" : "Submit"}
           </Button>
         </DialogActions>

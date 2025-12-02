@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   Box,
   Typography,
@@ -15,9 +17,12 @@ import {
   Modal,
   TextField,
   IconButton,
+  MenuItem,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker"; 
+import dayjs from "dayjs"; 
 import CONFIG from "../../../config/config";
 
 export default function IndependentDoctorList() {
@@ -40,7 +45,6 @@ export default function IndependentDoctorList() {
  const API_BASE = CONFIG.BASE_URL;
 
 
-  // Fetch all doctors
   const fetchDoctors = async () => {
     setLoading(true);
     try {
@@ -48,7 +52,6 @@ export default function IndependentDoctorList() {
       if (Array.isArray(response.data)) setDoctors(response.data);
       else setDoctors([]);
     } catch (error) {
-      console.error(error);
       setErrorMsg("Failed to fetch doctors.");
     } finally {
       setLoading(false);
@@ -62,6 +65,11 @@ export default function IndependentDoctorList() {
   const handleChange = (e) => {
     setErrorMsg("");
     setSuccessMsg("");
+
+    if ((e.target.name === "doctorName" || e.target.name === "specialization") && /[^a-zA-Z\s]/.test(e.target.value)) {
+      return;
+    }
+
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -93,8 +101,15 @@ export default function IndependentDoctorList() {
 
   const handleSubmit = async () => {
     const { doctorName, specialization, status, availableTime, email } = formData;
+
     if (!doctorName || !specialization || !status || !availableTime || !email) {
       setErrorMsg("All fields are required.");
+      return;
+    }
+
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailReg.test(email)) {
+      setErrorMsg("Enter a valid email address.");
       return;
     }
 
@@ -117,8 +132,8 @@ export default function IndependentDoctorList() {
       setFormData({ doctorName: "", specialization: "", status: "", availableTime: "", email: "" });
       setOpen(false);
       setTimeout(() => setSuccessMsg(""), 3000);
-    } catch (error) {
-      console.error(error);
+
+    } catch {
       setErrorMsg("Operation failed. Please try again.");
     }
   };
@@ -131,8 +146,7 @@ export default function IndependentDoctorList() {
       setDoctors((prev) => prev.filter((doc) => doc.id !== id));
       setSuccessMsg("Doctor deleted successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
-    } catch (error) {
-      console.error(error);
+    } catch {
       setErrorMsg("Failed to delete doctor.");
     }
   };
@@ -141,9 +155,7 @@ export default function IndependentDoctorList() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <Typography variant="h5">🧑‍⚕️ Independent Doctor List</Typography>
-        <Button variant="contained" onClick={handleAddModal}>
-          + Add Doctor
-        </Button>
+        <Button variant="contained" onClick={handleAddModal}>+ Add Doctor</Button>
       </Box>
 
       {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
@@ -166,25 +178,23 @@ export default function IndependentDoctorList() {
             </TableHead>
 
             <TableBody>
-              {doctors.length > 0 ? (
-                doctors.map((doc) => (
-                  <TableRow key={doc.id}>
-                    <TableCell>{doc.doctorName}</TableCell>
-                    <TableCell>{doc.specialization}</TableCell>
-                    <TableCell>{doc.status}</TableCell>
-                    <TableCell>{doc.availableTime}</TableCell>
-                    <TableCell>{doc.email}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary" onClick={() => handleEditDoctor(doc)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton color="error" onClick={() => handleDelete(doc.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
+              {doctors.length > 0 ? doctors.map((doc) => (
+                <TableRow key={doc.id}>
+                  <TableCell>{doc.doctorName}</TableCell>
+                  <TableCell>{doc.specialization}</TableCell>
+                  <TableCell>{doc.status}</TableCell>
+                  <TableCell>{doc.availableTime}</TableCell>
+                  <TableCell>{doc.email}</TableCell>
+                  <TableCell>
+                    <IconButton color="primary" onClick={() => handleEditDoctor(doc)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton color="error" onClick={() => handleDelete(doc.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              )) : (
                 <TableRow>
                   <TableCell colSpan={6} align="center">No doctors found.</TableCell>
                 </TableRow>
@@ -194,33 +204,57 @@ export default function IndependentDoctorList() {
         </Paper>
       )}
 
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Box
-          sx={{
-            width: 400,
-            bgcolor: "#fff",
-            p: 3,
-            borderRadius: 2,
-            boxShadow: 4,
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
+      {/* ⭐ Modal with Background Blur Added */}
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        BackdropProps={{
+          sx: { backdropFilter: "blur(5px)" }   // 👈 Background blur
+        }}
+      >
+        <Box sx={{
+          width: 400, bgcolor: "#fff", p: 3, borderRadius: 2, boxShadow: 4,
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+        }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             {editMode ? "Edit Doctor" : "Add New Doctor"}
           </Typography>
 
           {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
 
-          <TextField fullWidth name="doctorName" label="Doctor Name" value={formData.doctorName} onChange={handleChange} sx={{ mb: 2 }} />
-          <TextField fullWidth name="specialization" label="Specialization" value={formData.specialization} onChange={handleChange} sx={{ mb: 2 }} />
-          <TextField fullWidth name="status" label="Status" value={formData.status} onChange={handleChange} sx={{ mb: 2 }} />
-          <TextField fullWidth name="availableTime" label="Available Time" value={formData.availableTime} onChange={handleChange} sx={{ mb: 2 }} />
-          <TextField fullWidth name="email" label="Email" value={formData.email} onChange={handleChange} sx={{ mb: 2 }} />
+          <TextField
+            fullWidth label="Doctor Name" name="doctorName" value={formData.doctorName}
+            onChange={handleChange} sx={{ mb: 2 }}
+          />
 
-          <Button variant="contained" fullWidth onClick={handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            fullWidth label="Specialization" name="specialization" value={formData.specialization}
+            onChange={handleChange} sx={{ mb: 2 }}
+          />
+
+          <TextField select fullWidth label="Status" name="status" value={formData.status}
+            onChange={handleChange} sx={{ mb: 2 }}>
+            <MenuItem value="Active">Active</MenuItem>
+            <MenuItem value="Inactive">Inactive</MenuItem>
+          </TextField>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+              label="Available Time"
+              value={formData.availableTime ? dayjs(formData.availableTime, "HH:mm") : null}
+              onChange={(newValue) =>
+                setFormData({ ...formData, availableTime: dayjs(newValue).format("HH:mm") })
+              }
+              sx={{ width: "100%", mb: 2 }}
+            />
+          </LocalizationProvider>
+
+          <TextField
+            fullWidth type="email" label="Email" name="email" value={formData.email}
+            onChange={handleChange} sx={{ mb: 2 }}
+          />
+
+          <Button variant="contained" fullWidth onClick={handleSubmit}>
             {editMode ? "Update Doctor" : "Add Doctor"}
           </Button>
         </Box>

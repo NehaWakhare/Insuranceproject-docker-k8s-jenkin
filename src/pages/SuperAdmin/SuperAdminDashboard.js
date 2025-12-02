@@ -14,7 +14,7 @@ export default function SuperAdminDashboard() {
   const [stats, setStats] = useState({
     users: 0,
     admins: 0,
-    pending: 0,
+    // pending: 0,
     policies: 0,
   });
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ export default function SuperAdminDashboard() {
       if (!res.ok) throw new Error(`Failed to fetch users: ${res.status}`);
       const data = await res.json();
       return Array.isArray(data) ? data.length : 0;
-    } catch (err) {        
+    } catch (err) {
       console.error("Error fetching users:", err);
       return 0;
     }
@@ -36,7 +36,7 @@ export default function SuperAdminDashboard() {
 
   const fetchAdminsCount = async () => {
     try {
-      const admins = await fetchAllAdmins(); 
+      const admins = await fetchAllAdmins();
       if (!Array.isArray(admins)) {
         console.warn("fetchAllAdmins returned non-array:", admins);
         return 0;
@@ -58,20 +58,35 @@ export default function SuperAdminDashboard() {
     }
   };
 
+  
+  const fetchPoliciesCount = async () => {
+    try {
+      const res = await fetch(`${CONFIG.BASE_URL}/admin/policy-plans/all`);
+      if (!res.ok) throw new Error("Failed to fetch policies");
+
+      const data = await res.json();
+      return Array.isArray(data) ? data.length : 0;
+    } catch (err) {
+      console.error("Error fetching policies count:", err);
+      return 0;
+    }
+  };
+
   const loadStats = async () => {
     setLoading(true);
     try {
-      const [adminsCount, pendingCount, usersCount] = await Promise.all([
+      const [adminsCount, pendingCount, usersCount, policiesCount] = await Promise.all([
         fetchAdminsCount(),
         fetchPendingCount(),
         fetchUsersCount(),
+        fetchPoliciesCount(), 
       ]);
 
       setStats({
         users: usersCount,
         admins: adminsCount,
-        pending: pendingCount,
-        policies: 0,
+        // pending: pendingCount,
+        policies: policiesCount, 
       });
     } catch (err) {
       console.error("Error loading stats:", err);
@@ -82,7 +97,6 @@ export default function SuperAdminDashboard() {
 
   useEffect(() => {
     loadStats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -141,7 +155,6 @@ export default function SuperAdminDashboard() {
             <Route path="users" element={<h2>Manage Users (Coming Soon)</h2>} />
             <Route path="doctors" element={<SuperAdminTeleconsultation />} />
             <Route path="policies" element={<PolicyList />} />
-            <Route path="policies" element={<h2>Manage Policies (Coming Soon)</h2>} />
             <Route path="claims" element={<h2>Manage Claims (Coming Soon)</h2>} />
             <Route path="admins" element={<SuperAdminAdmins />} />
             <Route path="faqs" element={<SuperAdminFAQs />} />
@@ -167,7 +180,7 @@ const styles = {
     flex: 1,
     padding: "20px",
     background: "#f4f6f8",
-    overflowX: "auto", 
+    overflowX: "auto",
     overflowY: "auto",
   },
   cardGrid: {

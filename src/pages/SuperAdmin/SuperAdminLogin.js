@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { superAdminLogin } from "../../api/superAdminApi";
+import bgImage from "../../assets/login-bg.jpg";   
 
 function SuperAdminLogin() {
   const [email, setEmail] = useState("");
@@ -12,14 +13,27 @@ function SuperAdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (email.trim() === "" || !/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (password.trim() === "") {
+      setError("Password cannot be empty");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const data = await superAdminLogin(email, password);
+
       if (data?.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", "SUPER_ADMIN");
-        localStorage.setItem("email", email);
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("role", "SUPER_ADMIN");
+        sessionStorage.setItem("email", email);
+
         navigate("/superadmin/dashboard", { replace: true });
       } else {
         throw new Error("Login failed: No token received");
@@ -32,21 +46,18 @@ function SuperAdminLogin() {
     }
   };
 
-  // 👇 Navigate to Home Dashboard on cross click
   const handleClose = () => {
-    navigate("/"); // Change "/home" to your home route
+    navigate("/");
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Cross (×) Button */}
         <button onClick={handleClose} style={styles.closeButton}>
           &times;
         </button>
 
         <h2 style={styles.title}>Super Admin Login</h2>
-        <p style={styles.subtitle}>Access the admin control panel</p>
 
         <form onSubmit={handleSubmit} style={styles.form}>
           {error && <p style={styles.error}>{error}</p>}
@@ -90,18 +101,22 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "#f5f6fa",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    // ✅ Background image added
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
     padding: "10px",
   },
   card: {
-    position: "relative", // 👈 important for cross positioning
+    position: "relative",
     width: "100%",
     maxWidth: "400px",
-    background: "#fff",
+    background: "rgba(255,255,255,0.92)",
     borderRadius: "12px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
     padding: "40px 30px",
+    backdropFilter: "blur(4px)",
   },
   closeButton: {
     position: "absolute",
@@ -113,19 +128,12 @@ const styles = {
     fontWeight: "bold",
     color: "#999",
     cursor: "pointer",
-    transition: "color 0.2s ease",
   },
   title: {
     fontSize: "26px",
     fontWeight: "700",
     marginBottom: "8px",
     color: "#007bff",
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: "14px",
-    color: "#666",
-    marginBottom: "25px",
     textAlign: "center",
   },
   form: {
@@ -140,15 +148,12 @@ const styles = {
     marginBottom: "6px",
     fontSize: "14px",
     fontWeight: "600",
-    color: "#333",
   },
   input: {
     width: "100%",
     padding: "12px",
     border: "1px solid #ccc",
     borderRadius: "8px",
-    outline: "none",
-    fontSize: "14px",
     background: "#f9f9f9",
   },
   button: {

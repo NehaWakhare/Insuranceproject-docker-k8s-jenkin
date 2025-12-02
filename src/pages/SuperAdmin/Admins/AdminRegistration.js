@@ -8,22 +8,50 @@ export default function AdminRegistration() {
     username: "",
     email: "",
     panNumber: "",
-    mobileNumber: "",
+    mobileNumber: "+91",
   });
+
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setValidationErrors({ ...validationErrors, [e.target.name]: "" });
+    const { name, value } = e.target;
+    let updatedValue = value;
+
+    // Username — only alphabets & space
+    if (name === "username") {
+      updatedValue = value.replace(/[^A-Za-z\s]/g, "");
+    }
+
+    // Email — allow only valid chars
+    if (name === "email") {
+      updatedValue = value.replace(/[^a-zA-Z0-9@._-]/g, "");
+    }
+
+    // PAN — only alphanumeric & uppercase
+    if (name === "panNumber") {
+      updatedValue = value.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+    }
+
+    // Mobile number — always start with +91 and restrict special chars
+    if (name === "mobileNumber") {
+      let num = value.replace(/\D/g, "");
+      if (!num.startsWith("91")) num = "91" + num;
+      num = num.slice(0, 12); // 91 + 10 digits
+      updatedValue = "+" + num;
+    }
+
+    setFormData({ ...formData, [name]: updatedValue });
+    setValidationErrors({ ...validationErrors, [name]: "" });
   };
 
   const validateForm = () => {
     const errors = {};
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    const mobileRegex = /^[6-9]\d{9}$/;
+    const mobileRegex = /^\+91[6-9]\d{9}$/;
 
     if (!formData.username.trim()) {
       errors.username = "Username is required.";
@@ -32,7 +60,7 @@ export default function AdminRegistration() {
     if (!formData.email.trim()) {
       errors.email = "Email is required.";
     } else if (!emailRegex.test(formData.email)) {
-      errors.email = "Please enter a valid email address.";
+      errors.email = "Invalid email format.";
     }
 
     if (!formData.panNumber.trim()) {
@@ -44,7 +72,8 @@ export default function AdminRegistration() {
     if (!formData.mobileNumber.trim()) {
       errors.mobileNumber = "Mobile number is required.";
     } else if (!mobileRegex.test(formData.mobileNumber)) {
-      errors.mobileNumber = "Invalid mobile number (10 digits only).";
+      errors.mobileNumber =
+        "Invalid mobile number (must start with +91 and 10 digits).";
     }
 
     setValidationErrors(errors);
@@ -57,17 +86,17 @@ export default function AdminRegistration() {
     setErrorMsg("");
 
     if (!validateForm()) return;
-  
+
     try {
       await axios.post(`${CONFIG.BASE_URL}/admin/register`, formData);
       setSuccessMsg(
-        `🎉 Admin registered successfully! Congratulations! Email sent to ${formData.email}`
+        `🎉 Admin registered successfully! Email sent to ${formData.email}`
       );
       setFormData({
         username: "",
         email: "",
         panNumber: "",
-        mobileNumber: "",
+        mobileNumber: "+91",
       });
     } catch (error) {
       console.error(error.response?.data || error.message);
@@ -108,6 +137,7 @@ export default function AdminRegistration() {
           error={!!validationErrors.username}
           helperText={validationErrors.username}
         />
+
         <TextField
           label="Email"
           type="email"
@@ -120,6 +150,7 @@ export default function AdminRegistration() {
           error={!!validationErrors.email}
           helperText={validationErrors.email}
         />
+
         <TextField
           label="PAN Number"
           name="panNumber"
@@ -131,6 +162,7 @@ export default function AdminRegistration() {
           error={!!validationErrors.panNumber}
           helperText={validationErrors.panNumber}
         />
+
         <TextField
           label="Mobile Number"
           name="mobileNumber"
@@ -141,7 +173,9 @@ export default function AdminRegistration() {
           required
           error={!!validationErrors.mobileNumber}
           helperText={validationErrors.mobileNumber}
+          inputProps={{ maxLength: 13 }}
         />
+
         <Button
           type="submit"
           variant="contained"
