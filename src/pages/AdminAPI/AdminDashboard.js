@@ -1,18 +1,38 @@
 import axios from "axios";
-
-import CONFIG from "../../config/config";
-const BASE_URL = CONFIG.BASE_URL;
-
+import { getPlansByAdmin } from "./AdminPolicyPlanAPI";
 
 export const getDashboardStats = async () => {
-  const users = await axios.get(`${BASE_URL}/v1`);
-  const policies = await axios.get(`${BASE_URL}/user/fetch-plan`);
-  const claims = await axios.get(`${BASE_URL}/claims`);
+  try {
+    const adminId = sessionStorage.getItem("adminId");
+    const BASE_URL = "http://localhost:8089";
 
-  const totalPolicies = policies.data.length;
-  const activeUsers = users.data.filter(u => u.role === "USER").length;
-  const pendingClaims = claims.data.filter(c => c.status === "PENDING").length;
-  const approvedClaims = claims.data.filter(c => c.status === "APPROVED").length;
+    // 1️⃣ Total policies
+    const totalRes = await getPlansByAdmin(adminId);
+    const totalPolicies = totalRes.data.length;
 
-  return { totalPolicies, activeUsers, pendingClaims, approvedClaims };
+    // 2️⃣ Pending policies
+    const pendingRes = await axios.get(`${BASE_URL}/api/admin/pending-policies/${adminId}`);
+    const pendingPolicies = Array.isArray(pendingRes.data)
+      ? pendingRes.data.length
+      : pendingRes.data?.policies?.length || 0;
+
+    // 3️⃣ Active policies
+    const activeRes = await axios.get(`${BASE_URL}/api/admin/active-policies/${adminId}`);
+    const activePolicies = Array.isArray(activeRes.data)
+      ? activeRes.data.length
+      : activeRes.data?.policies?.length || 0;
+
+    return {
+      totalPolicies,
+      pendingPolicies,
+      activePolicies,
+    };
+  } catch (error) {
+    console.error("Dashboard Stats Error:", error);
+    return {
+      totalPolicies: 0,
+      pendingPolicies: 0,
+      activePolicies: 0,
+    };
+  }
 };

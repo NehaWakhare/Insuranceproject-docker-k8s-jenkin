@@ -1,11 +1,13 @@
-/* ---------- Page Background ---------- */
+/* ------------------------------------
+   Page Background
+------------------------------------ */
 .auth-page2 {
-  background-image: url('../../assets/AdminRegister.png'); 
-  background-size: 100%;        
-  background-position: right top; 
+  background-image: url('../../assets/AdminRegister.png');
+  background-size: cover;               /* Makes background properly responsive */
+  background-position: center right;
   background-repeat: no-repeat;
-  background-color: #f5f7fa;  
-  height: 100vh;
+  background-color: #f5f7fa;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,20 +15,22 @@
   position: relative;
 }
 
-/* ---------- Form Container ---------- */
+/* ------------------------------------
+   Form Container
+------------------------------------ */
 .auth-form2 {
   background: rgba(255, 255, 255, 0.95);
   padding: 40px 35px;
   border-radius: 16px;
-  max-width: 380px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  max-width: 380px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   text-align: center;
   position: relative;
   animation: fadeIn 0.6s ease;
 }
 
-/* ---------- Small Top-Right Cross Button ---------- */
+/* Close Button */
 .auth-form2 .close-btn {
   position: absolute;
   top: 10px;
@@ -50,7 +54,7 @@
   color: white;
 }
 
-/* ---------- Headings ---------- */
+/* Headings */
 .auth-form2 h2 {
   margin-bottom: 28px;
   font-size: 28px;
@@ -58,7 +62,7 @@
   font-weight: 600;
 }
 
-/* ---------- Inputs ---------- */
+/* Inputs */
 .auth-form2 input {
   width: 100%;
   padding: 12px 14px;
@@ -75,8 +79,9 @@
   box-shadow: 0 0 5px rgba(25, 118, 210, 0.4);
 }
 
-/* ---------- Buttons ---------- */
-.auth-form2 button[type="submit"] {
+/* Buttons */
+.auth-form2 button[type="submit"],
+.resend-btn {
   width: 100%;
   padding: 12px;
   background-color: #1976d2;
@@ -86,33 +91,65 @@
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
-.auth-form2 button[type="submit"]:hover {
+.auth-form2 button[type="submit"]:hover,
+.resend-btn:hover {
   background-color: #0d47a1;
   transform: translateY(-2px);
 }
 
-/* ---------- Message ---------- */
-.auth-message2 {
-  margin-top: 14px;
-  color: #1565c0;
-  font-weight: 500;
-}
-
-/* ---------- Fade-in Animation ---------- */
+/* Fade Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 480px) {
-  .auth-form2 {
-    padding: 30px 20px;
+/* ------------------------------------
+   RESPONSIVE DESIGN (Mobile, Tablet)
+------------------------------------ */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .auth-page2 {
+    padding: 15px;
+    background-size: 80%;
+    background-position: top center;
   }
+
+  .auth-form2 {
+    max-width: 420px;
+    padding: 35px 28px;
+  }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
   .auth-page2 {
     background-size: 60%;
-    background-position: top right;
+    background-position: top center;
+    padding: 10px;
+  }
+
+  .auth-form2 {
+    padding: 25px 20px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .auth-form2 h2 {
+    font-size: 22px;
+  }
+
+  .auth-form2 input {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .auth-form2 button[type="submit"],
+  .resend-btn {
+    font-size: 14px;
+    padding: 10px;
   }
 }

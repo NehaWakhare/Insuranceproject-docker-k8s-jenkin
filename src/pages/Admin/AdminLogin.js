@@ -8,6 +8,7 @@ export default function AdminLogin() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ email: "", otp: "" });
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false); // NEW
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,6 +19,7 @@ export default function AdminLogin() {
     setLoading(true);
     try {
       await login(formData.email);
+      sessionStorage.setItem("adminEmail", formData.email);
       window.alert("OTP has been sent to your registered email.");
       setStep(2);
     } catch (err) {
@@ -35,17 +37,11 @@ export default function AdminLogin() {
     try {
       const res = await verifyOtp(formData.email, formData.otp);
 
-     
       sessionStorage.setItem("adminId", res.id);
       sessionStorage.setItem("adminRole", res.role);
       sessionStorage.setItem("adminToken", res.token);
       sessionStorage.setItem("adminUsername", res.username);
       sessionStorage.setItem("adminProfileId", res.profileId);
-
-      console.log("Session Storage after login:", {
-        adminId: sessionStorage.getItem("adminId"),
-        adminProfileId: sessionStorage.getItem("adminProfileId"),
-      });
 
       setTimeout(() => navigate("/admin/dashboard"), 500);
     } catch (err) {
@@ -56,15 +52,34 @@ export default function AdminLogin() {
     }
   };
 
+  // ✅ SIMPLE RESEND OTP FUNCTION
+  const handleResendOtp = async () => {
+    setResendLoading(true);
+    try {
+      await login(formData.email);
+      window.alert("OTP Resent Successfully!");
+    } catch (err) {
+      console.error(err);
+      window.alert(err.response?.data?.message || "Failed to resend OTP");
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
   return (
     <div className="auth-page2">
       <div className="auth-form2">
-        <button className="close-btn" onClick={() => navigate("/")} title="Go to Home">
+        <button
+          className="close-btn"
+          onClick={() => navigate("/")}
+          title="Go to Home"
+        >
           ✖
         </button>
 
         <h2>{step === 1 ? "Admin Login" : "Verify OTP"}</h2>
 
+        {/* STEP 1 */}
         {step === 1 && (
           <form onSubmit={handleSendOtp}>
             <input
@@ -81,6 +96,7 @@ export default function AdminLogin() {
           </form>
         )}
 
+        {/* STEP 2 */}
         {step === 2 && (
           <form onSubmit={handleVerifyOtp}>
             <input
@@ -100,8 +116,19 @@ export default function AdminLogin() {
               onChange={handleChange}
               required
             />
+
             <button type="submit" disabled={loading}>
               {loading ? "Verifying..." : "Verify OTP"}
+            </button>
+
+            {/* ✅ SIMPLE RESEND BUTTON */}
+            <button
+              type="button"
+              onClick={handleResendOtp}
+              disabled={resendLoading}
+              className="resend-btn"
+            >
+              {resendLoading ? "Resending..." : "Resend OTP"}
             </button>
           </form>
         )}

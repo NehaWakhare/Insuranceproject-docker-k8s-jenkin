@@ -23,12 +23,8 @@ export default function PendingPolicies() {
     severity: "success",
   });
 
-  
   const BASE_URL = CONFIG.BASE_URL;
 
-  
-
-  // ✅ Fetch all pending policies for this admin
   const fetchPendingPolicies = async () => {
     try {
       setLoading(true);
@@ -38,13 +34,12 @@ export default function PendingPolicies() {
 
       if (Array.isArray(res.data)) {
         setPolicies(res.data);
-      } else if (res.data && res.data.policies) {
+      } else if (res.data?.policies) {
         setPolicies(res.data.policies);
       } else {
         setPolicies([]);
       }
     } catch (err) {
-      console.error("Failed to fetch pending policies:", err);
       setSnackbar({
         open: true,
         message: "Failed to fetch pending policies",
@@ -59,7 +54,6 @@ export default function PendingPolicies() {
     fetchPendingPolicies();
   }, []);
 
-  // ✅ Update policy status (Active / Rejected)
   const handleStatusChange = async (id, status) => {
     try {
       await axios.put(`${BASE_URL}/user-policy/update/${id}`, {
@@ -67,9 +61,7 @@ export default function PendingPolicies() {
       });
 
       setPolicies((prev) =>
-        prev.map((p) =>
-          p.id === id ? { ...p, policyStatus: status } : p
-        )
+        prev.map((p) => (p.id === id ? { ...p, policyStatus: status } : p))
       );
 
       setSnackbar({
@@ -78,7 +70,6 @@ export default function PendingPolicies() {
         severity: "success",
       });
     } catch (err) {
-      console.error("Error updating policy:", err);
       setSnackbar({
         open: true,
         message: "Error updating policy",
@@ -91,68 +82,96 @@ export default function PendingPolicies() {
     return <CircularProgress sx={{ display: "block", m: "auto", mt: 3 }} />;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h3>Pending User Policies</h3>
+    <div className="pending-container">
+      <h3 className="pending-heading">Pending User Policies</h3>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Sr.No</TableCell>
-            <TableCell>Policy Name</TableCell>
-            <TableCell>Policy Type</TableCell>
-            <TableCell>Start Date</TableCell>
-            <TableCell>End Date</TableCell>
-            <TableCell>Nominee</TableCell>
-            <TableCell>Relation</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {policies.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={9} align="center">
-                ❌ No pending policies found.
-              </TableCell>
+      <div className="pending-table-container">
+        <Table>
+          <TableHead>
+            <TableRow className="pending-header-row">
+              <TableCell className="pending-header-cell">Sr.No</TableCell>
+              <TableCell className="pending-header-cell">Policy Name</TableCell>
+              <TableCell className="pending-header-cell">Policy Type</TableCell>
+              <TableCell className="pending-header-cell">Coverage</TableCell>
+              <TableCell className="pending-header-cell">Start Date</TableCell>
+              <TableCell className="pending-header-cell">End Date</TableCell>
+              <TableCell className="pending-header-cell">Nominee</TableCell>
+              <TableCell className="pending-header-cell">Relation</TableCell>
+              <TableCell className="pending-header-cell">Status</TableCell>
+              <TableCell className="pending-header-cell">Actions</TableCell>
             </TableRow>
-          ) : (
-            policies.map((p, index) => (
-              <TableRow key={p.id || index}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{p.policyPlan?.policyName || "N/A"}</TableCell>
-                <TableCell>
-                  {p.policyPlan?.policyType?.name ||
-                    p.policyPlan?.policyType ||
-                    "N/A"}
-                </TableCell>
-                <TableCell>{p.startDate || "N/A"}</TableCell>
-                <TableCell>{p.endDate || "N/A"}</TableCell>
-                <TableCell>{p.nominee || "N/A"}</TableCell>
-                <TableCell>{p.nomineeRelation || "N/A"}</TableCell>
-                <TableCell>{p.policyStatus}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => handleStatusChange(p.id, "ACTIVE")}
-                    color="primary"
-                    disabled={p.policyStatus === "ACTIVE"}
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    onClick={() => handleStatusChange(p.id, "REJECTED")}
-                    color="error"
-                    disabled={p.policyStatus === "REJECTED"}
-                    sx={{ ml: 1 }}
-                  >
-                    Reject
-                  </Button>
+          </TableHead>
+
+          <TableBody>
+            {policies.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={10} className="pending-nodata-cell">
+                  ❌ No pending policies found.
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+            ) : (
+              policies.map((p, index) => {
+                const coverage =
+                  p.coverageAmount ||
+                  p.sumAssured ||
+                  p.policyPlan?.coverage ||
+                  "N/A";
+
+                return (
+                  <TableRow key={p.id} className="pending-body-row">
+                    <TableCell className="pending-body-cell">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.policyPlan?.policyName || "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.policyPlan?.policyType?.name ||
+                        p.policyPlan?.policyType ||
+                        "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {coverage}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.startDate || "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.endDate || "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.nominee || "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.nomineeRelation || "N/A"}
+                    </TableCell>
+                    <TableCell className="pending-body-cell">
+                      {p.policyStatus}
+                    </TableCell>
+
+                    <TableCell className="pending-action-cell">
+                      <Button
+                        onClick={() => handleStatusChange(p.id, "ACTIVE")}
+                        color="primary"
+                        disabled={p.policyStatus === "ACTIVE"}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        onClick={() => handleStatusChange(p.id, "REJECTED")}
+                        color="error"
+                        disabled={p.policyStatus === "REJECTED"}
+                      >
+                        Reject
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       <Snackbar
         open={snackbar.open}
@@ -164,3 +183,69 @@ export default function PendingPolicies() {
     </div>
   );
 }
+
+/* ---------------- CSS (WORKS 100%) ---------------- */
+
+const css = `
+.pending-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.pending-heading {
+  text-align: center;
+  color: #0d47a1;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.pending-table-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.pending-header-row {
+  background-color: #1976d2;
+}
+
+.pending-header-cell {
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  padding: 10px !important;
+  text-align: center;
+}
+
+.pending-body-row {
+  background-color: #fff;
+}
+
+.pending-body-cell {
+  border: 1px solid #ccc;
+  padding: 10px !important;
+  text-align: center;
+}
+
+.pending-action-cell {
+  border: 1px solid #ccc;
+  padding: 10px !important;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pending-nodata-cell {
+  border: 1px solid #ccc;
+  padding: 15px !important;
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+`;
+
+const style = document.createElement("style");
+style.innerHTML = css;
+document.head.appendChild(style);

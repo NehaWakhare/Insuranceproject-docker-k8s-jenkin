@@ -6,19 +6,22 @@ import AdminProfileForm from "./AdminProfile";
 import AdminAddPolicy from "./AdminAddPolicy";
 import AdminViewPolicy from "./AdminViewPolicy";
 import UsersPage from "./AdminUsers/AdminUserPolicies";
-
 import { getDashboardStats } from "../AdminAPI/AdminDashboard";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalPolicies: 0,
-    activeUsers: 0,
-    pendingClaims: 0,
-    approvedClaims: 0,
+    pendingPolicies: 0,
+    activePolicies: 0,
   });
 
+  // ✅ Fetch stats on mount
   useEffect(() => {
     fetchStats();
+
+    // Optional: auto-refresh every 10 seconds
+    const interval = setInterval(fetchStats, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchStats = async () => {
@@ -32,16 +35,17 @@ export default function AdminDashboard() {
 
   const cards = [
     { title: "Total Policies", value: stats.totalPolicies, color: "#42a5f5" },
-    { title: "Active Users", value: stats.activeUsers, color: "#42a5f5" },
-    { title: "Pending Claims", value: stats.pendingClaims, color: "#42a5f5" },
-    { title: "Approved Claims", value: stats.approvedClaims, color: "#42a5f5" },
+    { title: "Pending Policies", value: stats.pendingPolicies, color: "#42a5f5"},
+    { title: "Active Policies", value: stats.activePolicies, color: "#42a5f5" },
   ];
 
   return (
     <div>
       <AdminSidebar />
+
       <div style={styles.main}>
         <AdminNavbar />
+
         <div style={styles.content}>
           <Routes>
             <Route
@@ -65,6 +69,7 @@ export default function AdminDashboard() {
                 </div>
               }
             />
+
             <Route path="profile" element={<AdminProfileForm />} />
             <Route path="add-policy" element={<AdminAddPolicy />} />
             <Route path="view-policies" element={<AdminViewPolicy />} />
@@ -76,35 +81,28 @@ export default function AdminDashboard() {
   );
 }
 
+// ✅ STYLES OBJECT
 const styles = {
   main: {
     marginLeft: "240px",
     display: "flex",
     flexDirection: "column",
-    height: "100vh", 
-    background: "linear-gradient(180deg, rgba(247, 247, 247, 1) 0%, rgba(247, 247, 247, 1) 0%",
+    height: "100vh",
+    background: "#f7f7f7",
   },
+
   content: {
     padding: "30px",
     flexGrow: 1,
-    overflowY: "auto", // enable scrolling
+    overflowY: "auto",
   },
 
-
-
-
-  heading: {
-    color: "#0d47a1",
-    fontSize: "26px",
-    marginBottom: "20px",
-    textAlign: "center",
-    letterSpacing: "0.5px",
-  },
   cardGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
     gap: "25px",
   },
+
   card: {
     backgroundColor: "#ffffff",
     padding: "30px 20px",
@@ -113,14 +111,16 @@ const styles = {
     textAlign: "center",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
   },
+
   cardTitle: {
     fontSize: "18px",
-    color: "#000000ff",
+    color: "#000",
     marginBottom: "10px",
   },
+
   cardValue: {
     fontSize: "26px",
     fontWeight: "bold",
-    color: "#000000ff",
+    color: "#000",
   },
 };

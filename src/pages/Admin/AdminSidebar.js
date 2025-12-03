@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Users, FileText, UserCircle } from "lucide-react";
-import logo from "../../assets/logo.png"; 
+import logo from "../../assets/logo.png";
 
 export default function AdminSidebar() {
   const menuItems = [
@@ -14,11 +14,12 @@ export default function AdminSidebar() {
 
   return (
     <div style={styles.sidebar}>
-      {/* Logo instead of heading */}
+      {/* ✅ Logo */}
       <div style={styles.logoContainer}>
         <img src={logo} alt="Admin Logo" style={styles.logo} />
       </div>
 
+      {/* ✅ Navigation Menu */}
       <nav style={styles.nav}>
         {menuItems.map((item, index) => (
           <NavLink
@@ -26,23 +27,21 @@ export default function AdminSidebar() {
             to={item.path}
             style={({ isActive }) => ({
               ...styles.link,
-              background: isActive
-                ? "linear-gradient(135deg, hsla(242, 90%, 37%, 0.44), rgba(64, 41, 235, 1))"
-                : "rgba(59, 33, 206, 1)",
-              color: isActive ? "hsla(245, 14%, 85%, 1.00)" : "rgba(244, 240, 240, 1)",
-              boxShadow: isActive
-                ? "0 4px 12px rgba(0,0,0,0.15)"
-                : "0 2px 6px rgba(0,0,0,0.05)",
+              backgroundColor: isActive ? "#0d47a1" : "transparent",
+              color: isActive ? "#ffffff" : "#0d47a1",
+              fontWeight: isActive ? "600" : "500",
+              transform: isActive ? "scale(1.03)" : "scale(1)",
             })}
           >
             <span style={styles.iconWrapper}>{item.icon}</span>
-            <span>{item.name}</span>
+            <span style={styles.linkText}>{item.name}</span>
           </NavLink>
         ))}
       </nav>
     </div>
   );
 }
+
 
 const styles = {
   sidebar: {
@@ -54,22 +53,21 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     padding: "20px 10px",
-    background: "linear-gradient(180deg, rgba(235, 237, 238, 1), #d9e2ec)",
-    boxShadow: "2px 0 15px rgba(0,0,0,0.08)",
+    backgroundColor: "#e3f2fd", // Light blue background
+    boxShadow: "2px 0 10px rgba(0,0,0,0.1)",
+    transition: "all 0.3s ease-in-out",
     zIndex: 100,
   },
 
-  
   logoContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "30px",
+    marginBottom: "25px",
   },
 
-  
   logo: {
-    width: "140px",
+    width: "120px",
     height: "auto",
     borderRadius: "10px",
   },
@@ -79,23 +77,42 @@ const styles = {
     flexDirection: "column",
     gap: "12px",
   },
+
   link: {
     display: "flex",
     alignItems: "center",
     padding: "12px 18px",
-    borderRadius: "12px",
+    borderRadius: "10px",
     textDecoration: "none",
     fontSize: "16px",
-    fontWeight: "500",
     transition: "all 0.3s ease",
-    cursor: "pointer",
   },
+
+  linkText: {
+    fontFamily: "Poppins, sans-serif",
+  },
+
   iconWrapper: {
     marginRight: "12px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    minWidth: "28px",
-    minHeight: "28px",
+    minWidth: "24px",
+    minHeight: "24px",
+  },
+
+  /* ✅ Responsive Design */
+  "@media (maxWidth: 768px)": {
+    sidebar: {
+      width: "200px",
+      padding: "15px 8px",
+    },
+    link: {
+      fontSize: "14px",
+      padding: "10px 14px",
+    },
+    logo: {
+      width: "100px",
+    },
   },
 };
