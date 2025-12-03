@@ -5,10 +5,6 @@ import {
   Checkbox,
   FormControlLabel,
   Typography,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Box,
   Paper,
   IconButton,
@@ -29,7 +25,7 @@ export default function ContactForm() {
     correspondenceAddress: "",
     permanentAddress: "",
     panNumber: "",
-    role: "",
+   
   });
 
   const [sameAddress, setSameAddress] = useState(false);
@@ -70,9 +66,7 @@ export default function ContactForm() {
         if (!panRegex.test(value))
           error = "Enter valid PAN number (e.g., ABCDE1234F).";
         break;
-      case "role":
-        if (!value) error = "Please select a role.";
-        break;
+     
       default:
         break;
     }
@@ -125,7 +119,7 @@ export default function ContactForm() {
         correspondenceAddress: "",
         permanentAddress: "",
         panNumber: "",
-        role: "",
+        
       });
 
       setSameAddress(false);
@@ -264,30 +258,7 @@ export default function ContactForm() {
                           helperText={errors.panNumber}
                         />
             
-                        <FormControl
-                          fullWidth
-                          size="small"
-                          margin="dense"
-                          error={!!errors.role}
-                        >
-                          <InputLabel id="role-label">Select Role</InputLabel>
-                          <Select
-                            labelId="role-label"
-                            name="role"
-                            value={formData.role}
-                            onChange={handleChange}
-                            label="Select Role"
-                          >
-                            <MenuItem value="">Select Role</MenuItem>
-                            <MenuItem value="USER">User</MenuItem>
-                            <MenuItem value="ADMIN">Admin</MenuItem>
-                          </Select>
-                          {errors.role && (
-                            <Typography variant="caption" color="error">
-                              {errors.role}
-                            </Typography>
-                          )}
-                        </FormControl>
+                        
             
             <Button type="submit" fullWidth variant="contained" className="contactForm-submit">
               Submit

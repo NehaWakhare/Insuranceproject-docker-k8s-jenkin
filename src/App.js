@@ -12,7 +12,12 @@ import UserDashboard from "./pages/User/dashboard/UserDashboard";
 import { AuthProvider } from "./context/AuthContext";
 import HealthPlans from "./pages/HomePage/PolicyTiles/HealthPlans";
 import TC from "./components/Footer/footer/TC";
-
+import CompanyOverview from "./components/Footer/footer/CompanyOverview";
+import LeadershipTeam from "./components/Footer/footer/LeadershipTeam";
+import PressMedia from "./components/Footer/footer/PressMedia";
+import PrivacyPolicy from "./components/Footer/footer/PrivacyPolicy";
+import Disclaimer from "./components/Footer/footer/Disclaimer";
+import ChatWithUs from "./components/Footer/footer/ChatWithUs";
 // Admin Pages
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
@@ -70,6 +75,13 @@ function App() {
         <Route path="/terms" element={<TC />} />
 
         <Route path="/register-agent" element={<ContactForm />} />
+        <Route path="/about" element={<CompanyOverview />} />
+<Route path="/team" element={<LeadershipTeam />} />
+<Route path="/media" element={<PressMedia />} />
+<Route path="/privacy" element={<PrivacyPolicy />} />
+<Route path="/disclaimer" element={<Disclaimer />} />
+
+<Route path="/chat" element={<ChatWithUs />} />
 
         {/* User Dashboard */}
         <Route path="/dashboard/*" element={<UserDashboard />} />

@@ -16,6 +16,7 @@ export default function Navbar() {
   const [showProfile, setShowProfile] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const profileRef = useRef(null);
+  const exploreRef = useRef(null);
 
   const handleLogout = () => {
     logoutUser();
@@ -39,9 +40,7 @@ export default function Navbar() {
         const { userId } = parsedData;
 
         if (userId) {
-          
-            axios.get(`${BASE_URL}/user/${userId}`)
-
+          axios.get(`${BASE_URL}/user/${userId}`)
             .then((res) => {
               setUserDetails(res.data);
             })
@@ -55,11 +54,14 @@ export default function Navbar() {
     }
   }, []);
 
-  // Close dropdown when clicked outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfile(false);
+      }
+      if (exploreRef.current && !exploreRef.current.contains(event.target)) {
+        setShowExplore(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -67,7 +69,7 @@ export default function Navbar() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  
+
   return (
     <nav className="navbar">
       <div className="logo-section">
@@ -80,7 +82,7 @@ export default function Navbar() {
         {user?.role === 'USER' && (
           <>
             {/* Explore Dropdown */}
-            <div className="dropdown">
+            <div className="dropdown" ref={exploreRef}>
               <span className="nav-link" onClick={toggleExplore}>Explore ▼</span>
               {showExplore && (
                 <div className="dropdown-menu">
@@ -92,15 +94,11 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* <Link to="/claims" className="nav-link">Claims</Link> */}
-
             {/* Profile Icon Dropdown */}
             <div className="profile-icon" ref={profileRef}>
               <FaUserCircle className="user-icon" onClick={toggleProfile} />
-    
               {showProfile && (
                 <div className="profile-dropdown">
-                  {/* <p className="user-name">{userDetails?.name || ''}</p> */}
                   <p className="user-email">{userDetails?.email || 'user@mail.com'}</p>
                   <hr />
                   <Link
@@ -118,8 +116,6 @@ export default function Navbar() {
             </div>
           </>
         )}
-
-        
 
         {!user && <Link to="/auth" className="nav-link">Login</Link>}
         <Link to="/support" className="nav-link contact">24*7 Contact</Link>

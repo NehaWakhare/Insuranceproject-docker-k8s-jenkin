@@ -76,3 +76,19 @@
   cursor: pointer;
 }
 
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.resend-otp-text {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.fake-link {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}

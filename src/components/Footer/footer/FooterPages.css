@@ -1,0 +1,25 @@
+.footer-page-container {
+  padding: 40px;
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.7;
+}
+
+.footer-page-container h2 {
+  margin-bottom: 20px;
+  color: #0a4da3;
+}
+
+.footer-page-container ul {
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.chat-box {
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #f7faff;
+}
+
