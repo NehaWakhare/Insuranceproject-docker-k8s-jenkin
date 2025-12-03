@@ -13,7 +13,10 @@ export default function AdminDetails() {
       const res = await fetch(`${CONFIG.BASE_URL}/contact-form/all`);
       if (!res.ok) throw new Error("Failed to fetch admin requests");
       const data = await res.json();
-      setRequests(data);
+
+      // ✅ Only change: Override role to "ADMIN" for all
+      setRequests(data.map(d => ({ ...d, role: "ADMIN" })));
+
       setError("");
     } catch (err) {
       setError(err.message);

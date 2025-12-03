@@ -206,7 +206,7 @@ export default function DoctorsByHospital() {
           <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
+                <TableCell>Sr. No.</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Specialization</TableCell>
                 <TableCell>Email</TableCell>
@@ -216,9 +216,9 @@ export default function DoctorsByHospital() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {doctors.map((d) => (
-                <TableRow key={d.id}>
-                  <TableCell>{d.id}</TableCell>
+               {doctors.map((d, index) => (
+    <TableRow key={d.id}>
+      <TableCell>{index + 1}</TableCell>
                   <TableCell>{d.doctorName}</TableCell>
                   <TableCell>{d.specialization}</TableCell>
                   <TableCell>{d.email}</TableCell>

@@ -158,7 +158,7 @@ export default function PolicyList() {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell><strong>ID</strong></TableCell>
+                      <TableCell><strong>Sr. No.</strong></TableCell>
                       <TableCell><strong>Policy Name</strong></TableCell>
                       <TableCell><strong>Coverage</strong></TableCell>
                       <TableCell><strong>Premium</strong></TableCell>
@@ -167,9 +167,9 @@ export default function PolicyList() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {policies.map((p) => (
-                      <TableRow key={p.id}>
-                        <TableCell>{p.id}</TableCell>
+                    {policies.map((p, index) => (
+                    <TableRow key={p.id}>
+                    <TableCell>{index + 1}</TableCell>
                         <TableCell>{p.policyName}</TableCell>
                         <TableCell>₹{p.coverage?.toLocaleString()}</TableCell>
                         <TableCell>₹{p.premium?.toLocaleString()}</TableCell>
@@ -188,9 +188,9 @@ export default function PolicyList() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell><strong>Policy ID</strong></TableCell>
-                    <TableCell><strong>User ID</strong></TableCell>
-                    <TableCell><strong>Status</strong></TableCell>
+                      <TableCell><strong>Sr. No.</strong></TableCell>
+                     <TableCell><strong>Policy Name</strong></TableCell>
+                    <TableCell><strong>Policy Status</strong></TableCell>
                     <TableCell><strong>Start Date</strong></TableCell>
                     <TableCell><strong>End Date</strong></TableCell>
                     <TableCell><strong>Nominee</strong></TableCell>
@@ -198,11 +198,11 @@ export default function PolicyList() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {purchasedPolicies.map((p, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell>{p.policyId}</TableCell>
-                      <TableCell>{p.userId}</TableCell>
-                      <TableCell>{p.status}</TableCell>
+                   {purchasedPolicies.map((p, idx) => (
+                     <TableRow key={idx}>
+                      <TableCell>{idx + 1}</TableCell>
+                     <TableCell>{p.policyName}</TableCell>
+                      <TableCell>{p.policyStatus}</TableCell>
                       <TableCell>{p.startDate}</TableCell>
                       <TableCell>{p.endDate}</TableCell>
                       <TableCell>{p.nominee}</TableCell>

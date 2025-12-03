@@ -189,7 +189,7 @@ export default function HospitalList() {
         <Table>
           <TableHead>
             <TableRow sx={{ background: "#1e40af" }}>
-              <TableCell sx={{ color: "white", fontWeight: "bold" }}>ID</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>Sr. No.</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Hospital Name</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>City</TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Speciality</TableCell>
@@ -200,9 +200,9 @@ export default function HospitalList() {
 
           <TableBody>
             {hospitals.length > 0 ? (
-              hospitals.map((hosp) => (
-                <TableRow key={hosp.id} hover>
-                  <TableCell>{hosp.id}</TableCell>
+  hospitals.map((hosp, index) => (
+    <TableRow key={hosp.id} hover>
+      <TableCell>{index + 1}</TableCell>
                   <TableCell>{hosp.hospitalName}</TableCell>
                   <TableCell>{hosp.city}</TableCell>
                   <TableCell>{hosp.speciality}</TableCell>
