@@ -1,11 +1,113 @@
-/* Blur effect when nominee form is open */
+/* ========================= */
+/* MAIN CONTAINER */
+/* ========================= */
+.available-policies-container {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Policy card wrapper */
+.policy-detail-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 900px;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* CENTERED POLICY VIEW */
+/* ========================= */
+
+.policy-detail-content {
+  display: flex;
+  flex-direction: column;     /* stack everything vertically */
+  align-items: center;         /* center horizontally */
+  text-align: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.policy-detail-image img {
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+}
+
+.policy-detail-text {
+  width: 100%;
+  max-width: 650px;
+}
+
+/* Description area */
+.policy-description-section {
+  margin-top: 15px;
+}
+
+.policy-description-section .description {
+  text-align: justify;
+  margin-bottom: 10px;
+}
+
+/* Buy Button */
+.buy-btn {
+  background: #007bff;
+  color: white;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.buy-btn:hover {
+  background: #0056b3;
+}
+
+/* ========================= */
+/* SUCCESS BANNER */
+/* ========================= */
+.success-banner {
+  background: #28a745;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+/* ========================= */
+/* BLUR EFFECT WHEN POPUP OPEN */
+/* ========================= */
 .blur-bg {
   filter: blur(4px);
   pointer-events: none;
   user-select: none;
 }
 
-/* Fullscreen popup backdrop */
+/* ========================= */
+/* NOMINEE POPUP */
+/* ========================= */
+
 .nominee-popup {
   position: fixed;
   top: 0;
@@ -20,7 +122,6 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Popup box */
 .nominee-box {
   background: white;
   width: 420px;
@@ -31,7 +132,7 @@
   animation: slideUp 0.35s ease;
 }
 
-/* Popup close button (X) */
+/* Close button */
 .popup-close {
   position: absolute;
   right: 12px;
@@ -42,7 +143,7 @@
   cursor: pointer;
 }
 
-/* Popup form inside */
+/* Inputs */
 .nominee-box input,
 .nominee-box select {
   width: 100%;
@@ -59,7 +160,7 @@
   border-color: #007bff;
 }
 
-/* Errors */
+/* Error messages */
 .error {
   color: #d9534f;
   font-size: 12px;
@@ -67,23 +168,36 @@
 }
 
 /* Purchase button */
-.nominee-box .purchase-btn {
+.purchase-btn {
   width: 100%;
   margin-top: 15px;
   background: #28a745;
   color: white;
-  padding: 10px 14px;
+  padding: 11px 14px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
-.nominee-box .purchase-btn:hover {
+.purchase-btn:hover {
   background: #218838;
 }
 
-/* Popup animation */
+/* Animations */
 @keyframes slideUp {
   from { transform: translateY(40px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .policy-detail-image img {
+    width: calc(100% - 40px);
+    height: auto;
+  }
 }

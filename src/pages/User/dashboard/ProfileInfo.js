@@ -7,7 +7,7 @@ import {
 } from '../../../api/user/profileApi';
 
 import {
-  FaUser, FaEnvelope, FaLock, FaPhone, FaBirthdayCake, FaTransgender,
+  FaUser, FaPhone, FaBirthdayCake, FaTransgender,
   FaHome, FaBriefcase, FaTint, FaIdCard, FaHeart, FaAddressCard
 } from 'react-icons/fa';
 
@@ -15,8 +15,6 @@ export default function ProfileInfo() {
   const [formData, setFormData] = useState({
     id: '',
     name: '',
-    email: '',
-    password: '',
     phone: '',
     dob: '',
     gender: '',
@@ -40,14 +38,13 @@ export default function ProfileInfo() {
 
   useEffect(() => {
     const authData = JSON.parse(sessionStorage.getItem('authData') || '{}');
-    if (!authData.userId || !authData.token) {
-      alert('Session expired. Please login again.');
-      return;
-    }
+    if (!authData.userId || !authData.token) return;
+
     setUserId(authData.userId);
     fetchUserProfile(authData.userId, authData.token);
   }, []);
 
+  
   const fetchUserProfile = async (userId, token) => {
     try {
       const data = await fetchUserProfileApi(userId, token);
@@ -55,34 +52,40 @@ export default function ProfileInfo() {
         setFormData(data);
         setIsEditing(false);
         sessionStorage.setItem('userProfileId', data.id);
+      } else {
+        setIsEditing(true); 
       }
     } catch (err) {
-      console.error('Error fetching profile:', err);
-      alert('Could not fetch profile. Please re-login.');
+       console.warn('Could not fetch profile, showing empty form');
+  setIsEditing(true);  // allow user to create/edit profile
+  setFormData({
+    id: '',
+    name: '',
+    phone: '',
+    dob: '',
+    gender: '',
+    correspondenceAddress: '',
+    permanentAddress: '',
+    maritalStatus: '',
+    occupation: '',
+    bloodGroup: '',
+    emergencyContact: '',
+    aadhaarNumber: '',
+  });
     }
   };
 
-  // --- LIVE VALIDATION WHILE TYPING ---
+  // --- Input handling ---
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Update form data
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Live validation
     const newErrors = { ...errors };
-
     switch (name) {
       case 'name':
         if (!value.trim()) newErrors.name = 'Name is required';
         else if (!/^[A-Za-z\s]+$/.test(value)) newErrors.name = 'Name must contain letters only';
         else delete newErrors.name;
-        break;
-
-      case 'email':
-        if (!value.trim()) newErrors.email = 'Email is required';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) newErrors.email = 'Invalid email format';
-        else delete newErrors.email;
         break;
 
       case 'phone':
@@ -110,10 +113,8 @@ export default function ProfileInfo() {
         else delete newErrors[name];
         break;
     }
-
     setErrors(newErrors);
 
-    // Update permanent address automatically if checkbox is checked
     if (sameAddress && name === 'correspondenceAddress') {
       setFormData((prev) => ({ ...prev, permanentAddress: value }));
     }
@@ -134,22 +135,15 @@ export default function ProfileInfo() {
     }
   };
 
+  // --- Form validation ---
   const validateForm = () => {
     const newErrors = {};
-
-    // Regex patterns
     const nameRegex = /^[A-Za-z\s]+$/;
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$/;
     const phoneRegex = /^[6-9]\d{9}$/;
     const aadhaarRegex = /^[2-9]\d{11}$/;
 
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     else if (!nameRegex.test(formData.name.trim())) newErrors.name = 'Name must contain letters only';
-
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!emailRegex.test(formData.email.trim())) newErrors.email = 'Invalid email format';
-
-    if (!formData.password) newErrors.password = 'Password is required';
 
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
     else if (!phoneRegex.test(formData.phone.trim())) newErrors.phone = 'Invalid 10-digit phone number';
@@ -170,6 +164,7 @@ export default function ProfileInfo() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // --- Submit handler ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -196,10 +191,9 @@ export default function ProfileInfo() {
     }
   };
 
+  // --- Icons & helpers ---
   const icons = {
     name: <FaUser />,
-    email: <FaEnvelope />,
-    password: <FaLock />,
     phone: <FaPhone />,
     dob: <FaBirthdayCake />,
     gender: <FaTransgender />,
@@ -217,8 +211,6 @@ export default function ProfileInfo() {
 
   const getInputType = (key) => {
     if (key === 'dob') return 'date';
-    if (key === 'email') return 'email';
-    if (key === 'password') return 'password';
     if (key === 'phone' || key === 'emergencyContact' || key === 'aadhaarNumber') return 'tel';
     return 'text';
   };
