@@ -2,125 +2,141 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        KUBECONFIG_CREDENTIALS = credentials('kubeconfig-file')
-        IMAGE_TAG = "${BUILD_NUMBER}"
-        FRONTEND_IMAGE = "neha676/insurance-frontend"
-        BACKEND_IMAGE = "neha676/insurance-backend"
+        GIT_REPO = 'https://github.com/NehaWakhare/Insuranceproject-docker-k8s-jenkin.git'
+        GIT_BRANCH = 'main'
+        DOCKER_BACKEND = 'neha676/insurance-backend:latest'
+        DOCKER_FRONTEND = 'neha676/insurance-frontend:latest'
+        BUILD_TAG = "${BUILD_NUMBER}"
     }
     
     stages {
-        stage('Checkout') {
+        stage('1. Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo/InsuranceProject.git'
+                echo '📥 Cloning repository...'
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+                sh 'git log -1'
             }
         }
         
-        stage('Build Frontend') {
+        stage('2. Pull Docker Images') {
             steps {
-                script {
-                    sh '''
-                        npm install
-                        npm run build
-                    '''
-                }
+                echo '🐳 Pulling Docker images from Docker Hub...'
+                sh '''
+                    docker pull ${DOCKER_BACKEND}
+                    docker pull ${DOCKER_FRONTEND}
+                    docker pull mysql:8.0
+                '''
             }
         }
         
-        stage('Build Docker Images') {
-            parallel {
-                stage('Build Frontend Image') {
-                    steps {
-                        script {
-                            sh '''
-                                docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} .
-                                docker tag ${FRONTEND_IMAGE}:${IMAGE_TAG} ${FRONTEND_IMAGE}:latest
-                            '''
-                        }
-                    }
-                }
-                stage('Build Backend Image') {
-                    steps {
-                        script {
-                            sh '''
-                                # Assuming backend Dockerfile exists
-                                docker build -t ${BACKEND_IMAGE}:${IMAGE_TAG} -f backend.Dockerfile .
-                                docker tag ${BACKEND_IMAGE}:${IMAGE_TAG} ${BACKEND_IMAGE}:latest
-                            '''
-                        }
-                    }
-                }
+        stage('3. Tag Images with Build Number') {
+            steps {
+                echo '🏷️ Tagging images...'
+                sh '''
+                    docker tag ${DOCKER_BACKEND} neha676/insurance-backend:${BUILD_TAG}
+                    docker tag ${DOCKER_FRONTEND} neha676/insurance-frontend:${BUILD_TAG}
+                '''
             }
         }
         
-        stage('Push to Docker Hub') {
+        stage('4. Remove Old Kubernetes Deployments') {
             steps {
-                script {
-                    sh '''
-                        echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin
-                        docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                        docker push ${FRONTEND_IMAGE}:latest
-                        docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
-                        docker push ${BACKEND_IMAGE}:latest
-                    '''
-                }
+                echo '🗑️ Cleaning old deployments...'
+                sh '''
+                    kubectl delete deployment backend frontend mysql --ignore-not-found=true
+                    kubectl delete svc backend frontend mysql --ignore-not-found=true
+                    kubectl delete pvc mysql-pvc --ignore-not-found=true
+                    kubectl delete pv --all --ignore-not-found=true
+                    sleep 10
+                '''
             }
         }
         
-        stage('Deploy to Kubernetes') {
+        stage('5. Deploy MySQL') {
             steps {
-                script {
-                    sh '''
-                        # Setup kubectl
-                        mkdir -p ~/.kube
-                        cp $KUBECONFIG_CREDENTIALS ~/.kube/config
-                        
-                        # Update image tags in k8s files
-                        sed -i "s|neha676/insurance-frontend:latest|${FRONTEND_IMAGE}:${IMAGE_TAG}|g" k8s-frontend.yaml
-                        sed -i "s|neha676/insurance-backend:latest|${BACKEND_IMAGE}:${IMAGE_TAG}|g" k8s-backend.yaml
-                        
-                        # Deploy to Kubernetes
-                        kubectl apply -f k8s-mysql.yaml
-                        kubectl apply -f k8s-backend.yaml
-                        kubectl apply -f k8s-frontend.yaml
-                        
-                        # Wait for deployment
-                        kubectl rollout status deployment/mysql
-                        kubectl rollout status deployment/backend
-                        kubectl rollout status deployment/frontend
-                    '''
-                }
+                echo '💾 Deploying MySQL...'
+                sh '''
+                    kubectl apply -f k8s-mysql.yaml
+                    sleep 20
+                    kubectl get pods -l app=mysql
+                '''
             }
         }
         
-        stage('Health Check') {
+        stage('6. Deploy Backend') {
             steps {
-                script {
-                    sh '''
-                        # Wait for pods to be ready
-                        kubectl wait --for=condition=ready pod -l app=mysql --timeout=300s
-                        kubectl wait --for=condition=ready pod -l app=backend --timeout=300s
-                        kubectl wait --for=condition=ready pod -l app=frontend --timeout=300s
-                        
-                        # Get service URLs
-                        echo "Application deployed successfully!"
-                        kubectl get services
-                    '''
-                }
+                echo '⚙️ Deploying Backend...'
+                sh '''
+                    kubectl apply -f k8s-backend.yaml
+                    sleep 15
+                    kubectl get pods -l app=backend
+                '''
+            }
+        }
+        
+        stage('7. Deploy Frontend') {
+            steps {
+                echo '🎨 Deploying Frontend...'
+                sh '''
+                    kubectl apply -f k8s-frontend.yaml
+                    sleep 15
+                    kubectl get pods -l app=frontend
+                '''
+            }
+        }
+        
+        stage('8. Verify Deployment') {
+            steps {
+                echo '✅ Verifying deployment...'
+                sh '''
+                    echo "=== PODS ==="
+                    kubectl get pods
+                    
+                    echo ""
+                    echo "=== SERVICES ==="
+                    kubectl get svc
+                '''
+            }
+        }
+        
+        stage('9. Health Check') {
+            steps {
+                echo '🏥 Running health checks...'
+                sh '''
+                    sleep 30
+                    kubectl get pods | grep -i running || echo "Waiting for pods..."
+                    echo "Frontend: http://3.137.181.97:30082"
+                    echo "Backend: http://3.137.181.97:30081"
+                '''
             }
         }
     }
     
     post {
         always {
-            sh 'docker logout'
-            cleanWs()
+            echo '🧹 Cleaning up...'
+            sh 'docker system prune -f || true'
         }
         success {
-            echo 'Pipeline succeeded!'
+            echo '✅✅✅ DEPLOYMENT SUCCESSFUL! ✅✅✅'
+            echo """
+            ================================================
+            🎉 Insurance Project Deployed Successfully!
+            ================================================
+            
+            📦 Build Number: ${BUILD_NUMBER}
+            🐳 Backend Image: ${DOCKER_BACKEND}
+            🐳 Frontend Image: ${DOCKER_FRONTEND}
+            
+            🌐 Access URLs:
+            Frontend: http://3.137.181.97:30082
+            Backend: http://3.137.181.97:30081
+            
+            ================================================
+            """
         }
         failure {
-            echo 'Pipeline failed!'
+            echo '❌ DEPLOYMENT FAILED!'
         }
     }
 }
