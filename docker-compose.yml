@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: insurance-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Macky@21
+      MYSQL_DATABASE: insurance_db
+      MYSQL_PASSWORD: Macky@21
+    ports:
+      - "0.0.0.0:3306:3306"
+ 
+  backend:
+    image: neha676/insurance-backend:latest
+    container_name: insurance-backend
+    ports:
+      - "0.0.0.0:8080:8089"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/insurance_db
+      SPRING_DATASOURCE_USERNAME: insurance_user
+      SPRING_DATASOURCE_PASSWORD: insurance123
+    depends_on:
+      - mysql
+ 
+  frontend:
+    image: neha676/insurance-frontend:latest
+    container_name: insurance-frontend
+    ports:
+      - "0.0.0.0:3000:80"
+    environment:
+      REACT_APP_API_URL: http://18.118.16.3:8080
+    depends_on:
+      - backend
